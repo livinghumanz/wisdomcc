@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} About Us {% endblock %}   
+{% block link %}
+    <link rel="stylesheet" href="{% static 'css/Whomepage.css' %}">
+{% endblock %}
+
+{% block content %} 
+    <div class="aboutdiv" id="about">
+        <h1 style="font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;"> About us : </h1>
+            <div class="aboutdiv-content">
+                <p>
+        Wisdom Coaching Center was proudly established on June 20, 2018. For the comfort of the
+        students, the management has furnished the institute distinctively from other surrounding institutions with
+        School like infrastructure, Hassle free power supply, first aid kit, drinking water, telephone facilities to
+        communicate with parents, Photocopy machine, Rest Room facility and so on. For the benefits of the
+        students, Wisdom ensures by taking various efforts for the students’ academic growth in such way of
+        conducting all seven days class in a week, unit wise portion lecturing, subject-wise examination, drawing
+        the revised examination paper for parental attention, parent’s &amp; teachers’ meeting, tracking &amp; letting their
+        ward’s academic performance and many more.
+                </p>
+            </div>
+    </div>
+
+    <!-------------------------- Institute head and founders ------------------------>
+
+    <div style="background-color: yellow;">
+        <center><h2 style="padding: 1%;"><b>Meet our management</b></h2></center>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm" >
+                    <div style="background-color: white;">
+                    <div class="card mb-3" style="width:100%; padding: 1%; background-color:rgba(255, 255, 0, 0.452);" >
+                        <div class="row no-gutters">
+                          <div class="col-md-4">
+                            <center><img src="{% static 'img/About_us/ebi.jpg' %}" class="card-img" alt="ebinezer" style="border-radius: 100%; width: 200px;"></center>
+                          </div>
+                          <div class="col-md-8">
+                            <div class="card-body">
+                              <h5 class="card-title"><b>Prof. D. Ebinezer <br><i> Founder - WCC</i></b></h5>
+                              <p class="card-text">With over 5 years of experience in academics as a teacher and language
+                                trainer, Ebinezer believes in practical and activity based classes. He holds Master
+                                of Philosophy from University of Madras and Master of English in one of the
+                                esteemed colleges in Madras, Pachaiyappa’s College for Men.</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                      <!------ 2nd profile ---------->
+                      <div style="background-color: white;">
+                      <div class="card mb-3" style="width:100%; padding: 1%;background-color:rgba(255, 255, 0, 0.452);">
+                        <div class="row no-gutters">
+                          <div class="col-md-4">
+                            <center><img src="{% static 'img/About_us/aaron.jpg' %}" class="card-img" alt="ebinezer" style="border-radius: 100%; width: 200px;"></center>
+                          </div>
+                          <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title"><b>Mr. T. Aaron Thanasingh <br><i> Co-Founder, WCC</i></b></h5>
+                              <p class="card-text">Having 10 years of experience in corporate field including Coding,
+                                    Aaron holds graduation in Business Administration. He looks after the
+                                    Administrative part and Payroll Department. He has great vision to go
+                                    further for the growth and welfare of the students’ community as he
+                                    newly steps into the Educational field.</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      </div>
+
+                      <!---- 3rd profile -->
+                      <div style="background-color: white;">
+                        <div class="card mb-3" style="width:100%; padding: 1%;background-color:rgba(255, 255, 0, 0.452);">
+                          <div class="row no-gutters">
+                            <div class="col-md-4">
+                              <center><img src="{% static 'img/About_us/sureshkumar.jpg' %}" class="card-img" alt="ebinezer" style="border-radius: 100%; width: 200px;"></center>
+                            </div>
+                            <div class="col-md-8">
+                              <div class="card-body">
+                                  <h5 class="card-title"><b>Dr M S Sureshkumar PhD (University of pisa, Italy) <br><i> Chief Academic Officer, WCC</i></b></h5>
+                                <p class="card-text">He is having 23+ years' experience in various academic capacities, such as industrial, techinical services, reasearch,
+                                  academic and academic Administration at national and inyernational academic institutes. He has published around 60 publications as scholarly
+                                  activities which include peer-reviewed research and review papers, conference proceedings, invited lectures, organizing several training programes, etc.,
+                                </p>
+                                <div class="card-footer" style="color: black !important;">
+                                  <small class="text-muted" ><b>Since 2018 he is associated with Wisdom Coaching Centre in the capacity of Chief Academic Officer by taking care of the academic and administration.</b></small>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+
+    
+
+{% endblock %}

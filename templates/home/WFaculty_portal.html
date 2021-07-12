@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} WCC Faculty-portal {% endblock %}   
+
+{% block content %} 
+    <center>
+        <div class="wrapper" style="padding:3%;" >
+            <form class="form-signin" action="{% url 'Faculty-portal' %}" enctype="multipart/form-data" method="POST">     
+                {% csrf_token %}  
+                <h2 class="form-signin-heading">Faculty Documentation portal</h2>
+                <input type="text" class="form-control col-sm-4" name="Fid" style="margin-top: 2%;" placeholder="Faculty ID" required="" autofocus="" />
+                <input type="text" class="form-control col-sm-4" name="Fname" style="margin-top: 2%;" placeholder="Faculty Name" required="" autofocus="" />
+                <div class="form-check col-sm-4" style="margin-top: 2%; text-align: left;max-width: 500px !important;">
+                    <h2>Choose the uploading item:</h2>
+                    <div style="margin-left: 10%;font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+
+                    <input class="form-check-input" type="radio" name="upload" id="notes" value="notes" onclick="show_hide_radio('notes-d')" >
+                    <label class="form-check-label" for="notes">Upload Notes</label>
+                    <div id="notes-d" style="display: none;">
+                    <input type="file" class="form-control" id="notes-d0" name="notes-d0" />
+                    <input type="text" class="form-control col-sm-4" style="margin-top: 1%;" placeholder="Subject Name" id="notes-d1" name="notesd1" autofocus="" /></div><br>
+                    
+                    <input class="form-check-input" type="radio" name="upload" id="attendance" value="attendance" onclick="show_hide_radio('attendance-d')">
+                    <label class="form-check-label" for="attendance">Upload Attendance</label>
+                    <div id="attendance-d" style="display: none;">
+                    <input type="file" class="form-control" id="attendance-d0" name="attendance-d0" /></div><br>
+
+                    <input class="form-check-input" type="radio" name="upload" id="mark" value="mark" onclick="show_hide_radio('mark-d')">
+                    <label class="form-check-label" for="mark">Upload Mark-List</label>
+                    <div id="mark-d" style="display: none;">
+                        <input type="file" class="form-control" id="mark-d0" name="mark-d0"  /></div><br>
+                </div>
+                </div>
+                <button class="btn btn-lg btn-primary btn-block col-sm-2 " style="margin-top: 1%;" type="submit">Upload</button>   
+            </form>
+        </div>
+    </center>
+{% endblock %}
+{% block aditionaljs %}
+    <script>
+        var radiolist=['mark-d','attendance-d','notes-d'];
+        var upload_attribute={0:['mark-d0'],1:['attendance-d0'],2:['notes-d0','notes-d1']};
+        function show_hide_radio(toshow){
+            document.getElementById(toshow).style.display="block";
+            for(var i=0;i<radiolist.length;i++){
+                if(radiolist[i]!=toshow){
+                    document.getElementById(radiolist[i]).style.display='none';
+                    for(var j=0;j<upload_attribute[i].length;j++){
+                        document.getElementById(upload_attribute[i][j]).required = false;
+                    }
+                }
+                else{
+                    console.log('Match in list')
+                    for(var j=0;j<upload_attribute[i].length;j++){
+                        document.getElementById(upload_attribute[i][j]).required = true;
+                    }
+                }
+
+                    
+            }
+        }
+    </script>
+{% endblock %}

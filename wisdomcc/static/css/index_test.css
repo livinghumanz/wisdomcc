@@ -1,0 +1,175 @@
+* {box-sizing:border-box}
+
+ /* Place the wnavbar at the bottom of the page, and make it stick */
+.wnavbar {
+  background-color: rgb(255, 255, 255);
+  overflow: hidden;
+  width: 100%;
+  padding: 1% 0% 2% 0%;
+  
+}
+
+/* Style the links inside the navigation bar */
+.wnavbar a {
+  float: left;
+  display: block;
+  color: black;
+  /*color:rgb(0, 6, 90);*/
+  text-align: center;
+  padding: 13px 13px;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+/* Hide the link that should open and close the wnavbar on small screens */
+.wnavbar .icon {
+  display: none;
+} 
+
+/* Dropdown container - needed to position the wdropdown content */
+.wdropdown {
+  float: left;
+  overflow: hidden;
+}
+
+/* Style the wdropdown button to fit inside the wnavbar.wnavbar */
+.wdropdown .wdropbtn {
+  font-size: 16px;
+  border: none;
+  outline: none;
+  color: white;
+  padding: 13px 13px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+
+/* Style the wdropdown content (hidden by default) */
+.wdropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Style the links inside the wdropdown */
+.wdropdown-content a {
+  float: none;
+  color: black;
+  padding: 9px 8px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+  background-color: rgb(242, 243, 255);
+  
+}
+
+/* Add a dark background on wnavbar.wnavbar links and the wdropdown button on hover */
+.wnavbar a:hover, .active{
+  border: 2px solid rgb(0, 6, 90);
+  border-style: none none solid none;
+}
+
+/* Add a grey background to wdropdown links on hover 
+.wdropdown-content a:hover {
+  background-color: #ddd;
+  color: black;
+}
+*/
+
+/* Show the wdropdown menu when the user moves the mouse over the wdropdown button */
+.wdropdown:hover .wdropdown-content {
+  display: block;
+}
+
+/*-----------------ADD Media Queries----------------------------*/
+ /* When the screen is less than 600 pixels wide, hide all links, except for the first one ("Home"). Show the link that contains should open and close the wnavbar (.icon) */
+@media screen and (max-width: 1050px) {
+  .wnavbar a:not(:first-child), .wdropdown .wdropbtn {display: none;}
+  .wnavbar a.icon {
+    float: right;
+    display: block;
+  }
+}
+
+/* The "responsive" class is added to the wnavbar with JavaScript when the user clicks on the icon. This class makes the wnavbar look good on small screens (display the links vertically instead of horizontally) */
+@media screen and (max-width: 1050px) {
+  .wnavbar.responsive a.icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .wnavbar.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+  .wnavbar.responsive .wdropdown {float: none;}
+  .wnavbar.responsive .wdropdown-content {position: relative;}
+  .wnavbar.responsive .wdropdown .wdropbtn {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+} 
+
+/*----------------------------- Footer ---------------------------------*/
+footer{
+  bottom: 0 !important;
+  width: 100%;
+  position: relative;
+  background-color: rgb(3, 18, 43);
+  color: #f9f9f9;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 14px;
+}
+footer h5{
+  padding: 1%;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 15px;
+  font-weight: normal;
+}
+footer ul{
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 14px;
+  list-style: none;
+  padding:0;
+  margin: 0;
+}
+footer a,footer a:hover{
+  color: #f9f9f9;
+}
+.connect a{
+  padding: 1%;
+}
+
+/*-------------- Login Modal popup css -------------------------*/
+
+.container {
+  padding: 2rem 0rem;
+}
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 400px;
+ }
+  .modal-dialog .modal-content {
+    padding: 1rem;
+ }
+}
+.modal-header .close {
+  margin-top: -1.5rem;
+}
+.form-title {
+  margin: -2rem 0rem 2rem;
+}
+.btn-round {
+  border-radius: 3rem;
+}
+.delimiter {
+  padding: 1rem;
+}
+.signup-section {
+  padding: 0.3rem 0rem;
+}

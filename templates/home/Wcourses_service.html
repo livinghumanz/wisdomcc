@@ -1,0 +1,209 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} About Us {% endblock %}   
+{% block link %}
+    <link rel="stylesheet" href="{% static 'css/Whomepage.css' %}">
+{% endblock %}
+
+{% block content %} 
+<!-------------------------------->
+    <div class="course-service">
+        <center><h1 style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Courses/ Services</h1></center>
+        <div id="service">
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm"><center>
+                        <div id="neet">
+                            <b><span>NEET / IIT-JEE / NAT :</span></b>
+                            <ul >
+                                <li>
+                                    <p>Pre-Foundation (From 8th std)</p>
+                                </li>
+                                <li>
+                                    <p>Foundation (For 9th &amp; 10th std)</p>
+                                </li>
+                                <li>
+                                    <p>Regular (After 10th standard)</p>
+                                </li>
+                                <li>
+                                    <p>Advance from 11th std. </p>
+                                </li>
+                                <li>
+                                    <p>Repeaters (NEET / IIT-JEE )</p>
+                                </li>
+                            </ul>
+                        </div></center>
+                    </div>
+                  <div class="col-sm"> <center>
+                    <div id="">
+                        <b><span>Regular classes :</span></b>
+                        <ul>
+                            <li>
+                                <p>8thto 12th standard</p>
+                            </li>
+                            <li>
+                                <p>All subjects</p>
+                            </li>
+                            <li>
+                                <p>Tamil &amp; English medium </p>
+                            </li>
+                            <li>
+                                <p>TNSB, CBSE, ICSE, IGCSE</p>
+                            </li>
+                            <li>
+                                <p>other state boards </p>
+                            </li>
+                        </ul>
+                    </div></center>
+                  </div>
+                  <div class="col-sm"><center>
+                    <div id="vac">
+                        <b><span>Specialized trainings </span></b>
+                        <ul >
+                            <li>
+                                <p>TNPSC (All level)</p>
+                            </li>
+                            <li>
+                                <p>English Communication</p>
+                            </li>
+                            <li>
+                                <p>Hindi (All levels)</p>
+                            </li>
+                            <li>
+                                <p>ABACUS </p>
+                            </li>
+                            <li>
+                                <p>NLP</p>
+                            </li>
+                        </ul>
+                    </div></center>
+                  </div>
+                  <div class="col-sm"><center>
+                    <div id="">
+                        <b><span>Salient Feature</span></b>
+                        <ul >
+                            <li>
+                                <p>Regular, Online, One-to-one, Home tutions</p>
+                            </li>
+                            <li>
+                                <p>Highly Qualified and Dedicated Faculties</p>
+                            </li>
+                            <li>
+                                <p>A/C class rooms</p>
+                            </li>
+                            <li>
+                                <p>ICT Enabled teaching facilities</p>
+                            </li>
+                            <li>
+                                <p>Structured course Materials</p>
+                            </li>
+                            <li>
+                                <p>Skill Based Approach</p>
+                            </li>
+                        </ul>
+                    </div></center>
+                  </div>
+                  <div class="col-sm"><center>
+                    <div id="academics">
+                        <b><span>Accademics </span></b>
+                        <ul >
+                            <li>
+                                <p>Full time support</p>
+                            </li>
+                            <li>
+                                <p>Regular and periodic assessment</p>
+                            </li>
+                            <li>
+                                <p>Career guidance and Counselling</p>
+                            </li>
+                            <li>
+                                <p>High speed Internet connectivity</p>
+                            </li>
+                        </ul>
+                        
+                    </div></center>
+                  </div>
+                </div>
+              </div>
+        </div>
+    </div>
+<!-------------- Admission Form ---------------->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col" id="admission" style="padding: 3%;">
+                <h1 style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;"> ADMISSION </h1>
+                <form action="{% url 'course' %}#admission" enctype="multipart/form-data" method="POST" class="admissionform">
+                    {% csrf_token %}
+                    
+                    <div
+                    {% if result == '1' %} 
+                        style="color: red;display: block;"
+                    {% else %}
+                        style="color: red;display: none;"
+                    {% endif %}
+                    >
+                        <b><i><h5> Data Submitted successfully for selected location </h5>
+                        <p style="color: rgb(0, 15, 61);">{{ data }}</p>
+                        </i></b>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="Sname">Name: </label>
+                        <input type="input" name="Sname" class="form-control" id="Sname" placeholder="Student Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="school">School: </label>
+                        <input type="input" name="school" class="form-control" id="school" placeholder="School Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contact">Number: </label>
+                        <input type="tel" name="contact" class="form-control" id="contact" placeholder="Contact Number" pattern="[0-9]{10}" required>
+                    </div>
+                    <label>Choose admission location:</label>
+                    <div class="form-group" style="margin-left: 5%;" >
+                        <input class="form-check-input" type="radio" name="location" id="Reddils" value="redhills" required >
+                        <label class="form-check-label" for="attendance">Wisdom @ Redhills</label><br>
+                        <input class="form-check-input" type="radio" name="location" id="Kanathur" value="kanathur" >
+                        <label class="form-check-label" for="attendance">Wisdom @ Kanathur</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="Sclass">Class: </label>
+                        <select id="Sclass" name="Sclass" class="form-control">
+                            <option selected>Choose</option>
+                            <option>KG</option>
+                            <option>I</option>
+                            <option>II</option>
+                            <option>III</option>
+                            <option>IV</option>
+                            <option>V</option>
+                            <option>VI</option>
+                            <option>VII</option>
+                            <option>VIII</option>
+                            <option>IX</option>
+                            <option>X</option>
+                            <option>XI</option>
+                            <option>XII</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="admit-mail">Email address</label>
+                        <input type="email" name="admit-mail" class="form-control" id="admit-mail" aria-describedby="emailHelp" placeholder="Enter email">
+                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                    </div>
+                    <center><button type="submit" class="btn btn-primary">Submit</button></center>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block aditionaljs %}
+    <script>
+        function validate_contact(param1){
+            alert(document.getElementById(param1).value);
+        }
+    </script>
+{% endblock %}
