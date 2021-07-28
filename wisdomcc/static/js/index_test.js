@@ -18,3 +18,9 @@ function loginpop() {
     $('[data-toggle="tooltip"]').tooltip()
   })
 }
+function admisionpop() { 
+  $('#admisionModal').modal('show');
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })
+}
