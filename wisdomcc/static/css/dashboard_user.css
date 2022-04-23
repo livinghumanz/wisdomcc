@@ -1,0 +1,148 @@
+@import url(//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
+@import url(https://fonts.googleapis.com/css?family=Titillium+Web:300);
+.fa-2x {
+font-size: 2em;
+}
+.fa {
+position: relative;
+display: table-cell;
+width: 60px;
+height: 40px;
+text-align: center;
+vertical-align: middle;
+font-size:20px;
+margin-top: 10px;
+} 
+
+.left_area1{
+    width: 100%;
+    padding: 1%;
+    background-color: black;
+    color: rgb(180, 221, 85);
+    font-size: 17px;
+    font-family: 'Courier New', Courier, monospace;
+    text-shadow: white;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-align: right;
+    
+}
+
+.container-flex {
+    
+    width: 100%;
+    padding-left: 70px;
+    padding-top: 10px;
+}
+
+.centered {
+    color: black;
+    
+    padding: 1%;
+    max-width: 97%;
+  }
+  .centered .row {
+      margin-top: 2%;
+  }
+  .centered h6{
+      display: inline-block;
+      font-weight: bold;
+  }
+
+.main-menu:hover,nav.main-menu.expanded{
+width:250px;
+overflow:visible;
+}
+
+.pimg{
+    display:block; 
+    margin-top: 5px;
+}
+
+.main-menu {
+float: left;
+background:rgba(255, 255, 0, 0.847);
+border-right:1px solid #e5e5e5;
+position:fixed;
+bottom:0;
+height: 100%;
+width: 55px;
+overflow:hidden;
+-webkit-transition:width .05s linear;
+transition:width .05s linear;
+z-index: 2;
+
+/*-webkit-transform:translateZ(0) scale(1,1);*/
+
+}
+
+.main-menu li {
+position:relative;
+display:block;
+width:250px;
+}
+
+.main-menu li>a {
+border-collapse:collapse;
+border-spacing:0;
+color:black;
+font-family: arial;
+font-size: 14px;
+text-decoration:none;
+/*-webkit-transform:translateZ(0) scale(1,1);*/
+-webkit-transition:all .1s linear;
+transition:all .1s linear;
+  
+}
+
+.main-menu .nav-text {
+position:relative;
+width:190px;
+font-family: Arial, Helvetica, sans-serif;
+}
+
+.no-touch .scrollable.hover {
+overflow-y:hidden;
+}
+
+.no-touch .scrollable.hover:hover {
+overflow-y:auto;
+overflow:visible;
+}
+
+a:hover,a:focus {
+text-decoration:none;
+}
+
+nav {
+-webkit-user-select:none;
+-moz-user-select:none;
+-ms-user-select:none;
+-o-user-select:none;
+user-select:none;
+}
+
+nav ul,nav li {
+outline:0;
+margin:0;
+padding:0;
+}
+.main-menu li:hover>a,nav.main-menu li.active>a,.dropdown-menu>li>a:hover,.dropdown-menu>li>a:focus,.dropdown-menu>.active>a,.dropdown-menu>.active>a:hover,.dropdown-menu>.active>a:focus,.no-touch .dashboard-page nav.dashboard-menu ul li:hover a,.dashboard-page nav.dashboard-menu ul li.active a {
+border-style: none none solid none;
+border-color: red;
+padding: 1%;
+
+}
+
+#met{
+    color: black ;
+    font-size: 20px ;
+    font-style: italic;
+    letter-spacing: 2px;
+    font-family: sans-serif;
+    border-radius: 5%;
+}
+#notes a:hover #met{
+    font-weight: bold;
+    letter-spacing: 1px;
+}

@@ -1,0 +1,246 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href= "{% static 'css\dashboard_user.css' %}">
+</head>
+
+
+
+<body style="background-color: aqua; ">
+<div>
+    <nav class="main-menu" >
+    <center><img class="pimg" src="{{ image }}"  alt=" image here " width="50" height="55"></center>
+       <ul style="padding-top: 10%;">
+            
+            <li>
+                <a href="#" onclick="hello('about')">
+                    <span class="nav-text">
+                        <i class="fa fa-user"></i>
+                        <b>Profile</b>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="#" onclick="hello('notes')">
+                    <span class="nav-text">
+                        <i class="fa fa-folder-open-o"></i>
+                        <b>NOTES</b>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="#" onclick="sendformdata('A')">
+                    <span class="nav-text" >
+                        <i class="fa fa-clock-o "></i>
+                        <b>ATTENDANCE</b>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="#" onclick="sendformdata('M')">
+                    <span class="nav-text">
+                        <i class="fa fa-check-square-o"></i>
+                        <b>MARK-LIST</b>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="#" onclick="hello('timet')">
+                    <span class="nav-text">
+                        <i class="fa fa-calendar"></i>
+                        <b>TIME TABLE</b>
+                    </span>
+                </a>
+            </li> 
+            <li>
+                <a href="{% url 'Home' %}">
+                    <span class="nav-text">
+                        <i class="fa fa-power-off"></i>
+                        <b>LOG-OUT</b>
+                    </span>
+                </a>
+            </li> 
+            
+        </ul>
+   </nav>
+   <div class="left_area1">
+      <div> {{ name }}-DASHBOARD </div>
+   </div>
+    <div class="container-flex"> 
+        <div class="centered" >
+            
+            <center><img src="{{ image }}"  alt=" image here " width="100px" height="100px" style=" border-radius: 30%; "></center>
+            <div id="about">
+                {% for student in sdata %}
+            <!-- row 1 -->
+                <div class="row justify-content-center">
+                    <div class="col r">
+                    <h6> ID : </h6> {{ student.regnum }}
+                </div>
+                <form id="reportform" enctype="multipart/form-data" method="POST" style="display: none;">
+                    {% csrf_token %} 
+                    <input type="text" name="regno" value="{{ student.regnum }}">
+                </form>
+                <div class="col r">
+                    <h6> NAME : </h6> {{ student.name }}
+                </div>
+                <div class="col">
+                    <h6> AAdhar NO : </h6> {{ student.aadhar }}
+                </div>
+              </div>
+              <!-- row 2 -->
+              <div class="row justify-content-center">
+                <div class="col r">
+                    <h6> DOB : </h6> {{ student.dob }}
+                </div>
+                <div class="col r">
+                    <h6> Class : </h6> {{ student.ystudy }}
+                </div>
+                <div class="col">
+                    <h6> School : </h6> {{ student.school }}
+                </div>
+              </div>
+              <!-- row 3 -->
+              <div class="row justify-content-center">
+                <div class="col r">
+                    <h6> Address : </h6> {{ student.address }}
+                </div>
+                <div class="col r">
+                    <h6> F-Name : </h6> {{ student.fname }}
+                </div>
+                <div class="col">
+                    <h6> F-Occupation : </h6> {{ student.foccupation }}
+                </div>
+              </div>
+              <!-- row 4 -->
+              <div class="row justify-content-center">
+                <div class="col r">
+                    <h6> M-Name : </h6> {{ student.mname }}
+                </div>
+                <div class="col r">
+                    <h6> M-Occupation : </h6> {{ student.moccupation }}
+                </div>
+                <div class="col">
+                    <h6>Contact : </h6> {{ student.contact }}
+                </div>
+              </div>
+              <!-- row 5 -->
+              <div class="row justify-content-center">
+                <div class="col r">
+                    <table class="table table-hover table-bordered" style="text-align: center;">
+                        <thead class="thead-dark">
+                          <tr >
+                            <th colspan="2" scope="col">Fee Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr style="background-color: rgba(255, 248, 220, 0.397);">
+                            <th scope="row">status</th>
+                            <th scope="row">DOP date</th>
+                          </tr>
+                          <tr style="background-color: rgba(255, 248, 220, 0.397);">
+                              {% if student.FeeDue == True %}
+                                <td style="color: red;"> Due</td>
+                                <td style="color: red;">{{ student.FeeDate }}</td>
+                                {% else %}
+                                <td style="color: green;"> Paid</td>
+                                <td style="color: green;">{{ student.FeeDate }}</td>
+                                {% endif %}
+                          </tr>
+                        </tbody>
+                      </table>
+
+
+                </div>
+                
+              </div>
+              {% endfor %}
+            </div>
+            <!-------Notes section -->
+            <div id="notes" style="display: none;">
+                
+                {% if notes %}
+                    <div class="row">
+                    {% for doc in notes %}
+                    <a href="{{ doc.fdata.url }}" download >
+                        <div class="col-sm" id="met" > 
+                            <center><span style='font-size:40px;font-style: normal;'>&#128196;</span></center>
+                            {{ doc.comment }}
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-arrow-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 5a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 9.293V5.5A.5.5 0 0 1 8 5z"/>
+                                <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z"/>
+                                <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z"/>
+                            </svg>
+                        </div> 
+                    </a>
+                      
+                    {% endfor %}
+                    </div>
+                {% endif %}
+                
+            </div>
+            <!-------timetable section -->
+            <div id="timet" style="display: none;">
+                <center><img src="{{ timetable }}"  alt=" timetable  " width="90%" ></center>
+            </div>
+
+        </div>
+
+
+    </div>  
+</div>
+<script>
+    //var c=0;
+    divs=['about','notes','timet']
+    function hello(a){
+        for (let i = 0; i < divs.length; i++) {
+            if(divs[i]==a)
+                document.getElementById(a).style.display="block";
+            else
+                document.getElementById(divs[i]).style.display="none";
+            
+        }
+    }
+
+    function sendformdata(param){
+        if(param == 'A'){
+            document.getElementById('reportform').action = "{% url 'report' 'attendance' %}";
+        }
+        else if(param == 'M'){
+            document.getElementById('reportform').action = "{% url 'report' 'mark' %}";
+        }
+        document.getElementById('reportform').submit();
+    }
+</script>
+</body>
+</html>
+
+
+
+
+
+<!---  use link block to reference scrits and css from other html file -->
+{% block links %} 
+
+
+{% endblock %}
+
+
+<!---  use title block to add custom title from other html file -->
+{% block title %}  {% endblock %}
+
+<!---  use content block to fill content from other html file -->
+{% block content %}
+
+{% endblock %}

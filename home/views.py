@@ -1,7 +1,10 @@
 from django.shortcuts import redirect, render
 from django.http import HttpResponse, request, HttpResponseRedirect
-from home.models import Admision
+from Dashboard.models import Staff
+from home.models import Admision,Fupload
 from django.template.defaulttags import register
+from datetime import date
+from django.contrib import messages
 def HomeIndex(request):
     #return HttpResponse("Hello world!")
     return render(request,'home/index.html')
@@ -34,12 +37,39 @@ def Faculty_portal(request):
         Fid = request.POST['Fid']
         Fname = request.POST['Fname']
         upload_content = request.POST['upload']
-        data = ('Faculty-id : {0}, Name: {1}, content: {2}'
-            .format(Fid,Fname,upload_content))
-        #print(data)
-        #return HttpResponse(data)
-        render(request, 'home/WFaculty_portal.html')
-
+        #data = ('Faculty-id : {0}, Name: {1}, content: {2}'
+        #    .format(Fid,Fname,upload_content))
+        staffd= Staff.objects.all().filter(empid=Fid)
+        
+        if len(staffd)==1:
+            #print(staffd[0].empid)
+            #print(data)
+            if upload_content == 'notes':
+                if request.FILES:
+                    upfile = request.FILES['notes-d0']
+                    comment = request.POST['notesd1']
+                    up = Fupload.objects.create(empid=staffd[0],mtype=upload_content,comment=comment,fdata=upfile)
+                    #print("files received ==",upfile,comment)
+            elif upload_content == 'attendance':
+                if request.FILES:
+                    upfile = request.FILES['attendance-d0']
+                    comment = "Student attendance report"
+                    up = Fupload.objects.create(empid=staffd[0],mtype=upload_content,comment=comment,fdata=upfile)
+                    #print("files received ==",upfile,comment)
+            elif upload_content == 'mark':
+                if request.FILES:
+                    upfile = request.FILES['mark-d0']
+                    comment = "Student mark list"
+                    up = Fupload.objects.create(empid=staffd[0],mtype=upload_content,comment=comment,fdata=upfile)
+                    #print("files received ==",upfile,comment)
+            
+            messages.info(request,"We have received your upload successfully !")
+            return redirect('Faculty-portal')
+        
+        messages.info(request,"Please use proper credentials as per register")
+        return redirect('/')
+            #render(request, 'home/WFaculty_portal.html')
+    #messages.info(request,"Please use proper credentials as per register")
     return render(request, 'home/WFaculty_portal.html')
 
 @register.filter
