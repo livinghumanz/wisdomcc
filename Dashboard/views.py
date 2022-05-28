@@ -37,9 +37,27 @@ class authencateuser:
                 sob = Student.objects.all().filter(regnum=self.lid,password=self.passwd)
                 #if(self.lid == )
                 #print(type(Mark.objects.all().filter(studentid__regnum = self.lid)))
+
+                # Mark table student
+                
+                i=1
+                score=[]
+                for entry in Mark.objects.all().filter(studentid__regnum=self.lid).values_list():
+                    entry1=list(entry)
+                    entry1[0]=i
+                    i+=1
+                    entry1[2]=Course.objects.all().filter(id=entry1[2])[0].cname
+                    #print(type(entry1))
+                    score.append(entry1)
+                #print(marks)
+                
+
+                # End Mark list
+
+
                 if len(sob) == 1:
                     notes = Fupload.objects.all().filter(mtype='notes')
-                    return render(self.request,"dashboard/dashboard_user.html",{'image':sob[0].image.url,'timetable':sob[0].timetable.url,'name':sob[0].name.split()[0],'sdata':sob,'notes':notes})
+                    return render(self.request,"dashboard/dashboard_user.html",{'marks':score,'image':sob[0].image.url,'timetable':sob[0].timetable.url,'name':sob[0].name.split()[0],'sdata':sob,'notes':notes})
                 self.user = None
                 return self.userdashboard()
 
@@ -92,7 +110,17 @@ def reportdown(request, stid):
             return response
 
         elif stid == "mark":
-            response= HttpResponse(content_type = 'text/csv')
+            i=1
+            marks=[]
+            for entry in Mark.objects.all().filter(studentid__regnum=regno).values_list():
+                entry1=list(entry)
+                entry1[0]=i
+                i+=1
+                entry1[2]=Course.objects.all().filter(id=entry1[2])[0].cname
+                print(type(entry1))
+                marks.append(tuple(entry1))
+            print(marks[0][1])
+            '''response= HttpResponse(content_type = 'text/csv')
             writer = csv.writer(response)
             writer.writerow(['S.No','ID','Course','Score','Exam-Date'])
             i=1
@@ -104,7 +132,7 @@ def reportdown(request, stid):
                 entry=tuple(entry1)
                 writer.writerow(entry)
             response['Content-Disposition'] = 'attachment; filename="Mark-sheet.csv"'
-            return response
+            return response'''
 
     messages.info(request,"Please login with proper Details")
     return redirect('/')

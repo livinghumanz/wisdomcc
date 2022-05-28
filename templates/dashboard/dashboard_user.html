@@ -48,7 +48,7 @@
                 </a>
             </li>
             <li>
-                <a href="#" onclick="sendformdata('M')">
+                <a href="#" onclick="hello('marks')"><!--onclick="sendformdata('M')"-->
                     <span class="nav-text">
                         <i class="fa fa-check-square-o"></i>
                         <b>MARK-LIST</b>
@@ -86,7 +86,7 @@
             <!-- row 1 -->
                 <div class="row justify-content-center">
                     <div class="col r">
-                    <h6> ID : </h6> {{ student.regnum }}
+                    <h6> Reg-No : </h6> {{ student.regnum }}
                 </div>
                 <form id="reportform" enctype="multipart/form-data" method="POST" style="display: none;">
                     {% csrf_token %} 
@@ -138,6 +138,19 @@
               <!-- row 5 -->
               <div class="row justify-content-center">
                 <div class="col r">
+                    <h6> WhatsApp-No : </h6> {{ student.WhatsappNo }}
+                </div>
+                <div class="col r">
+                    <h6> DOJ : </h6> {{ student.DateofJoin }}
+                </div>
+                <div class="col">
+                    <h6>Fee-Amount : </h6> {{ student.FeeAmount }}
+                </div>
+              </div>
+              
+              <!-- row 6 -->
+              <div class="row justify-content-center">
+                <div class="col r">
                     <table class="table table-hover table-bordered" style="text-align: center;">
                         <thead class="thead-dark">
                           <tr >
@@ -160,13 +173,12 @@
                           </tr>
                         </tbody>
                       </table>
-
-
                 </div>
                 
               </div>
               {% endfor %}
             </div>
+              
             <!-------Notes section -->
             <div id="notes" style="display: none;">
                 
@@ -190,6 +202,32 @@
                 {% endif %}
                 
             </div>
+            <!-------Marks section -->
+            <div id="marks" style="display: none;">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Reg-No</th>
+                            <th scope="col">Subject</th>
+                            <th scope="col">Score</th>
+                            <th scope="col">Exam Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for mark in marks %}
+                            <tr>
+                                {% for m in mark %}
+                                <td>{{ m }}</th>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                            
+                        </tbody>
+                    </table>
+                  </div>  
+            </div>
             <!-------timetable section -->
             <div id="timet" style="display: none;">
                 <center><img src="{{ timetable }}"  alt=" timetable  " width="90%" ></center>
@@ -202,7 +240,7 @@
 </div>
 <script>
     //var c=0;
-    divs=['about','notes','timet']
+    divs=['about','notes','timet','marks']
     function hello(a){
         for (let i = 0; i < divs.length; i++) {
             if(divs[i]==a)

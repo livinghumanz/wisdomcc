@@ -22,9 +22,10 @@ def course_service(request):
         Sclass = f_data['Sclass']
         mailid = f_data['admit-mail']
         wlocation = f_data['location']
+        scourse = f_data['Scourse']
         #data=('Name:{0} School: {1} contact: {2} Sclass:{3} Mail-id: {4} Location : {5} '
         #.format(Sname,school,contact,Sclass,mailid,wlocation))
-        admit=Admision.objects.create(sname=Sname,school=school,contact=contact,ystudy=Sclass,mailid=mailid,slocation=wlocation)
+        admit=Admision.objects.create(sname=Sname,school=school,contact=contact,ystudy=Sclass,mailid=mailid,slocation=wlocation,scourse=scourse)
         #print(admit)
         return render(request,'home/Wcourses_service.html',{'result':'1','data':admit})
     return render(request,'home/Wcourses_service.html')

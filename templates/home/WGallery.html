@@ -5,11 +5,89 @@
 {% block title %} Wisdom photo-gallery {% endblock %}
 {% block link %} 
 	<link rel="stylesheet" href="{% static '/css/WGallery.css' %}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css">
+  <style>
+    .list-group a,.list-group span{
+      background-color: transparent;
+      border: 0ch;
+      font-size: 20px;
+      letter-spacing: 2px;
+    }
+    .list-group .list-group{
+      padding-left: 5%;
+      font-size: 15px;
+    }
+  </style>
+<!--  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css"> -->
 {% endblock %}
 
+<!------------- Gallery section with links ----------->
 {% block content %} 
 
+  <div class="container">
+    <div>
+      <div class="list-group" >
+        <!---------------Infra----------->
+        <span class="list-group-item ">INFRASTRUCTURE</span>
+          <div class="list-group">
+            <a href="https://drive.google.com/drive/folders/1NC7-UmYFJKU_BpQWopkOao9nWZhP6uQC?usp=sharing " class="list-group-item list-group-item-action list-group-item-dark">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5z"/>
+              </svg>
+              Redhills
+            </a>
+            <a href="https://drive.google.com/drive/folders/1NC7-UmYFJKU_BpQWopkOao9nWZhP6uQC?usp=sharing " class="list-group-item list-group-item-action list-group-item-dark">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5z"/>
+              </svg> Kanathur
+            </a>
+          </div>
+          <!-----------Celebration ------>
+          <span class="list-group-item ">CELEBRATION</span>
+          <div class="list-group">
+            <a href="https://drive.google.com/drive/folders/1QIbhc6dUgkltoOZB91ZPKXA8BDB2RI94?usp=sharing" class="list-group-item list-group-item-action list-group-item-dark">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5z"/>
+              </svg>
+              Christmas
+            </a>
+            <a href="https://drive.google.com/drive/folders/1QIbhc6dUgkltoOZB91ZPKXA8BDB2RI94?usp=sharing" class="list-group-item list-group-item-action list-group-item-dark">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5z"/>
+              </svg> Women's Day
+            </a>
+          </div>
+          <!-----------Drawing------>
+          <a href="https://drive.google.com/drive/folders/1N_nwG5MDvw1BzKrJ1jIC3IAnY6FdXUCT?usp=sharing" class="list-group-item list-group-item-action list-group-item-dark">DRAWING COMPETITION</a>
+        
+          <!-----------Exhibition ------>
+          <span class="list-group-item ">EXHIBITION</span>
+          <div class="list-group">
+            <a href="https://drive.google.com/drive/folders/1q-k-56rxcdV9T9MXv6EcT94dOpniYnw9?usp=sharing" class="list-group-item list-group-item-action list-group-item-dark">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5z"/>
+              </svg>
+              Science Expo `2019
+            </a>
+            <a href="https://drive.google.com/drive/folders/1q-k-56rxcdV9T9MXv6EcT94dOpniYnw9?usp=sharing" class="list-group-item list-group-item-action list-group-item-dark">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5z"/>
+              </svg> Wisdom Expo `2021
+            </a>
+          </div>
+          <!-----------Day Care ------>
+          <a href="https://drive.google.com/drive/folders/189v4UwS1yrRuaWX7ue4hIIrX3zewCYgk?usp=sharing" class="list-group-item list-group-item-action list-group-item-dark">DAY CARE</a>
+          <!-----------Career Guidance ------>
+          <a href="https://drive.google.com/drive/folders/1xZ4JeJzlYVUK3PNuGtnjHzl0p9kl6ccy?usp=sharing " class="list-group-item list-group-item-action list-group-item-dark">CAREER GUIDANCE</a>
+          
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+<!--------- commented Gallery Section -->
+{% block deletedcontent %} 
+<!-----------
   <div class="photo-gallery p-3"></div>
   <div class="page">
       <div class="container">
@@ -127,8 +205,8 @@
           </div>
           </div>
       </div>
-  </div>
-{% endblock %}
+  </div>  ------------>
+  {% endblock %}
 
 {% block aditionaljs %}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

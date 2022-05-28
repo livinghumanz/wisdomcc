@@ -120,7 +120,7 @@ footer{
   bottom: 0 !important;
   width: 100%;
   position: relative;
-  background-color: rgb(3, 18, 43);
+  background-color: #fb6e1a;/*rgb(3, 18, 43);*/
   color: #f9f9f9;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   font-size: 14px;

@@ -8,6 +8,7 @@ class Student(models.Model):
     image = models.ImageField(upload_to='images/profilepic/%y/%m/%d/')
     name = models.CharField(max_length=40)
     dob = models.DateField()
+    DateofJoin = models.DateField(null=True)
     aadhar = models.CharField(max_length=20)
     address = models.TextField()
     ystudy = models.CharField(max_length=10)
@@ -17,10 +18,12 @@ class Student(models.Model):
     foccupation = models.CharField(max_length=100)
     moccupation = models.CharField(max_length=100)
     contact = models.BigIntegerField()
+    WhatsappNo = models.BigIntegerField(null=True)
     password = models.CharField(max_length= 40)
     timetable = models.ImageField(upload_to='images/timetable/',null=True)
     FeeDue = models.BooleanField(default=True)
     FeeDate = models.DateField(null=True)
+    FeeAmount = models.BigIntegerField(null=True)
     def __str__(self):
         return '{0} : {1}'.format(self.regnum,self.name.split()[0])
 
