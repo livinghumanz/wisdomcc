@@ -27,34 +27,34 @@
                 Hello,{{user.username}}
             {% endif %}
 		</a>
-        <a href="{% url 'Home' %}">Home</a>
-    	<a href="{% url 'about' %}" 
+        <div class="wdropdown"><a href="{% url 'Home' %}" style="background-color: rgb(255, 194, 0); border-radius: 10px; color: white;">Home</a> &nbsp;</div>
+    	<a href="{% url 'about' %}" style="background-color: rgb(14, 199, 167); border-radius: 10px; color: white;"
         {% if 'About' in request.path %} class="active" {% endif %}>About</a>
 		<div class="wdropdown">
-			<button class="wdropbtn" 
+			&nbsp; <button class="wdropbtn" style="background-color: rgb(135, 200, 42); border-radius: 10px;"
             {% if 'Course-Services' in request.path %}
             style="color: black;border: 2px solid rgb(0, 6, 90);border-style: none none solid none;" 
             {% else %}
             style="color:black;"
             {% endif %}
-             >Courses/Service</button>
+             >Courses/Service</button> &nbsp;
 			<div class="wdropdown-content">
 				<a href="{% url 'course' %}">NEET</a>
 				<a href="{% url 'course' %}#academics">Academics</a>
 				<a href="{% url 'course' %}#vac">VAC</a>
-				<a href="{% url 'course' %}#admission">Admission</a>
+				<a href="{% url 'course' %}#admission">Apply online</a>
 			</div>
 		</div>
 		<div class="wdropdown">
-    	    <button class="wdropbtn" 
+    	    <button class="wdropbtn" style="background-color: rgb(247, 57, 97); border-radius: 10px;"
             {% if 'Gallery' in request.path %}
             style="color: black;border: 2px solid rgb(0, 6, 90);border-style: none none solid none;" 
             {% else %}
             style="color:black;"
             {% endif %}
             >
-				Gallery-
-			</button>
+				Gallery
+			</button> &nbsp;
             <div class="wdropdown-content">
                 <a href="{% url 'gallery' %}#infrastructure">Infrastructure</a>
 				<a href="{% url 'gallery' %}#expo2021">Wisdom Expo'2021</a>
@@ -63,7 +63,7 @@
     	    </div>
     	</div>
 
-		<a href="#login" style="float:right; padding-right:12px;" onclick="loginpop()" >
+		<a href="#login" style="float:right; padding-right:12px;background-color: rgb(14, 199, 167); border-radius: 10px; color: white;" onclick="loginpop()" >
 			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-plus" viewBox="0 0 16 16">
 			<path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
 			<path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
@@ -74,10 +74,11 @@
                 Login
             {% endif %}
 		</a>            
-        <a style="float:right;" href="{% url 'Faculty-portal' %}"
-        {% if 'Faculty-portal' in request.path %} class="active" {% endif %}>Faculty-portal</a>
+       <a style="float:right; background-color: rgb(172, 38, 195); border-radius: 10px; color: white;" href="{% url 'Faculty-portal' %}" 
+        {% if 'Faculty-portal' in request.path %} class="active" {% endif %} >Faculty-portal</a> &nbsp;
 
-		<a href="{% url 'Home' %}#testonimals">Testonimals</a>
+		<a href="{% url 'Home' %}#testonimals" style="background-color: rgb(251, 110, 26); border-radius: 10px; color: white;">
+            Testonimals</a> &nbsp;
 		<a href="{% url 'Home' %}#pay" style="display: none;">Pay-Online</a>
 		
 		<a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
@@ -231,7 +232,7 @@
       <h5 class="text-uppercase">Reach Us:</h5>
 
       <p>Wisdom @ Redhills:<br>No 2/1825, Gandhi Nagar west, Redhills, Chennai- 52 <br>Ph: 044-26323939, 9791148553</p>
-      <p>Wisdom @ Kanathur:<br>No:146, 1st floor, SH 49, near Mayajal Multiplex, Kanathur, Tamil Nadu 603112 <br>Ph: 044-274447393, 7200744739</p>
+      <p>Wisdom @ Kanathur:<br>No:146, 1st floor, SH 49, near Mayajal Multiplex, Kanathur, Tamil Nadu 603112 <br>Ph: 044-27444739, 7200744739</p>
 
     </div>
     <!-- Grid column -->
