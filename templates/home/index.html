@@ -6,6 +6,16 @@
 
 {% block link %}
 <link rel="stylesheet" href="{% static 'css/Whomepage.css' %}">
+<style>	
+
+	@media screen and (max-width: 600px) {
+	#about iframe{
+		width: auto;
+		height: auto;
+	}
+	}
+	
+</style>
 {% endblock %}
 
 {% block content %}
@@ -59,10 +69,11 @@
 	<div class="aboutdiv" id="about">
 		
 			<div class="aboutdiv-content">
-				<p style="font-size: larger;">
+				<p style="font-size: larger; text-align: justify;">
 					Wisdom Coaching Centre (WCC) facilitates superior lecturing for all subjects of school stream,
-		training and soft skills programmes for individuals interested in an <img src="{% static 'img/home_slider/Children-Celebrating.jpg' %}" alt="Careeers" width="500" vspace="10" hspace="10" height="250" align="right">upgraded grade in the institutions
-		where they are studying. Throughout the year we offer various continuing education courses, seminars
+		training and soft skills programmes for individuals interested in an <iframe width="500" height="250" align="right" src="https://www.youtube.com/embed/-dC-9ClYpEo" title="Promo video" frameborder="1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+		<!--<img src="{% static 'img/home_slider/Children-Celebrating.jpg' %}" alt="Careeers" width="500" vspace="10" hspace="10" height="250" align="right">-->
+		upgraded grade in the institutions where they are studying. Throughout the year we offer various continuing education courses, seminars
 		and cycle test based learning via live events by the well experienced faculty members of different
 		criteria. This sprawling institution provides a holistic education in an ambiance that makes no
 		compromise on discipline, dedication and commitment. It strives to inculcate the spirit of learning in the
@@ -132,6 +143,43 @@
 			</div>
 		</div>
 	</div>
+
+<!----------------------------- Scan to Pay ---------------------------------------------->
+	<div class="qrcode">
+		<center><h1 style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">SCAN TO PAY</h1></center>
+		<div>
+			<div id="qr" style="padding:3%;">
+				<div class="container">
+					<div class="row">
+
+						<div class="col-sm">
+							<div class="card" style="width: 100%; background-color: rgb(14, 199, 167);">
+								<div class="card-body">
+									<h2 class="card-text" style="text-align: center;">REDHILLS <span style="font-size: 20px ;">( 9791148553 )</span></h2>
+								</div>
+								<img src="{% static 'img/qr/redhills.jpg' %}" alt="redhills qr" height="100%" width="100%" srcset="">
+								
+							</div>
+						</div>
+
+						<div class="col-sm">
+							<div class="card" style="width: 100%; background-color: rgb(14, 199, 167);">
+								<div class="card-body">
+									<h2 class="card-text" style="text-align: center;">KANATHUR <span style="font-size: 20px ;">( 7200744739 )</span></h2>
+								</div>
+								<img src="{% static 'img/qr/kanathur.jpg' %}" alt="redhills qr" height="100%" width="100%" srcset="">
+								
+							</div>
+						</div>
+						
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
 <!----------------------------- Payment and Admission ------------------------------------>
 	<div class="container-fluid" style="display: none;">
 		<div class="row">

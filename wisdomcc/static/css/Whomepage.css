@@ -37,12 +37,13 @@
         width: 90%;
     }
   }
-.course-service{
-    background-color: rgb(204, 0, 68);
+.course-service, .qrcode{
+    background-color: rgb(251, 110, 26);
     padding: 1%;
     font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
     color: white;
 }
+.qrcode{ background-color: rgb(247, 57, 97);}
 .course-service h3{
     font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
     letter-spacing: 3px;
