@@ -229,10 +229,29 @@
     <div class="col-md-6 mt-md-0 mt-3">
 
       <!-- Content -->
-      <h5 class="text-uppercase">Reach Us:</h5>
+      <!--<h5 class="text-uppercase">Reach Us:</h5>-->
 
-      <p>Wisdom @ Redhills:<br>No 2/1825, Gandhi Nagar west, Redhills, Chennai- 52 <br>Ph: 044-26323939, 9791148553</p>
-      <p>Wisdom @ Kanathur:<br>No:146, 1st floor, SH 49, near Mayajal Multiplex, Kanathur, Tamil Nadu 603112 <br>Ph: 044-27444739, 7200744739</p>
+      <!--<p>Wisdom @ Redhills:<br>No 2/1825, Gandhi Nagar west, Redhills, Chennai- 52 <br>Ph: 044-26323939, 9791148553</p>
+      <p>Wisdom @ Kanathur:<br>No:146, 1st floor, SH 49, near Mayajal Multiplex, Kanathur, Tamil Nadu 603112 <br>Ph: 044-27444739, 7200744739</p>-->
+
+      <table class="table-bordereless">
+        <thead>
+            <tr>
+              <th><h5 class="text-uppercase">Reach Us:</h5></th>
+              <th scope="col" style="font-size:8px ;">SCAN to PAY</th>
+            </tr>
+          </thead>
+        <tbody>
+          <tr>
+            <td><p >Wisdom @ Redhills:<br>No 2/1825, Gandhi Nagar west, Redhills, Chennai- 52 <br>Ph: 044-26323939, 9791148553</p></td>
+            <td id="pay"><br><img src="{% static 'img/qr/redhills.jpg' %}" alt="redhills qr" height="40" width="40" srcset=""></td>
+          </tr>
+          <tr>
+            <td><p >Wisdom @ Kanathur:<br>No:146, 1st floor, SH 49, near Mayajal Multiplex, Kanathur, Tamil Nadu 603112 <br>Ph: 044-27444739, 7200744739</p></td>
+            <td><img src="{% static 'img/qr/kanathur.jpg' %}" alt="redhills qr" height="40" width="40" srcset=""></td>
+          </tr>
+        </tbody>
+      </table>
 
     </div>
     <!-- Grid column -->
