@@ -25,3 +25,4 @@ steps to Install and setup the server, basic run.
     `python manage.py createsuperuser`
 9. collectstatic 
     `python manage.py collectstatic`
+
