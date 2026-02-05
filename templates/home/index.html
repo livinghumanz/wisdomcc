@@ -5,7 +5,7 @@
 {% block title %} Wisdom Coaching Centre {% endblock %}
 
 {% block link %}
-<link rel="stylesheet" href="{% static 'css/Whomepage.css' %}">
+<link rel="stylesheet" href="{% static 'css/Whomepage.css' %}?v=2">
 <style>
 
 	@media screen and (max-width: 600px) {
@@ -72,18 +72,32 @@
 </svg>
 	<div class="aboutdiv" id="about">
 		
-			<div class="aboutdiv-content">
-				<p style="font-size: larger; text-align: justify;">
-					Wisdom Coaching Centre (WCC) facilitates superior lecturing for all subjects of school stream,
-		training and soft skills programmes for individuals interested in an <iframe width="500" height="250" align="right" src="https://www.youtube.com/embed/-dC-9ClYpEo" title="Promo video" frameborder="1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-		<!--<img src="{% static 'img/home_slider/Children-Celebrating.jpg' %}" alt="Careeers" width="500" vspace="10" hspace="10" height="250" align="right">-->
-		upgraded grade in the institutions where they are studying. Throughout the year we offer various continuing education courses, seminars
-		and cycle test based learning via live events by the well experienced faculty members of different
-		criteria. This sprawling institution provides a holistic education in an ambiance that makes no
-		compromise on discipline, dedication and commitment. It strives to inculcate the spirit of learning in the
-		campus offering state of art facilities to the students. Our Coaching Centre ensures that the students, who
-		pass out of the school, turn out to be academically brilliant, morally upright and empowered individuals.
-				</p>
+			<div class="aboutdiv-content" style="overflow: hidden;" >
+
+			<div class="row">
+			<div class="col-lg-7">
+				<div class="card bg-light">
+					<div class="card-body" 
+					style="background-image: url('{% static 'img/home_slider/bg_color.jpg' %}'); background-size: cover; background-position: center;">
+
+						<p style="font-size: larger; text-align: justify;">
+							Wisdom Coaching Centre (WCC) facilitates superior lecturing for all subjects of school stream,
+							training and soft skills programmes for individuals interested in an <!--<img src="{% static 'img/home_slider/Children-Celebrating.jpg' %}" alt="Careeers" width="500" vspace="10" hspace="10" height="250" align="right">-->
+							upgraded grade in the institutions where they are studying. Throughout the year we offer various continuing education courses, seminars
+							and cycle test based learning via live events by the well experienced faculty members of different
+							criteria. This sprawling institution provides a holistic education in an ambiance that makes no
+							compromise on discipline, dedication and commitment. It strives to inculcate the spirit of learning in the
+							campus offering state of art facilities to the students. Our Coaching Centre ensures that the students, who
+							pass out of the school, turn out to be academically brilliant, morally upright and empowered individuals.
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<iframe width="560" height="315" src="https://www.youtube.com/embed/oypckKggnos?si=E7VEpGisReFnCEAF" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+			</div>
+			</div>
+
 			</div>
 	</div>
 <!----------------------------- Courses/service ------------------------------------------>

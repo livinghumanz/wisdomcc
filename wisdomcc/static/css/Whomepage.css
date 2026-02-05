@@ -38,16 +38,16 @@
     }
   }
 .course-service{
-    background-color: rgb(247, 57, 97);
+    background-color: rgba(254, 226, 233, 0.438);
     padding: 1%;
     font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
-    color: white;
+    color: black;
 }
 
 .course-service h3{
     font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
     letter-spacing: 3px;
-    text-decoration: underline;
+    /* text-decoration: underline; */
 
 }
 .course-service #service{
