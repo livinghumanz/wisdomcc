@@ -5,7 +5,7 @@
   background-color: rgb(255, 255, 255);
   overflow: hidden;
   width: 100%;
-  padding: 1% 0% 2% 0%;
+  padding: 0.5% 0% 0.5% 0%;
   
 }
 
@@ -16,9 +16,10 @@
   color: black;
   /*color:rgb(0, 6, 90);*/
   text-align: center;
-  padding: 13px 13px;
+  padding: 8px 8px;
   text-decoration: none;
   font-size: 16px;
+  font-weight: bold;
 }
 
 /* Hide the link that should open and close the wnavbar on small screens */
@@ -37,11 +38,12 @@
   font-size: 16px;
   border: none;
   outline: none;
-  color: white;
-  padding: 13px 13px;
+  color: black;
+  padding: 8px 8px;
   background-color: inherit;
   font-family: inherit;
   margin: 0;
+  font-weight: bold;
 }
 
 /* Style the wdropdown content (hidden by default) */
@@ -70,6 +72,18 @@
 .wnavbar a:hover, .active{
   border: 2px solid rgb(0, 6, 90);
   border-style: none none solid none;
+  color: red !important;
+}
+
+.wdropbtn:hover{
+  color: red;
+}
+
+.wnavbar #Fp:hover{
+  color: white !important;
+}
+.wnavbar #db:hover{
+  color: white !important;
 }
 
 /* Add a grey background to wdropdown links on hover 

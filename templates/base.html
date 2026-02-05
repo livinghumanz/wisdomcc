@@ -12,7 +12,7 @@
     <link rel = "icon" href="{% static 'img/home_slider/Wisdom-logo.ico' %}" type = "image/x-icon">
     <title>{% block title %} {% endblock %}</title>
 	<!------------------Self css and script----------------------->
-    <link rel="stylesheet" href="{% static 'css/index_test.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index_test.css' %}?v=2">
     {% block link %}  {% endblock %}
     <script src="{% static 'js/index_test.js' %}"></script>
     
@@ -27,11 +27,11 @@
                 Hello,{{user.username}}
             {% endif %}
 		</a>
-        <div class="wdropdown"><a href="{% url 'Home' %}" style="background-color: rgb(255, 194, 0); border-radius: 10px; color: white;">Home</a> &nbsp;</div>
-    	<a href="{% url 'about' %}" style="background-color: rgb(14, 199, 167); border-radius: 10px; color: white;"
+        <div class="wdropdown"><a href="{% url 'Home' %}" style="border-radius: 10px; color: black;">Home</a> &nbsp;</div>
+    	<a href="{% url 'about' %}" style=" border-radius: 10px; color: black;"
         {% if 'About' in request.path %} class="active" {% endif %}>About</a>
 		<div class="wdropdown">
-			&nbsp; <button class="wdropbtn" style="background-color: rgb(135, 200, 42); border-radius: 10px;"
+			&nbsp; <button class="wdropbtn" style="border-radius: 10px;"
             {% if 'Course-Services' in request.path %}
             style="color: black;border: 2px solid rgb(0, 6, 90);border-style: none none solid none;" 
             {% else %}
@@ -42,11 +42,11 @@
 				<a href="{% url 'course' %}">NEET</a>
 				<a href="{% url 'course' %}#academics">Academics</a>
 				<a href="{% url 'course' %}#vac">VAC</a>
-				<a href="{% url 'course' %}#admission">Apply online</a>
+				<a href="{% url 'course' %}#admission" onclick="admisionpop()">Apply online</a>
 			</div>
 		</div>
 		<div class="wdropdown">
-    	    <button class="wdropbtn" style="background-color: rgb(247, 57, 97); border-radius: 10px;"
+    	    <button class="wdropbtn" style="border-radius: 10px;"
             {% if 'Gallery' in request.path %}
             style="color: black;border: 2px solid rgb(0, 6, 90);border-style: none none solid none;" 
             {% else %}
@@ -63,7 +63,7 @@
     	    </div>
     	</div>
 
-		<a href="#login" style="float:right; padding-right:12px;background-color: rgb(14, 199, 167); border-radius: 10px; color: white;" onclick="loginpop()" >
+		<a id="db" href="#login" style="float:right; padding-right:12px;font-weight: bold; background-color: rgb(14, 199, 167); border-radius: 10px; color: white; margin-right: 12px;" onclick="loginpop()" >
 			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-plus" viewBox="0 0 16 16">
 			<path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
 			<path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
@@ -74,11 +74,11 @@
                 Login
             {% endif %}
 		</a>            
-       <a style="float:right; background-color: rgb(172, 38, 195); border-radius: 10px; color: white;" href="{% url 'Faculty-portal' %}" 
-        {% if 'Faculty-portal' in request.path %} class="active" {% endif %} >Faculty-portal</a> &nbsp;
+       <a id="Fp" style="float:right; background-color: rgb(172, 38, 195); font-weight: bold; margin-right: 12px;border-radius: 10px; color: white;" href="{% url 'Faculty-portal' %}" 
+        {% if 'Faculty-portal' in request.path %} class="active" {% endif %} >Faculty-portal</a>
 
-		<a href="{% url 'Home' %}#testonimals" style="background-color: rgb(251, 110, 26); border-radius: 10px; color: white;">
-            Testonimals</a> &nbsp;
+		<a href="{% url 'Home' %}#testonimals" style="border-radius: 10px; color: black;">
+            Testimonials</a>
 		<a href="{% url 'Home' %}#pay" style="display: none;">Pay-Online</a>
 		
 		<a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
@@ -217,7 +217,7 @@
 
 <!----------------------------- Body End-------------------------------------------------->	
 <!-- Footer -->
-<footer class="page-footer blue pt-4">
+<footer class="page-footer pt-4" style="background-color: #1f3473;">
 
 <!-- Footer Links -->
 <div class="container-fluid text-center text-md-left">
@@ -336,7 +336,7 @@
 <!-- Footer Links -->
 
 <!-- Copyright -->
-<div class="footer-copyright text-center py-2">© 2021 Copyright:
+<div class="footer-copyright text-center py-2">© 2026 Copyright:
   <a href="{% url 'Home' %}"> Wisdom Coaching Centre</a>
 </div>
 <!-- Copyright -->

@@ -5,8 +5,8 @@
 {% block title %} Wisdom Coaching Centre {% endblock %}
 
 {% block link %}
-<link rel="stylesheet" href="{% static 'css/Whomepage.css' %}">
-<style>	
+<link rel="stylesheet" href="{% static 'css/Whomepage.css' %}?v=2">
+<style>
 
 	@media screen and (max-width: 600px) {
 	#about iframe{
@@ -66,32 +66,54 @@
 		</a>
 	  </div>
 <!----------------------------- About us ------------------------------------------------>
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 283.5 27.8" preserveAspectRatio="xMidYMax slice" style="background-color:#0ec7a7;">
+  <path d="M0 0v6.7c1.9-.8 4.7-1.4 8.5-1 9.5 1.1 11.1 6 11.1 6s2.1-.7 4.3-.2c2.1.5 2.8 2.6 2.8 2.6s.2-.5 1.4-.7c1.2-.2 1.7.2 1.7.2s0-2.1 1.9-2.8c1.9-.7 3.6.7 3.6.7s.7-2.9 3.1-4.1 4.7 0 4.7 0 1.2-.5 2.4 0 1.7 1.4 1.7 1.4h1.4c.7 0 1.2.7 1.2.7s.8-1.8 4-2.2c3.5-.4 5.3 2.4 6.2 4.4.4-.4 1-.7 1.8-.9 2.8-.7 4 .7 4 .7s1.7-5 11.1-6c9.5-1.1 12.3 3.9 12.3 3.9s1.2-4.8 5.7-5.7c4.5-.9 6.8 1.8 6.8 1.8s.6-.6 1.5-.9c.9-.2 1.9-.2 1.9-.2s5.2-6.4 12.6-3.3c7.3 3.1 4.7 9 4.7 9s1.9-.9 4 0 2.8 2.4 2.8 2.4 1.9-1.2 4.5-1.2 4.3 1.2 4.3 1.2.2-1 1.4-1.7 2.1-.7 2.1-.7-.5-3.1 2.1-5.5 5.7-1.4 5.7-1.4 1.5-2.3 4.2-1.1c2.7 1.2 1.7 5.2 1.7 5.2s.3-.1 1.3.5c.5.4.8.8.9 1.1.5-1.4 2.4-5.8 8.4-4 7.1 2.1 3.5 8.9 3.5 8.9s.8-.4 2 0 1.1 1.1 1.1 1.1 1.1-1.1 2.3-1.1 2.1.5 2.1.5 1.9-3.6 6.2-1.2 1.9 6.4 1.9 6.4 2.6-2.4 7.4 0c3.4 1.7 3.9 4.9 3.9 4.9s3.3-6.9 10.4-7.9 11.5 2.6 11.5 2.6.8 0 1.2.2c.4.2.9.9.9.9s4.4-3.1 8.3.2c1.9 1.7 1.5 5 1.5 5s.3-1.1 1.6-1.4c1.3-.3 2.3.2 2.3.2s-.1-1.2.5-1.9 1.9-.9 1.9-.9-4.7-9.3 4.4-13.4c5.6-2.5 9.2.9 9.2.9s5-6.2 15.9-6.2 16.1 8.1 16.1 8.1.7-.2 1.6-.4V0H0z" style="fill: white;"></path>
+</svg>
 	<div class="aboutdiv" id="about">
 		
-			<div class="aboutdiv-content">
-				<p style="font-size: larger; text-align: justify;">
-					Wisdom Coaching Centre (WCC) facilitates superior lecturing for all subjects of school stream,
-		training and soft skills programmes for individuals interested in an <iframe width="500" height="250" align="right" src="https://www.youtube.com/embed/-dC-9ClYpEo" title="Promo video" frameborder="1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-		<!--<img src="{% static 'img/home_slider/Children-Celebrating.jpg' %}" alt="Careeers" width="500" vspace="10" hspace="10" height="250" align="right">-->
-		upgraded grade in the institutions where they are studying. Throughout the year we offer various continuing education courses, seminars
-		and cycle test based learning via live events by the well experienced faculty members of different
-		criteria. This sprawling institution provides a holistic education in an ambiance that makes no
-		compromise on discipline, dedication and commitment. It strives to inculcate the spirit of learning in the
-		campus offering state of art facilities to the students. Our Coaching Centre ensures that the students, who
-		pass out of the school, turn out to be academically brilliant, morally upright and empowered individuals.
-				</p>
+			<div class="aboutdiv-content" style="overflow: hidden;" >
+
+			<div class="row">
+			<div class="col-lg-7">
+				<div class="card bg-light">
+					<div class="card-body" 
+					style="background-image: url('{% static 'img/home_slider/bg_color.jpg' %}'); background-size: cover; background-position: center;">
+
+						<p style="font-size: larger; text-align: justify;">
+							Wisdom Coaching Centre (WCC) facilitates superior lecturing for all subjects of school stream,
+							training and soft skills programmes for individuals interested in an <!--<img src="{% static 'img/home_slider/Children-Celebrating.jpg' %}" alt="Careeers" width="500" vspace="10" hspace="10" height="250" align="right">-->
+							upgraded grade in the institutions where they are studying. Throughout the year we offer various continuing education courses, seminars
+							and cycle test based learning via live events by the well experienced faculty members of different
+							criteria. This sprawling institution provides a holistic education in an ambiance that makes no
+							compromise on discipline, dedication and commitment. It strives to inculcate the spirit of learning in the
+							campus offering state of art facilities to the students. Our Coaching Centre ensures that the students, who
+							pass out of the school, turn out to be academically brilliant, morally upright and empowered individuals.
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<iframe width="560" height="315" src="https://www.youtube.com/embed/oypckKggnos?si=E7VEpGisReFnCEAF" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+			</div>
+			</div>
+
 			</div>
 	</div>
 <!----------------------------- Courses/service ------------------------------------------>
-	<div class="course-service">
-		<center><h1 style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">Words from Guardians</h1></center>
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 283.5 27.8" preserveAspectRatio="xMidYMax slice" style="margin-top: -2px;">
+  <path style="fill: #0ec7a7 ;" d="M0 0v6.7c1.9-.8 4.7-1.4 8.5-1 9.5 1.1 11.1 6 11.1 6s2.1-.7 4.3-.2c2.1.5 2.8 2.6 2.8 2.6s.2-.5 1.4-.7c1.2-.2 1.7.2 1.7.2s0-2.1 1.9-2.8c1.9-.7 3.6.7 3.6.7s.7-2.9 3.1-4.1 4.7 0 4.7 0 1.2-.5 2.4 0 1.7 1.4 1.7 1.4h1.4c.7 0 1.2.7 1.2.7s.8-1.8 4-2.2c3.5-.4 5.3 2.4 6.2 4.4.4-.4 1-.7 1.8-.9 2.8-.7 4 .7 4 .7s1.7-5 11.1-6c9.5-1.1 12.3 3.9 12.3 3.9s1.2-4.8 5.7-5.7c4.5-.9 6.8 1.8 6.8 1.8s.6-.6 1.5-.9c.9-.2 1.9-.2 1.9-.2s5.2-6.4 12.6-3.3c7.3 3.1 4.7 9 4.7 9s1.9-.9 4 0 2.8 2.4 2.8 2.4 1.9-1.2 4.5-1.2 4.3 1.2 4.3 1.2.2-1 1.4-1.7 2.1-.7 2.1-.7-.5-3.1 2.1-5.5 5.7-1.4 5.7-1.4 1.5-2.3 4.2-1.1c2.7 1.2 1.7 5.2 1.7 5.2s.3-.1 1.3.5c.5.4.8.8.9 1.1.5-1.4 2.4-5.8 8.4-4 7.1 2.1 3.5 8.9 3.5 8.9s.8-.4 2 0 1.1 1.1 1.1 1.1 1.1-1.1 2.3-1.1 2.1.5 2.1.5 1.9-3.6 6.2-1.2 1.9 6.4 1.9 6.4 2.6-2.4 7.4 0c3.4 1.7 3.9 4.9 3.9 4.9s3.3-6.9 10.4-7.9 11.5 2.6 11.5 2.6.8 0 1.2.2c.4.2.9.9.9.9s4.4-3.1 8.3.2c1.9 1.7 1.5 5 1.5 5s.3-1.1 1.6-1.4c1.3-.3 2.3.2 2.3.2s-.1-1.2.5-1.9 1.9-.9 1.9-.9-4.7-9.3 4.4-13.4c5.6-2.5 9.2.9 9.2.9s5-6.2 15.9-6.2 16.1 8.1 16.1 8.1.7-.2 1.6-.4V0H0z"></path>
+</svg>
+	<div class="course-service" style="background-color: white;">
+		<center><h1 style="font-family: 'Fredoka One',cursive; color: black;" >Words from Guardians</h1></center>
 		<div>
 			<div id="testonimals" style="padding:3%;">
 				<div class="container">
 					<div class="row">
 
 						<div class="col-sm">
-							<div class="card text-white bg-dark mb-3" style="width: auto;">
+							<div class="card bg-dark mb-3" style="width: auto; color: black; background-color: #fff267 !important; border-radius: 3%;">
 								<div class="card-header">
 									<img src="{% static 'img/home_slider/prakash_d.jpg' %}" height="70px" width="70px" style="border-radius: 50%;">
 									<span>-- Parent to Prakash of XII &amp; Bharathi of XI</span>
@@ -105,7 +127,7 @@
 						</div>
 
 						<div class="col-sm">
-							<div class="card text-white bg-dark mb-3" style="width: auto;">
+							<div class="card bg-dark mb-3" style="width: auto; color: black; background-color: #fff267 !important; border-radius: 3%;">
 								<div class="card-header">
 									<img src="{% static 'img/home_slider/akash_m.jpg' %}" height="70px" width="70px" style="border-radius: 50%;">
 									<span>-- Parent to Jai Akash of XI Std</span>
@@ -119,7 +141,7 @@
 
 
 						<div class="col-sm">
-							<div class="card text-white bg-dark mb-3" style="width: auto;">
+							<div class="card bg-dark mb-3" style="width: auto; color: black; background-color: #fff267 !important; border-radius: 3%;">
 								<div class="card-header">
 									<img src="{% static 'img/home_slider/jaanvi_d.jpg' %}" height="70px" width="70px" style="border-radius: 50%;" >
 									<span>--Parent to Jaanvi of II Std</span>
