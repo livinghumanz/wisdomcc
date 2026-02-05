@@ -5,6 +5,7 @@ steps to Install and setup the server, basic run.
     `sudo apt install python3-venv python3-dev libpq-dev postgresql postgresql-contrib nginx curl`
 1. Create a Venv
     `python3 -m venv venv`
+    `git clone https://github.com/livinghumanz/wisdomcc.git app`
 2. install the dependencies 
     `pip install -r requirements.txt` -- need to wait until it succedes 
 3. update the localsettings.py
