@@ -9,3 +9,5 @@ venv
 /static
 .vscode
 pswd.profile
+*.pem
+.bash_profile
