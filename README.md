@@ -26,3 +26,10 @@ steps to Install and setup the server, basic run.
     `python manage.py createsuperuser`
 9. collectstatic 
     `python manage.py collectstatic`
+
+10. ssh 
+    autossh -i "wisdomccPemKey.pem" -M 0 -o "ServerAliveInterval 30" -o "ServerAliveCountMax 10" ubuntu@ec2-3-146-206-192.us-east-2.compute.amazonaws.com
+
+    tmux new -s mysession
+    Ctrl + B, then D
+    tmux attach -t mysession
