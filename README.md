@@ -33,3 +33,8 @@ steps to Install and setup the server, basic run.
     tmux new -s mysession
     Ctrl + B, then D
     tmux attach -t mysession
+11. /etc/systemd/system/gunicorn.service --> 'for gunicorn'
+12.     sudo nano /etc/nginx/sites-available/wisdomcc  --> 'For Nginx'
+13. sudo ln -s /etc/nginx/sites-available/wisdomcc /etc/nginx/sites-enabled
+14. sudo nginx -t
+
