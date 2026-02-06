@@ -1,0 +1,14 @@
+server {
+    listen 80;
+    server_name wisdomcc.in 3.146.206.48;
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location /static/ {
+        alias /home/ubuntu/app/static;
+    }
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/run/gunicorn.sock;
+    }
+}

@@ -2,9 +2,9 @@
 SECRET_KEY = '234567890-dfghjklbnmajaaaaaaaaaddajdj4555555555555555567890-jh#$%^&*()#$%^&*()'
 
 # Security warning: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*',"wisdomcc.in", "www.wisdomcc.in"]
 
 DATABASES = {
     'default': {
