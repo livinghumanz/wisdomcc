@@ -1,0 +1,32 @@
+name: Deploy Wiscomcc
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+
+        steps: 
+            - name: Checkout repository
+              uses: appleboy/ssh-action@v0.1.6
+              with:
+                host: $${{ secrets.SERVER_HOST }}
+                username: $${{ secrets.SERVER_USER }}
+                key: $${{ secrets.SERVER_SSH_KEY }}
+                script: |
+                    set -e
+
+                    cd /home/ubuntu/app
+
+                    git pull origin main
+
+                    source /home/ubuntu/app/venv/bin/activate
+
+                    python manage.py collectstatic --noinput
+                    python manage.py migrate --noinput
+
+                    sudo systemctl restart gunicorn
+                    sudo systemctl restart nginx
