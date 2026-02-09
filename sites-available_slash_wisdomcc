@@ -12,3 +12,18 @@ server {
         proxy_pass http://unix:/run/gunicorn.sock;
     }
 }
+
+# =========================
+# 2️⃣ HTTPS redirect to HTTP
+# =========================
+server {
+    listen 443 ssl;
+    server_name wisdomcc.in www.wisdomcc.in;
+
+    # Temporary self-signed certificate
+    ssl_certificate     /etc/ssl/certs/ssl-cert-snakeoil.pem;
+    ssl_certificate_key /etc/ssl/private/ssl-cert-snakeoil.key;
+
+    # Redirect all HTTPS traffic to HTTP
+    return 301 http://$host$request_uri;
+}
