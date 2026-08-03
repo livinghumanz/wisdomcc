@@ -1,6 +1,6 @@
 server {
     listen 80;
-    server_name wisdomcc.in 3.146.206.48;
+    server_name wisdomcc.in 18.223.210.148;
 
     location = /favicon.ico { access_log off; log_not_found off; }
     location /static/ {
