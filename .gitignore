@@ -11,3 +11,4 @@ venv
 pswd.profile
 *.pem
 .bash_profile
+.screenshots/

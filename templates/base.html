@@ -1,352 +1,235 @@
-{% load static %}
-<!DOCTYPE html>
+{% load static %}<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <link rel = "icon" href="{% static 'img/home_slider/Wisdom-logo.ico' %}" type = "image/x-icon">
-    <title>{% block title %} {% endblock %}</title>
-	<!------------------Self css and script----------------------->
-    <link rel="stylesheet" href="{% static 'css/index_test.css' %}?v=2">
-    {% block link %}  {% endblock %}
-    <script src="{% static 'js/index_test.js' %}"></script>
-    
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Wisdom Coaching Centre{% endblock %}</title>
+<meta name="description" content="{% block description %}Wisdom Coaching Centre, part of the {{ group_name }} — tuition, NEET coaching, spoken English, Hindi, Abacus and daycare in Redhills, Chennai.{% endblock %}">
+<link rel="icon" href="{% static 'img/home_slider/Wisdom-logo.ico' %}" type="image/x-icon">
+
+<!-- Bootstrap 4 + jQuery are still required by the About/Courses/Gallery pages and the modals -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/wcc.css' %}?v=3">
+{% block link %}{% endblock %}
+<script src="{% static 'js/index_test.js' %}"></script>
 </head>
 <body>
-<center>
-<!-------------------------------- Navbar ------------------------------------>
-    <div class="wnavbar" id="nav">
-    	<a href="{% url 'Home' %}" style="padding: 0% 30px 0% 0%;border: none;">
-			<img src="{% static 'img/home_slider/wisdomlogo.png' %}" height="45px" alt="Home">
-            {% if user.is_authenticated %} 
-                Hello,{{user.username}}
-            {% endif %}
-		</a>
-        <div class="wdropdown"><a href="{% url 'Home' %}" style="border-radius: 10px; color: black;">Home</a> &nbsp;</div>
-    	<a href="{% url 'about' %}" style=" border-radius: 10px; color: black;"
-        {% if 'About' in request.path %} class="active" {% endif %}>About</a>
-		<div class="wdropdown">
-			&nbsp; <button class="wdropbtn" style="border-radius: 10px;"
-            {% if 'Course-Services' in request.path %}
-            style="color: black;border: 2px solid rgb(0, 6, 90);border-style: none none solid none;" 
-            {% else %}
-            style="color:black;"
-            {% endif %}
-             >Courses/Service</button> &nbsp;
-			<div class="wdropdown-content">
-				<a href="{% url 'course' %}">NEET</a>
-				<a href="{% url 'course' %}#academics">Academics</a>
-				<a href="{% url 'course' %}#vac">VAC</a>
-				<a href="{% url 'course' %}#admission" onclick="admisionpop()">Apply online</a>
-			</div>
-		</div>
-		<div class="wdropdown">
-    	    <button class="wdropbtn" style="border-radius: 10px;"
-            {% if 'Gallery' in request.path %}
-            style="color: black;border: 2px solid rgb(0, 6, 90);border-style: none none solid none;" 
-            {% else %}
-            style="color:black;"
-            {% endif %}
-            >
-				Gallery
-			</button> &nbsp;
-            <div class="wdropdown-content">
-                <a href="{% url 'gallery' %}#infrastructure">Infrastructure</a>
-				<a href="{% url 'gallery' %}#expo2021">Wisdom Expo'2021</a>
-				<a href="{% url 'gallery' %}#expo2019">Science Expo'2019</a>
-				<a href="{% url 'gallery' %}#daycare">Day Care</a>
-    	    </div>
-    	</div>
+<a class="skip-link" href="#main">Skip to content</a>
 
-		<a id="db" href="#login" style="float:right; padding-right:12px;font-weight: bold; background-color: rgb(14, 199, 167); border-radius: 10px; color: white; margin-right: 12px;" onclick="loginpop()" >
-			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-plus" viewBox="0 0 16 16">
-			<path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
-			<path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
-			</svg>
-            {% if user.is_authenticated %}
-                Dashboard
-            {% else %}
-                Login
-            {% endif %}
-		</a>            
-       <a id="Fp" style="float:right; background-color: rgb(172, 38, 195); font-weight: bold; margin-right: 12px;border-radius: 10px; color: white;" href="{% url 'Faculty-portal' %}" 
-        {% if 'Faculty-portal' in request.path %} class="active" {% endif %} >Faculty-portal</a>
+<!-- Umbrella bar: the group and its institutions -->
+<div class="group-bar">
+  <div class="wrap group-bar__inner">
+    <span class="group-bar__label">{{ group_name }}</span>
+    <a href="{% url 'Home' %}" class="is-current">Wisdom Coaching Centre</a>
+    {% if preschool_brand %}<a href="{% url 'preschool-home' %}">{{ preschool_brand.short_name }}</a>{% endif %}
+  </div>
+</div>
 
-		<a href="{% url 'Home' %}#testonimals" style="border-radius: 10px; color: black;">
-            Testimonials</a>
-		<a href="{% url 'Home' %}#pay" style="display: none;">Pay-Online</a>
-		
-		<a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
-    </div>
-</center>
-<a href="#" style="position: fixed;z-index: 2; right: 0;bottom: 0; padding: 5%;" onclick="admisionpop()">
-    <svg xmlns="http://www.w3.org/2000/svg" width="55" height="55" fill="red" class="bi bi-chat-dots-fill" viewBox="0 0 16 16">
-        <path d="M16 8c0 3.866-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7zM5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-    </svg>
-</a>
+<header class="site-nav">
+  <div class="wrap site-nav__inner">
+    <a class="brandmark" href="{% url 'Home' %}">
+      <img src="{% static 'img/home_slider/wisdomlogo.png' %}" alt="Wisdom Coaching Centre — home">
+    </a>
 
-<!----------------------------- Patching other content -------------------------------------------->
-{% block content %} {% endblock %}
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav" aria-label="Menu" onclick="myFunction()">&#9776;</button>
 
-<!----------------------------- Admision Popup ---------------------------------------------->
-<div class="modal fade" id="admisionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">    
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">    
-            <div class="modal-header border-bottom-0">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-title text-center">
-                <h4>APPLY ONLINE</h4>
-                </div>
-                <div class="d-flex flex-column text-center">
-                <center>
-                    <form action="{% url 'course' %}#admission" enctype="multipart/form-data" method="POST" >
-                        {% csrf_token %} 
-                        <div class="form-group">
-                            <label for="Sname">Name: </label>
-                            <input type="input" name="Sname" class="form-control" id="Sname" placeholder="Student Name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="school">School: </label>
-                            <input type="input" name="school" class="form-control" id="school" placeholder="School Name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="contact">Number: </label>
-                            <input type="tel" name="contact" class="form-control" id="contact" placeholder="Contact Number" pattern="[0-9]{10}" required>
-                        </div>
-                        <label>Choose admission location:</label>
-                        <div class="form-group" style="margin-left: 5%;" >
-                            <input class="form-check-input" type="radio" name="location" id="Reddils" value="redhills" required >
-                            <label class="form-check-label" for="attendance">Wisdom @ Redhills</label><br>
-                            <input class="form-check-input" type="radio" name="location" id="Kanathur" value="kanathur" >
-                            <label class="form-check-label" for="attendance">Wisdom @ Kanathur</label>
-                        </div>
-                        <div class="form-group">
-                            <label for="Scourse">Course: </label>
-                            <select id="Scourse" name="Scourse" class="form-control">
-                                <option selected>Regular</option>
-                                <option>Spoken English</option>
-                                <option>Abacus</option>
-                                <option>Hindi Prachar Sabha</option>
-                                <option>Day Care</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="Sclass">Class: </label>
-                            <select id="Sclass" name="Sclass" class="form-control">
-                                <option selected>Choose</option>
-                                <option>KG</option>
-                                <option>I</option>
-                                <option>II</option>
-                                <option>III</option>
-                                <option>IV</option>
-                                <option>V</option>
-                                <option>VI</option>
-                                <option>VII</option>
-                                <option>VIII</option>
-                                <option>IX</option>
-                                <option>X</option>
-                                <option>XI</option>
-                                <option>XII</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="admit-mail">Email address</label>
-                            <input type="email" name="admit-mail" class="form-control" id="admit-mail" aria-describedby="emailHelp" placeholder="Enter email">
-                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                        </div>
-                        <button type="submit" class="btn btn-info btn-block btn-round">Submit</button>
-                    </form>
-                </center>    
-                </div>
-            </div>
+    <ul class="nav-links" id="nav">
+      <li><a href="{% url 'Home' %}" {% if request.path == '/' %}class="is-active"{% endif %}>Home</a></li>
+      <li><a href="{% url 'about' %}" {% if 'About' in request.path %}class="is-active"{% endif %}>About</a></li>
+      <li class="wdrop">
+        <button class="dropbtn" type="button">Courses &amp; Services</button>
+        <div class="dropdown__panel">
+          <a href="{% url 'course' %}">All Courses</a>
+          <a href="{% url 'course' %}#academics">Academics</a>
+          <a href="{% url 'course' %}#vac">Value-Added Courses</a>
+          {% if preschool_brand %}<a href="{% url 'preschool-home' %}">Preschool &amp; Playschool</a>{% endif %}
         </div>
+      </li>
+      <li class="wdrop">
+        <button class="dropbtn" type="button">Gallery</button>
+        <div class="dropdown__panel">
+          <a href="{% url 'gallery' %}">Photo Gallery</a>
+        </div>
+      </li>
+      <li><a href="{% url 'Faculty-portal' %}" {% if 'Faculty-portal' in request.path %}class="is-active"{% endif %}>Faculty Portal</a></li>
+      <li><a href="#login" onclick="loginpop()">Login</a></li>
+    </ul>
+
+    <a class="wbtn wbtn--primary wbtn--sm" href="#admission" onclick="admisionpop()">Apply Online</a>
+  </div>
+</header>
+
+<main id="main">
+{% block content %}{% endblock %}
+</main>
+
+<!----------------------------- Admission Popup ---------------------------------------------->
+<div class="modal fade" id="admisionModal" tabindex="-1" role="dialog" aria-labelledby="admisionModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header border-bottom-0">
+        <h5 class="modal-title" id="admisionModalLabel">Apply Online</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <form action="{% url 'course' %}#admission" enctype="multipart/form-data" method="POST">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="Sname">Name</label>
+            <input type="text" name="Sname" class="form-control" id="Sname" placeholder="Student name" required>
+          </div>
+          <div class="form-group">
+            <label for="school">School</label>
+            <input type="text" name="school" class="form-control" id="school" placeholder="School name" required>
+          </div>
+          <div class="form-group">
+            <label for="contact">Contact number</label>
+            <input type="tel" name="contact" class="form-control" id="contact" placeholder="10-digit number" pattern="[0-9]{10}" required>
+          </div>
+          <div class="form-group">
+            <label>Choose admission location</label>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="location" id="Reddils" value="redhills" required>
+              <label class="form-check-label" for="Reddils">Wisdom @ Redhills</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="location" id="Kanathur" value="kanathur">
+              <label class="form-check-label" for="Kanathur">Wisdom @ Kanathur</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="Scourse">Course</label>
+            <select id="Scourse" name="Scourse" class="form-control">
+              <option selected>Regular</option>
+              <option>Spoken English</option>
+              <option>Abacus</option>
+              <option>Hindi Prachar Sabha</option>
+              <option>Day Care</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="Sclass">Class</label>
+            <select id="Sclass" name="Sclass" class="form-control">
+              <option selected>Choose</option>
+              <option>KG</option><option>I</option><option>II</option><option>III</option>
+              <option>IV</option><option>V</option><option>VI</option><option>VII</option>
+              <option>VIII</option><option>IX</option><option>X</option><option>XI</option><option>XII</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="admit-mail">Email address</label>
+            <input type="email" name="admit-mail" class="form-control" id="admit-mail" aria-describedby="emailHelp" placeholder="Enter email">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+          </div>
+          <button type="submit" class="btn btn-block wbtn wbtn--primary">Submit Application</button>
+        </form>
+      </div>
     </div>
+  </div>
 </div>
 
 <!----------------------------- Login Popup ---------------------------------------------->
-<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">    
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">    
-            <div class="modal-header border-bottom-0">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header border-bottom-0">
+        <h5 class="modal-title" id="loginModalLabel">Login</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <form action="{% url 'Dashboard' %}" enctype="multipart/form-data" method="POST">
+          {% csrf_token %}
+          <div class="form-group">
+            <input type="text" class="form-control" name="loginid" id="loginid" placeholder="Login ID" required>
+          </div>
+          <div class="form-group">
+            <input type="password" class="form-control" name="lpassword" id="lpassword" placeholder="Password" required>
+          </div>
+          <div class="form-group d-flex" style="gap:1.2rem;">
+            <div class="form-check">
+              <input type="radio" class="form-check-input" name="ltype" id="ltype-s" value="student" checked required>
+              <label class="form-check-label" for="ltype-s">Student</label>
             </div>
-            <div class="modal-body">
-                <div class="form-title text-center">
-                <h4>Login</h4>
-                </div>
-                <div class="d-flex flex-column text-center">
-                    <form action="{% url 'Dashboard' %}" enctype="multipart/form-data" method="POST">
-                        {% csrf_token %} 
-                        <div class="form-group">
-                            <input type="text" class="form-control" name = "loginid" id="loginid" placeholder="Login ID..." required>
-                        </div>
-                        <div class="form-group">
-                            <input type="password" class="form-control" name="lpassword" id="lpassword" placeholder="Your password..." required>
-                        </div>
-                        <div class="form-group">
-                            <div class="form-check" style="float: left;">
-                                <input type="radio" class="form-check-input" name="ltype" id="ltype-s" value="student" checked required>
-                                <label class="form-check-label" for="ltype-s"> Student </label>
-                            </div>
-                            <div class="form-check">
-                                <input type="radio" class="form-check-input" name="ltype" id="ltype-a" value="admin" >
-                                <label  class="form-check-label" for="ltype-a"> Admin </label>
-                                
-                            </div>
-                            
-                        </div>
-
-                        <button type="submit" class="btn btn-info btn-block btn-round">Login</button>
-                    </form>
-                </div>
+            <div class="form-check">
+              <input type="radio" class="form-check-input" name="ltype" id="ltype-a" value="admin">
+              <label class="form-check-label" for="ltype-a">Admin</label>
             </div>
-        </div>
+          </div>
+          <button type="submit" class="btn btn-block wbtn wbtn--navy">Login</button>
+        </form>
+      </div>
     </div>
-</div>
-
-<!----------------------------- Body End-------------------------------------------------->	
-<!-- Footer -->
-<footer class="page-footer pt-4" style="background-color: #1f3473;">
-
-<!-- Footer Links -->
-<div class="container-fluid text-center text-md-left">
-
-  <!-- Grid row -->
-  <div class="row">
-
-    <!-- Grid column -->
-    <div class="col-md-6 mt-md-0 mt-3">
-
-      <!-- Content -->
-      <!--<h5 class="text-uppercase">Reach Us:</h5>-->
-
-      <!--<p>Wisdom @ Redhills:<br>No 2/1825, Gandhi Nagar west, Redhills, Chennai- 52 <br>Ph: 044-26323939, 9791148553</p>
-      <p>Wisdom @ Kanathur:<br>No:146, 1st floor, SH 49, near Mayajal Multiplex, Kanathur, Tamil Nadu 603112 <br>Ph: 044-27444739, 7200744739</p>-->
-
-      <table class="table-bordereless">
-        <thead>
-            <tr>
-              <th><h5 class="text-uppercase">Reach Us:</h5></th>
-              <th scope="col" style="font-size:8px ;">SCAN to PAY</th>
-            </tr>
-          </thead>
-        <tbody>
-          <tr>
-            <td><p >Wisdom @ Redhills:<br>No 2/1825, Gandhi Nagar west, Redhills, Chennai- 52 <br>Ph: 044-26323939, 9791148553</p></td>
-            <td id="pay"><br><img src="{% static 'img/qr/redhills.jpg' %}" alt="redhills qr" height="40" width="40" srcset=""></td>
-          </tr>
-          <tr>
-            <td><p >Wisdom @ Kanathur:<br>No:146, 1st floor, SH 49, near Mayajal Multiplex, Kanathur, Tamil Nadu 603112 <br>Ph: 044-27444739, 7200744739</p></td>
-            <td><img src="{% static 'img/qr/kanathur.jpg' %}" alt="redhills qr" height="40" width="40" srcset=""></td>
-          </tr>
-        </tbody>
-      </table>
-
-    </div>
-    <!-- Grid column -->
-
-    <hr class="clearfix w-100 d-md-none pb-3">
-
-    <!-- Grid column -->
-    <div class="col-md-3 mb-md-0 mb-3">
-
-      <!-- Links -->
-      <h5 class="text-uppercase">Important Links:</h5>
-
-      <ul class="list-unstyled">
-        <li>
-          <a href="{% url 'Home' %}">Home</a>
-        </li>
-        <li>
-          <a href="{% url 'Home' %}#pay">Online Payment</a>
-        </li>
-        <li>
-          <a href="{% url 'Faculty-portal' %}">Faculty-portal</a>
-        </li>
-      </ul>
-
-    </div>
-    <!-- Grid column -->
-
-    <!-- Grid column -->
-    <div class="col-md-3 mb-md-0 mb-3 connect">
-
-      <!-- Links -->
-        <h5 class="text-uppercase">Stay connected:</h5>
-        <ul class="list-unstyled">
-            <li>
-                <p>Wisdom @ Redhills:</p>
-                <!-- Facebook -->
-                <a href="https://www.facebook.com/wisdomcoachingcentre20/">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
-                    <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/>
-                </svg></a>
-                <!-- youtube -->
-                <a href="https://youtube.com/channel/UCyl8Kem2qyMJyEdai3B5hsQ">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-youtube" viewBox="0 0 16 16">
-                        <path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.007 2.007 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.007 2.007 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31.4 31.4 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.007 2.007 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A99.788 99.788 0 0 1 7.858 2h.193zM6.4 5.209v4.818l4.157-2.408L6.4 5.209z"/>
-                    </svg>
-                </a>
-                <!-- Instagram -->
-                <a href="https://www.instagram.com/invites/contact/?i=10elyz05fwbqf&utm_content=g3mac1q">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
-                        <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"/>
-                    </svg>
-                </a>
-            </li>
-            <li>
-                <p>Wisdom @ Kanathur:</p>
-                <!-- Facebook -->
-                <a href="https://www.facebook.com/wisdomcoachingcentrekanathur/">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
-                    <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/>
-                </svg></a>
-                <!-- youtube -->
-                <a href="https://youtube.com/channel/UCyl8Kem2qyMJyEdai3B5hsQ">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-youtube" viewBox="0 0 16 16">
-                        <path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.007 2.007 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.007 2.007 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31.4 31.4 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.007 2.007 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A99.788 99.788 0 0 1 7.858 2h.193zM6.4 5.209v4.818l4.157-2.408L6.4 5.209z"/>
-                    </svg>
-                </a>
-                <!-- Instagram -->
-                <a href="https://www.instagram.com/invites/contact/?i=19sa7pimb9gsc&utm_content=m663jxt">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
-                        <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z"/>
-                    </svg>
-                </a>
-            </li>
-        </ul>
-    </div>
-    <!-- Grid column -->
-
   </div>
-  <!-- Grid row -->
-
 </div>
-<!-- Footer Links -->
 
-<!-- Copyright -->
-<div class="footer-copyright text-center py-2">© 2026 Copyright:
-  <a href="{% url 'Home' %}"> Wisdom Coaching Centre</a>
-</div>
-<!-- Copyright -->
+<footer class="site-footer" id="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h3>{{ group_name }}</h3>
+        <p>Wisdom Coaching Centre delivers academic coaching, NEET preparation and value-added
+           courses across our Redhills branches.</p>
+        {% if preschool_brand %}
+          <p><a href="{% url 'preschool-home' %}">{{ preschool_brand.name }} &rarr;</a></p>
+        {% endif %}
+      </div>
+
+      {% for branch in wcc_branches %}
+      <div>
+        <h3>{{ branch.name }}</h3>
+        <ul>
+          {% if branch.address %}<li>{{ branch.address }}</li>{% endif %}
+          {% for phone in branch.phone_list %}<li><a href="tel:{{ phone }}">{{ phone }}</a></li>{% endfor %}
+          {% if branch.email %}<li><a href="mailto:{{ branch.email }}">{{ branch.email }}</a></li>{% endif %}
+          {% if branch.maps_url %}<li><a href="{{ branch.maps_url }}" target="_blank" rel="noopener">Google Maps</a></li>{% endif %}
+        </ul>
+        <div class="socials">
+          {% if branch.facebook_url %}<a href="{{ branch.facebook_url }}" target="_blank" rel="noopener" aria-label="Facebook">{% include 'institutions/_icon_facebook.svg' %}</a>{% endif %}
+          {% if branch.instagram_url %}<a href="{{ branch.instagram_url }}" target="_blank" rel="noopener" aria-label="Instagram">{% include 'institutions/_icon_instagram.svg' %}</a>{% endif %}
+          {% if branch.youtube_url %}<a href="{{ branch.youtube_url }}" target="_blank" rel="noopener" aria-label="YouTube">{% include 'institutions/_icon_youtube.svg' %}</a>{% endif %}
+        </div>
+      </div>
+      {% endfor %}
+
+      <div>
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="{% url 'Home' %}">Home</a></li>
+          <li><a href="{% url 'about' %}">About Us</a></li>
+          <li><a href="{% url 'course' %}">Courses &amp; Services</a></li>
+          <li><a href="{% url 'gallery' %}">Gallery</a></li>
+          <li><a href="{% url 'Faculty-portal' %}">Faculty Portal</a></li>
+          <li><a href="#admission" onclick="admisionpop()">Apply Online</a></li>
+        </ul>
+        <h3 style="margin-top:1.2rem;">Scan &amp; Pay</h3>
+        <div class="footer-qr">
+          <img src="{% static 'img/qr/redhills.jpg' %}" alt="Redhills payment QR">
+          <img src="{% static 'img/qr/kanathur.jpg' %}" alt="Kanathur payment QR">
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      &copy; {% now "Y" %} {{ group_name }} &mdash; Wisdom Coaching Centre. All rights reserved.
+    </div>
+  </div>
 </footer>
-<!-- Footer -->
-{% block aditionaljs %} {% endblock %}
-    {% for message in messages %}
-        <script>
-            alert("{{ message }}");
-        </script>
-    {% endfor %}
+
+{% with wa=wcc_branches.0 %}{% if wa.whatsapp_link %}
+<a class="wa-float" href="{{ wa.whatsapp_link }}" target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp">
+  {% include 'institutions/_icon_whatsapp.svg' %}<span>Chat with us</span>
+</a>
+{% endif %}{% endwith %}
+
+{% block aditionaljs %}{% endblock %}
+{% for message in messages %}<script>alert("{{ message|escapejs }}");</script>{% endfor %}
 </body>
 </html>

@@ -1,173 +1,74 @@
 {% extends 'base.html' %}
-
 {% load static %}
 
-{% block title %} About Us {% endblock %}   
-{% block link %}
-    <link rel="stylesheet" href="{% static 'css/Whomepage.css' %}">
-{% endblock %}
+{% block title %}About Wisdom Coaching Centre — Our Story & Management{% endblock %}
+{% block description %}Wisdom Coaching Centre was established on 20 June 2018 in Redhills, Chennai. Meet the management behind the {{ group_name }}.{% endblock %}
 
-{% block content %} 
-    <div class="aboutdiv" id="about">
-        
-            <div class="aboutdiv-content">
-                <p style="font-size: larger;">
-        Wisdom Coaching Centre was proudly established on June 20, 2018. For the comfort of the
-        students, <img src="{% static 'img/About_us/Logo.jpg' %}" alt="Careeers" width="150" vspace="10" hspace="10" height="auto" align="right"> the management has furnished the institute distinctively from other surrounding institutions with
-        School like infrastructure,Hassle free power supply, first aid kit, drinking water, telephone facilities to
-        communicate with parents, Photocopy machine, Rest Room facility and so on. For the benefits of the
-        students, Wisdom ensures by taking various efforts for the students’ academic growth in such way of
-        conducting all seven days class in a week, unit wise portion lecturing, subject-wise examination, drawing
-        the revised examination paper for parental attention, parent’s &amp; teachers’ meeting, tracking &amp; letting their
-        ward’s academic performance and many more.
-                </p>
-            </div>
+{% block content %}
+
+<section class="hero">
+  <div class="wrap hero__grid">
+    <div>
+      <span class="eyebrow">About Us</span>
+      <h1>Established 20 June 2018.</h1>
+      <p class="hero__lead">
+        For the comfort of students, the management has furnished the institute distinctively
+        from other surrounding institutions — school-like infrastructure, hassle-free power
+        supply, a first aid kit, drinking water, telephone facilities to reach parents, a
+        photocopy machine and rest room facilities.
+      </p>
+      <p>
+        Wisdom takes every effort towards students' academic growth: classes all seven days of
+        the week, unit-wise portion lecturing, subject-wise examinations, revised examination
+        papers drawn for parental attention, parents' and teachers' meetings, and continuous
+        tracking of each ward's academic performance.
+      </p>
+      <div class="hero__actions">
+        <a class="wbtn wbtn--primary" href="#admission" onclick="admisionpop()">Apply Online</a>
+        <a class="wbtn wbtn--ghost" href="{% url 'course' %}">Our Courses</a>
+      </div>
+    </div>
+    <div class="hero__media">
+      <img src="{% static 'img/About_us/Logo.jpg' %}" alt="Wisdom Coaching Centre" loading="lazy">
+    </div>
+  </div>
+</section>
+
+{% if wcc_team %}
+<section class="section section--white" id="management">
+  <div class="wrap">
+    <div class="section__head">
+      <span class="eyebrow">Our people</span>
+      <h2>Meet Our Management</h2>
     </div>
 
-    <!-------------------------- Institute head and founders ------------------------>
-
-    <div style="background-color: yellow;">
-        <center><h2 style="padding: 1%;"><b>Meet Our Management</b></h2></center>
-        <div class="container">
-            <div class="row">
-                <div class="col-sm" >
-                    <div style="background-color: white;">
-                    <div class="card mb-3" style="width:100%; padding: 1%; background-color:rgba(255, 255, 0, 0.452);" >
-                        <div class="row no-gutters">
-                          <div class="col-md-4">
-                            <center><img src="{% static 'img/About_us/ebi.jpg' %}" class="card-img" alt="ebinezer" style="border-radius: 100%; width: 200px;"></center>
-                          </div>
-                          <div class="col-md-8">
-                            <div class="card-body">
-                              <h5 class="card-title"><b>Prof. D. Ebinezer <br><i> Founder - WCC</i></b></h5>
-                              <p class="card-text">With over 5 years of experience in academics as a teacher and language
-                                trainer, Ebinezer believes in practical and activity based classes. He holds Master
-                                of Philosophy from University of Madras and Master of English in one of the
-                                esteemed colleges in Madras, Pachaiyappa’s College for Men.</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <!------ 2nd profile ---------->
-                    <div style="background-color: white;">
-                      <div class="card mb-3" style="width:100%; padding: 1%;background-color:rgba(255, 255, 0, 0.452);">
-                        <div class="row no-gutters">
-                          <div class="col-md-4">
-                            <center><img src="{% static 'img/About_us/aaron.jpg' %}" class="card-img" alt="aaron" style="border-radius: 100%; width: 200px;"></center>
-                          </div>
-                          <div class="col-md-8">
-                            <div class="card-body">
-                                <h5 class="card-title"><b>Mr. T. Aaron Thanasingh <br><i> Co Founder, WCC</i></b></h5>
-                              <p class="card-text">Having 10 years of experience in corporate field including Coding,
-                                    Aaron holds graduation in Business Administration. He looks after the
-                                    Administrative part and Payroll Department. He has great vision to go
-                                    further for the growth and welfare of the students’ community as he
-                                    newly steps into the Educational field.</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <!---- 3rd profile -->
-                    <div style="background-color: white;">
-                      <div class="card mb-3" style="width:100%; padding: 1%;background-color:rgba(255, 255, 0, 0.452);">
-                        <div class="row no-gutters">
-                          <div class="col-md-4">
-                            <center><img src="{% static 'img/About_us/jansi.jpg' %}" class="card-img" alt="jansi" style="border-radius: 100%; width: 200px;"></center>
-                          </div>
-                          <div class="col-md-8">
-                            <div class="card-body">
-                                <h5 class="card-title"><b>Mrs. Jansi D Aaron <br><i> Director , WCC</i></b></h5>
-                              <p class="card-text" >Having graduated in medicine, Jansi approaches students psychologically and often
-                                motivates them mentally. She holds Nursing from one of the top most medical Universities
-                                in India, Sri Ramachandra University, Chennai.
-                              </p>
-        
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <!---- 4th profile -->
-                    <div style="background-color: white;">
-                      <div class="card mb-3" style="width:100%; padding: 1%;background-color:rgba(255, 255, 0, 0.452);">
-                        <div class="row no-gutters">
-                          <div class="col-md-4">
-                            <center><img src="{% static 'img/About_us/dency.jpg' %}" class="card-img" alt="dency" style="border-radius: 100%; width: 200px;"></center>
-                          </div>
-                          <div class="col-md-8">
-                            <div class="card-body">
-                                <h5 class="card-title"><b>Mrs. C. Dency Ebinezer  <br><i> Director, WCC</i></b></h5>
-                              <p class="card-text">Dency holds a Masters Degree in Computer Science and is also a Montessori Diplomat. She
-                                is a Kindergarten Expert who trains the children in an active based classroom at Redhills
-                                Wing. In addition to it, she tracks and manages the students’ academic performance and
-                                ensures a healthy relationship with parents regarding students’ performance.
-                              </p>
-        
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <!---- 5th profile -->
-                    <div style="background-color: white;">
-                      <div class="card mb-3" style="width:100%; padding: 1%;background-color:rgba(255, 255, 0, 0.452);">
-                        <div class="row no-gutters">
-                          <div class="col-md-4">
-                            <center><img src="{% static 'img/About_us/bain.jpg' %}" class="card-img" alt="bain" style="border-radius: 100%; width: 200px;"></center>
-                          </div>
-                          <div class="col-md-8">
-                            <div class="card-body">
-                                <h5 class="card-title"><b>Prof. G. J. Bain  <br><i> Academic In-Charge @ Redhills, WCC</i></b></h5>
-                              <p class="card-text">Bain holds a Master of Engineering in Manufacturing Systems and Management from Anna
-                                University. Previously, he completed his Bachelor’s Degree in RMD Engineering College.
-                                Currently, he does research for his Doctoral Degree in Anna University. Adding to his
-                                profile he has published many papers both in Journals and International Conferences.
-                                He has been with us since 2019 as Academic In-Charge, sharing his ideas and executing
-                                those for the development of Students’ Community. He is expert in Mathematics,
-                                Science and Engineering with Physics. Under his supervision, Wisdom conducted an
-                                Exhibition titled <a href="{% url 'gallery' %}">“WISDOM EXPO 2021”</a> 
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <!---- 6th profile -->
-                    <div style="background-color: white;">
-                      <div class="card mb-3" style="width:100%; padding: 1%;background-color:rgba(255, 255, 0, 0.452);display: none;">
-                        <div class="row no-gutters">
-                          <div class="col-md-4">
-                            <center><img src="{% static 'img/About_us/rosy.jpg' %}" class="card-img" alt="rosy" style="border-radius: 100%; width: 200px;"></center>
-                          </div>
-                          <div class="col-md-8">
-                            <div class="card-body">
-                                <h5 class="card-title"><b>Dr. A. Rosy <br><i> Academic In-Charge @ Kanathur, WCC</i></b></h5>
-                              <p class="card-text">Rosy has completed her Doctoral Degree from Anna University. Earlier, she completed her
-                                M.Sc Physics in one of the monumental colleges in Chennai, Loyola College and B.Sc Physics
-                                in Fatima College, Madurai in 2010.
-                                She has wide experience in the teaching field especially as NEET Faculty and made many
-                                students hit on it. Having 10 years of experience in teaching, Rosy takes up the role of
-                                Academic In-Charge of our Kanathur Wing.
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <!------- End of list ----------->        
-                </div>
-            </div>
+    <div class="wcard-grid" style="max-width:900px;margin-inline:auto;">
+      {% for member in wcc_team %}
+      <article class="wcard">
+        <div class="wcard__media" style="aspect-ratio:1;">
+          {% if member.photo %}
+            <img src="{{ member.photo.url }}" alt="{{ member.name }}" loading="lazy">
+          {% elif member.photo_static %}
+            <img src="{% static member.photo_static %}" alt="{{ member.name }}" loading="lazy">
+          {% endif %}
         </div>
-        
+        <div class="wcard__body">
+          <h3>{{ member.name }}</h3>
+          {% if member.role %}<span class="wcard__tag">{{ member.role }}</span>{% endif %}
+          {% if member.bio %}<p>{{ member.bio }}</p>{% endif %}
+        </div>
+      </article>
+      {% endfor %}
     </div>
-    <div >
-			<img class="d-block w-100 responsive-size-image" src="{% static 'img/About_us/careers.png' %}" alt="Careeers"  >
-		</div>
+  </div>
+</section>
+{% endif %}
 
-
-    
+<section class="section">
+  <div class="wrap">
+    <img src="{% static 'img/About_us/careers.png' %}" alt="Careers at Wisdom Coaching Centre"
+         loading="lazy" style="width:100%;border-radius:18px;box-shadow:var(--shadow);">
+  </div>
+</section>
 
 {% endblock %}

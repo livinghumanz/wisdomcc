@@ -1,183 +1,360 @@
 {% extends 'base.html' %}
-
 {% load static %}
 
-{% block title %} Wisdom Coaching Centre {% endblock %}
-
-{% block link %}
-<link rel="stylesheet" href="{% static 'css/Whomepage.css' %}?v=2">
-<style>
-
-	@media screen and (max-width: 600px) {
-	#about iframe{
-		width: auto;
-		height: auto;
-	}
-	}
-	
-</style>
-{% endblock %}
+{% block title %}Wisdom Coaching Centre — Tuition, NEET Coaching & Value-Added Courses in Redhills, Chennai{% endblock %}
+{% block description %}Wisdom Coaching Centre, part of the {{ group_name }}. Tuition and one-to-one sessions, NEET coaching, spoken English, Hindi Prachar Sabha, Abacus, daycare and more across our Redhills branches.{% endblock %}
 
 {% block content %}
 
-<!--------------------------- Body Start --------------------------------------->
-<!---------------------------------- Home Page Slider ---------------------------->
-	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" >
-		<ol class="carousel-indicators">
-		  <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-		  <!--<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>-->
-		  <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-		  <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
-		  <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
-		  <!--<li data-target="#carouselExampleIndicators" data-slide-to="5"></li>-->
-		</ol>
-		<div class="carousel-inner">
-		  <!-- <div class="carousel-item">
-			<img class="d-block w-100 responsive-size-image" src="{% static 'img/home_slider/opening1.jpg' %}" alt="First slide"  >
-		  </div> --->
-		  <div class="carousel-item active">
-			<!-- <img class="d-block w-100 responsive-size-image" src="{% static 'img/home_slider/opening1.jpg' %}" alt="First slide"  > -->
-			<img class="d-block w-100 responsive-size-image" src="{% static 'img/home_slider/wisdomccBanner.jpg' %}" alt="First slide" >
-		  </div>
-		  <div class="carousel-item">
-			<img class="d-block w-100 responsive-size-image" src="{% static 'img/home_slider/Expo_infra.jpg' %}" alt="Third slide" >
-		  </div>
-		  <div class="carousel-item">
-			<img class="d-block w-100 responsive-size-image" src="{% static 'img/home_slider/wisdom_infra.jpg' %}" alt="Third slide" >
-		  </div>
-		  <div class="carousel-item">
-			<img class="d-block w-100 responsive-size-image" src="{% static 'img/home_slider/wisdom_dcinvite.jpg' %}" alt="Third slide" >
-		  </div>
-		  <!--<div class="carousel-item">
-			<img class="d-block w-100 responsive-size-image" src="{% static 'img/home_slider/WisdomAd.jpg' %}" alt="Second slide" >
-		  </div>-->
-		  
-		</div>
-		<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev" >
-		  <div style="padding: 10%; align-items:center;background-color: black;" >
-		  <span class="carousel-control-prev-icon" aria-hidden="true" ></span>
-		  <span class="sr-only">Previous</span>
-		  </div>
-		</a>
-		<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-		  <div style="padding: 10%; align-items:center;background-color: black;">
-		  <span class="carousel-control-next-icon" aria-hidden="true" ></span>
-		  <span class="sr-only" >Next</span>
-		  </div>
-		</a>
-	  </div>
-<!----------------------------- About us ------------------------------------------------>
+<!-- ---------------------------------- Hero ---------------------------------- -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero__center">
+      <span class="eyebrow">{{ group_name }}</span>
+      <h1>Two institutions. One commitment to your child.</h1>
+      <p class="hero__lead">
+        From the first day of play school to the last exam before college — the Wisdom Group
+        has a place for every stage of your child's learning.
+      </p>
+      <div class="hero__stats hero__stats--center">
+        <div class="hero__stat"><strong>Since 2018</strong><span>Serving Redhills &amp; Chennai</span></div>
+        <div class="hero__stat"><strong>Age 2 to 12th</strong><span>Play school to board exams</span></div>
+        <div class="hero__stat"><strong>7 days</strong><span>Classes every week</span></div>
+      </div>
+    </div>
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 283.5 27.8" preserveAspectRatio="xMidYMax slice" style="background-color:#0ec7a7;">
-  <path d="M0 0v6.7c1.9-.8 4.7-1.4 8.5-1 9.5 1.1 11.1 6 11.1 6s2.1-.7 4.3-.2c2.1.5 2.8 2.6 2.8 2.6s.2-.5 1.4-.7c1.2-.2 1.7.2 1.7.2s0-2.1 1.9-2.8c1.9-.7 3.6.7 3.6.7s.7-2.9 3.1-4.1 4.7 0 4.7 0 1.2-.5 2.4 0 1.7 1.4 1.7 1.4h1.4c.7 0 1.2.7 1.2.7s.8-1.8 4-2.2c3.5-.4 5.3 2.4 6.2 4.4.4-.4 1-.7 1.8-.9 2.8-.7 4 .7 4 .7s1.7-5 11.1-6c9.5-1.1 12.3 3.9 12.3 3.9s1.2-4.8 5.7-5.7c4.5-.9 6.8 1.8 6.8 1.8s.6-.6 1.5-.9c.9-.2 1.9-.2 1.9-.2s5.2-6.4 12.6-3.3c7.3 3.1 4.7 9 4.7 9s1.9-.9 4 0 2.8 2.4 2.8 2.4 1.9-1.2 4.5-1.2 4.3 1.2 4.3 1.2.2-1 1.4-1.7 2.1-.7 2.1-.7-.5-3.1 2.1-5.5 5.7-1.4 5.7-1.4 1.5-2.3 4.2-1.1c2.7 1.2 1.7 5.2 1.7 5.2s.3-.1 1.3.5c.5.4.8.8.9 1.1.5-1.4 2.4-5.8 8.4-4 7.1 2.1 3.5 8.9 3.5 8.9s.8-.4 2 0 1.1 1.1 1.1 1.1 1.1-1.1 2.3-1.1 2.1.5 2.1.5 1.9-3.6 6.2-1.2 1.9 6.4 1.9 6.4 2.6-2.4 7.4 0c3.4 1.7 3.9 4.9 3.9 4.9s3.3-6.9 10.4-7.9 11.5 2.6 11.5 2.6.8 0 1.2.2c.4.2.9.9.9.9s4.4-3.1 8.3.2c1.9 1.7 1.5 5 1.5 5s.3-1.1 1.6-1.4c1.3-.3 2.3.2 2.3.2s-.1-1.2.5-1.9 1.9-.9 1.9-.9-4.7-9.3 4.4-13.4c5.6-2.5 9.2.9 9.2.9s5-6.2 15.9-6.2 16.1 8.1 16.1 8.1.7-.2 1.6-.4V0H0z" style="fill: white;"></path>
-</svg>
-	<div class="aboutdiv" id="about">
-		
-			<div class="aboutdiv-content" style="overflow: hidden;" >
+    <!-- The two brands, side by side. Hovering lifts the card and pops the
+         children out from behind its top edge. -->
+    <div class="chooser">
 
-			<div class="row">
-			<div class="col-lg-7">
-				<div class="card bg-light">
-					<div class="card-body" 
-					style="background-image: url('{% static 'img/home_slider/bg_color.jpg' %}'); background-size: cover; background-position: center;">
+      <a class="choice choice--wcc" href="{% url 'course' %}">
+        <span class="choice__pops" aria-hidden="true">
+          <span class="pop"><img src="{% static 'img/home_slider/prakash_d.jpg' %}" alt="" loading="lazy"></span>
+          <span class="pop"><img src="{% static 'img/home_slider/akash_m.jpg' %}" alt="" loading="lazy"></span>
+          <span class="pop"><img src="{% static 'img/home_slider/jaanvi_d.jpg' %}" alt="" loading="lazy"></span>
+          <span class="pop pop--mint">🎓</span>
+        </span>
 
-						<p style="font-size: larger; text-align: justify;">
-							Wisdom Coaching Centre (WCC) facilitates superior lecturing for all subjects of school stream,
-							training and soft skills programmes for individuals interested in an <!--<img src="{% static 'img/home_slider/Children-Celebrating.jpg' %}" alt="Careeers" width="500" vspace="10" hspace="10" height="250" align="right">-->
-							upgraded grade in the institutions where they are studying. Throughout the year we offer various continuing education courses, seminars
-							and cycle test based learning via live events by the well experienced faculty members of different
-							criteria. This sprawling institution provides a holistic education in an ambiance that makes no
-							compromise on discipline, dedication and commitment. It strives to inculcate the spirit of learning in the
-							campus offering state of art facilities to the students. Our Coaching Centre ensures that the students, who
-							pass out of the school, turn out to be academically brilliant, morally upright and empowered individuals.
-						</p>
-					</div>
-				</div>
-			</div>
-			<div class="col-lg-4">
-				<iframe width="560" height="315" src="https://www.youtube.com/embed/oypckKggnos?si=E7VEpGisReFnCEAF" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-			</div>
-			</div>
+        <span class="choice__top">
+          <span class="choice__logo"><img src="{% static 'img/home_slider/wisdomlogo.png' %}" alt=""></span>
+          <span>
+            <span class="choice__kicker">Tuition &amp; Coaching</span>
+            <span class="choice__name">Wisdom Coaching Centre</span>
+          </span>
+        </span>
 
-			</div>
-	</div>
-<!----------------------------- Courses/service ------------------------------------------>
+        <p class="choice__desc">
+          School-stream tuition, NEET preparation and value-added courses for Class 8 to 12,
+          with academic progress tracked and shared with parents all year.
+        </p>
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 283.5 27.8" preserveAspectRatio="xMidYMax slice" style="margin-top: -2px;">
-  <path style="fill: #0ec7a7 ;" d="M0 0v6.7c1.9-.8 4.7-1.4 8.5-1 9.5 1.1 11.1 6 11.1 6s2.1-.7 4.3-.2c2.1.5 2.8 2.6 2.8 2.6s.2-.5 1.4-.7c1.2-.2 1.7.2 1.7.2s0-2.1 1.9-2.8c1.9-.7 3.6.7 3.6.7s.7-2.9 3.1-4.1 4.7 0 4.7 0 1.2-.5 2.4 0 1.7 1.4 1.7 1.4h1.4c.7 0 1.2.7 1.2.7s.8-1.8 4-2.2c3.5-.4 5.3 2.4 6.2 4.4.4-.4 1-.7 1.8-.9 2.8-.7 4 .7 4 .7s1.7-5 11.1-6c9.5-1.1 12.3 3.9 12.3 3.9s1.2-4.8 5.7-5.7c4.5-.9 6.8 1.8 6.8 1.8s.6-.6 1.5-.9c.9-.2 1.9-.2 1.9-.2s5.2-6.4 12.6-3.3c7.3 3.1 4.7 9 4.7 9s1.9-.9 4 0 2.8 2.4 2.8 2.4 1.9-1.2 4.5-1.2 4.3 1.2 4.3 1.2.2-1 1.4-1.7 2.1-.7 2.1-.7-.5-3.1 2.1-5.5 5.7-1.4 5.7-1.4 1.5-2.3 4.2-1.1c2.7 1.2 1.7 5.2 1.7 5.2s.3-.1 1.3.5c.5.4.8.8.9 1.1.5-1.4 2.4-5.8 8.4-4 7.1 2.1 3.5 8.9 3.5 8.9s.8-.4 2 0 1.1 1.1 1.1 1.1 1.1-1.1 2.3-1.1 2.1.5 2.1.5 1.9-3.6 6.2-1.2 1.9 6.4 1.9 6.4 2.6-2.4 7.4 0c3.4 1.7 3.9 4.9 3.9 4.9s3.3-6.9 10.4-7.9 11.5 2.6 11.5 2.6.8 0 1.2.2c.4.2.9.9.9.9s4.4-3.1 8.3.2c1.9 1.7 1.5 5 1.5 5s.3-1.1 1.6-1.4c1.3-.3 2.3.2 2.3.2s-.1-1.2.5-1.9 1.9-.9 1.9-.9-4.7-9.3 4.4-13.4c5.6-2.5 9.2.9 9.2.9s5-6.2 15.9-6.2 16.1 8.1 16.1 8.1.7-.2 1.6-.4V0H0z"></path>
-</svg>
-	<div class="course-service" style="background-color: white;">
-		<center><h1 style="font-family: 'Fredoka One',cursive; color: black;" >Words from Guardians</h1></center>
-		<div>
-			<div id="testonimals" style="padding:3%;">
-				<div class="container">
-					<div class="row">
+        <span class="choice__meta">
+          <span class="choice__chip">NEET</span>
+          <span class="choice__chip">Class 8&ndash;12</span>
+          <span class="choice__chip">Spoken English</span>
+          <span class="choice__chip">Abacus</span>
+        </span>
 
-						<div class="col-sm">
-							<div class="card bg-dark mb-3" style="width: auto; color: black; background-color: #fff267 !important; border-radius: 3%;">
-								<div class="card-header">
-									<img src="{% static 'img/home_slider/prakash_d.jpg' %}" height="70px" width="70px" style="border-radius: 50%;">
-									<span>-- Parent to Prakash of XII &amp; Bharathi of XI</span>
-								</div>
-								<div class="card-body">
-								  
-								  <p class="card-text"><span class="open-quote">“</span>The way the management tracks the academics of my children impressed
-									me and suggested WISDOM to my relatives<span class="close-quote">”</span></p>
-								</div>
-							</div>
-						</div>
+        <span class="choice__cta">Explore Courses <span aria-hidden="true">&rarr;</span></span>
+      </a>
 
-						<div class="col-sm">
-							<div class="card bg-dark mb-3" style="width: auto; color: black; background-color: #fff267 !important; border-radius: 3%;">
-								<div class="card-header">
-									<img src="{% static 'img/home_slider/akash_m.jpg' %}" height="70px" width="70px" style="border-radius: 50%;">
-									<span>-- Parent to Jai Akash of XI Std</span>
-								</div>
-								<div class="card-body">
-								  
-								  <p class="card-text"><span class="open-quote">“</span>WISDOM COACHING CENTRE is the TRUST of parents<span class="close-quote">”</span></p>
-								</div>
-							</div>
-						</div>
+      <a class="choice choice--kids" href="{% if preschool_brand %}{% url 'preschool-home' %}{% else %}{% url 'Home' %}{% endif %}">
+        <span class="choice__pops" aria-hidden="true">
+          <span class="pop pop--sun">🎨</span>
+          <span class="pop pop--berry">🧸</span>
+          <span class="pop pop--sky">🎈</span>
+          <span class="pop pop--mint">📚</span>
+        </span>
 
+        <span class="choice__top">
+          <span class="choice__logo">
+            {% if preschool_brand.logo %}<img src="{{ preschool_brand.logo.url }}" alt="">{% else %}🐼{% endif %}
+          </span>
+          <span>
+            <span class="choice__kicker">Early Years</span>
+            <span class="choice__name">{{ preschool_brand.name|default:"London Kids International Play School" }}</span>
+          </span>
+        </span>
 
-						<div class="col-sm">
-							<div class="card bg-dark mb-3" style="width: auto; color: black; background-color: #fff267 !important; border-radius: 3%;">
-								<div class="card-header">
-									<img src="{% static 'img/home_slider/jaanvi_d.jpg' %}" height="70px" width="70px" style="border-radius: 50%;" >
-									<span>--Parent to Jaanvi of II Std</span>
-								</div>
-								<div class="card-body">
-								  
-								  <p class="card-text"><span class="open-quote">“</span>I really worried about my 5 Year old daughter’s studies when Corona hit
-									the country. Later I come to know about WISDOM and its In-charge Mam
-									who is a certified Kinder Garden trainer. Now I am very happy that my
-									daughter could read and write her class works. I thank the management for
-									their continous effort inorder to make my daughter to keep in track.<span class="close-quote">”</span></p>
-								</div>
-							</div>
-						</div>
+        <p class="choice__desc">
+          {{ preschool_brand.tagline|default:"Where Little Minds Grow, Explore, and Shine." }}
+          Play-based learning and a dedicated speech curriculum for ages 2 to 6.
+        </p>
 
-						
+        <span class="choice__meta">
+          <span class="choice__chip">Play Group</span>
+          <span class="choice__chip">Nursery</span>
+          <span class="choice__chip">Junior KG</span>
+          <span class="choice__chip">Senior KG</span>
+        </span>
 
-					</div>
-				</div>
+        <span class="choice__cta">Visit {{ preschool_brand.short_name|default:"London Kids" }} <span aria-hidden="true">&rarr;</span></span>
+      </a>
 
-			</div>
-		</div>
-	</div>
+    </div>
 
-<!----------------------------- Payment and Admission ------------------------------------>
-	<div class="container-fluid" style="display: none;">
-		<div class="row">
-			<div class="col col-lg-7" id="pay" style="padding:3%;border: 1px solid blue;">
-				<h1> SCAN &amp; PAY </h1>
-				<div style="margin-left: 3%; height: 200px; background-color: black; width: 50%;">
-					<center><h1 style="color: white;padding-top: 20%;">COMING SOON</h1></center>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="hero__actions" style="justify-content:center;margin-top:2.4rem;">
+      <a class="wbtn wbtn--primary" href="#admission" onclick="admisionpop()">Apply Online</a>
+      <a class="wbtn wbtn--ghost" href="#branches">Find a Branch</a>
+    </div>
+  </div>
+</section>
 
+<!-- ------------------------ Full-width slider ------------------------ -->
+<section class="slider-band">
+  <div class="wrap">
+    <div id="carouselExampleIndicators" class="carousel slide slider-shell" data-ride="carousel" data-interval="5000">
+      <ol class="carousel-indicators">
+        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+      </ol>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="{% static 'img/home_slider/wisdomccBanner.jpg' %}" alt="Wisdom Coaching Centre — admissions open">
+        </div>
+        <div class="carousel-item">
+          <img src="{% static 'img/home_slider/wisdom_infra.jpg' %}" alt="Our campus and classrooms" loading="lazy">
+        </div>
+        <div class="carousel-item">
+          <img src="{% static 'img/home_slider/Expo_infra.jpg' %}" alt="Wisdom Expo" loading="lazy">
+        </div>
+        <div class="carousel-item">
+          <img src="{% static 'img/home_slider/wisdom_dcinvite.jpg' %}" alt="Day care at Wisdom" loading="lazy">
+        </div>
+      </div>
+      <button class="carousel-nav carousel-nav--prev" type="button" data-target="#carouselExampleIndicators" data-slide="prev" aria-label="Previous slide">&#8249;</button>
+      <button class="carousel-nav carousel-nav--next" type="button" data-target="#carouselExampleIndicators" data-slide="next" aria-label="Next slide">&#8250;</button>
+    </div>
+  </div>
+</section>
+
+<!-- ---------------------------------- About ---------------------------------- -->
+<section class="section section--white" id="about">
+  <div class="wrap">
+    <div class="row align-items-center">
+      <div class="col-lg-7">
+        <span class="eyebrow">About Wisdom</span>
+        <h2>A holistic education, in an ambiance built for learning.</h2>
+        <p>
+          Wisdom Coaching Centre (WCC) facilitates superior lecturing for all subjects of the school
+          stream, plus training and soft-skills programmes for individuals looking for an upgraded
+          grade at the institutions where they study. Throughout the year we offer continuing
+          education courses, seminars and cycle-test based learning delivered by experienced faculty.
+        </p>
+        <p>
+          This sprawling institution provides a holistic education in an ambiance that makes no
+          compromise on discipline, dedication and commitment. We ensure that students who pass out
+          turn out to be academically brilliant, morally upright and empowered individuals.
+        </p>
+        <a class="wbtn wbtn--ghost" href="{% url 'about' %}#management">Meet our management</a>
+      </div>
+      <div class="col-lg-5 mt-4 mt-lg-0">
+        <div class="embed-responsive embed-responsive-16by9" style="border-radius:18px;overflow:hidden;box-shadow:var(--shadow-lift);">
+          <iframe class="embed-responsive-item"
+                  src="https://www.youtube.com/embed/oypckKggnos"
+                  title="Wisdom Coaching Centre" frameborder="0" loading="lazy"
+                  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ---------------------------------- Courses ---------------------------------- -->
+<section class="section" id="courses">
+  <div class="wrap">
+    <div class="section__head">
+      <span class="eyebrow">What we offer</span>
+      <h2>Courses &amp; Services</h2>
+      <p>From NEET preparation to spoken English, Abacus and daycare — everything under one roof.</p>
+    </div>
+
+    <div class="wcard-grid wcard-grid--3">
+      <article class="wcard">
+        <div class="wcard__media"><img src="{% static 'img/courses/wisdomNeet.jpg' %}" alt="NEET coaching" loading="lazy"></div>
+        <div class="wcard__body">
+          <span class="wcard__tag">NEET</span>
+          <h3>NEET Crash Course &amp; Repeaters</h3>
+          <p>Forty days of intensive daily coaching across Physics, Chemistry, Botany and Zoology,
+             with NEET-pattern tests throughout and a full revision track for repeaters.</p>
+        </div>
+      </article>
+
+      <article class="wcard">
+        <div class="wcard__media"><img src="{% static 'img/courses/regclass.jpg' %}" alt="Regular school coaching" loading="lazy"></div>
+        <div class="wcard__body">
+          <span class="wcard__tag">Class 8&ndash;12</span>
+          <h3>Regular School Coaching</h3>
+          <p>Academic coaching across State Board, CBSE, ICSE and IGCSE curricula, including
+             one-to-one sessions where a student needs focused attention.</p>
+        </div>
+      </article>
+
+      <article class="wcard">
+        <div class="wcard__media"><img src="{% static 'img/courses/mocktest.jpg' %}" alt="Mock tests" loading="lazy"></div>
+        <div class="wcard__body">
+          <span class="wcard__tag">Practice</span>
+          <h3>Weekly Mock Tests</h3>
+          <p>Ten mock tests under real exam conditions, building accuracy, confidence and
+             time management before it matters.</p>
+        </div>
+      </article>
+
+      <article class="wcard">
+        <div class="wcard__media"><img src="{% static 'img/courses/valueaddedcourse.jpg' %}" alt="Value-added courses" loading="lazy"></div>
+        <div class="wcard__body">
+          <span class="wcard__tag">VAC</span>
+          <h3>Value-Added Courses</h3>
+          <p>Spoken English, communication training and life skills that go beyond the syllabus —
+             plus music, drawing and yoga as part of a rounded programme.</p>
+        </div>
+      </article>
+
+      <article class="wcard">
+        <div class="wcard__media"><img src="{% static 'img/courses/hindi.jpg' %}" alt="Hindi courses" loading="lazy"></div>
+        <div class="wcard__body">
+          <span class="wcard__tag">Language</span>
+          <h3>Hindi Prachar Sabha &amp; Spoken Hindi</h3>
+          <p>Structured Hindi courses through Dakshin Bharat Hindi Prachar Sabha, alongside
+             conversational spoken Hindi.</p>
+        </div>
+      </article>
+
+      <article class="wcard">
+        <div class="wcard__media"><img src="{% static 'img/courses/abacus.jpg' %}" alt="Abacus training" loading="lazy"></div>
+        <div class="wcard__body">
+          <span class="wcard__tag">Skills</span>
+          <h3>Abacus Training</h3>
+          <p>Mental arithmetic that strengthens concentration, memory and problem-solving from
+             a tender age.</p>
+        </div>
+      </article>
+    </div>
+
+    <div style="text-align:center;margin-top:2.2rem;">
+      <a class="wbtn wbtn--navy" href="{% url 'course' %}">See all courses &amp; services</a>
+    </div>
+  </div>
+</section>
+
+<!-- ------------------------- Cross-brand promo ------------------------- -->
+{% if preschool_brand %}
+<section class="section section--white">
+  <div class="wrap">
+    <div class="brand-promo">
+      <span class="brand-promo__mark" aria-hidden="true">
+        {% if preschool_brand.logo %}<img src="{{ preschool_brand.logo.url }}" alt="">{% else %}🐼{% endif %}
+      </span>
+      <div>
+        <span class="eyebrow">Also part of the group</span>
+        <h3>{{ preschool_brand.name }}</h3>
+        <p>{{ preschool_brand.tagline|default:"Early years education for ages 2 to 6." }}
+           Play Group, Nursery, Junior KG and Senior KG — admissions open.</p>
+      </div>
+      <a class="wbtn wbtn--amber" href="{% url 'preschool-home' %}">Visit {{ preschool_brand.short_name }}</a>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ---------------------------------- Testimonials ---------------------------------- -->
+<section class="section" id="testimonials">
+  <div class="wrap">
+    <div class="section__head">
+      <span class="eyebrow">Words from guardians</span>
+      <h2>What parents tell us</h2>
+    </div>
+    <div class="wcard-grid wcard-grid--3">
+      <blockquote class="quote">
+        <p class="quote__text">&ldquo;The way the management tracks the academics of my children impressed
+          me, and I suggested WISDOM to my relatives.&rdquo;</p>
+        <div class="quote__who">
+          <img src="{% static 'img/home_slider/prakash_d.jpg' %}" alt="" loading="lazy">
+          <span>Parent to Prakash (XII) &amp; Bharathi (XI)</span>
+        </div>
+      </blockquote>
+
+      <blockquote class="quote">
+        <p class="quote__text">&ldquo;WISDOM COACHING CENTRE is the TRUST of parents.&rdquo;</p>
+        <div class="quote__who">
+          <img src="{% static 'img/home_slider/akash_m.jpg' %}" alt="" loading="lazy">
+          <span>Parent to Jai Akash (XI Std)</span>
+        </div>
+      </blockquote>
+
+      <blockquote class="quote">
+        <p class="quote__text">&ldquo;I really worried about my 5-year-old daughter's studies when Corona hit
+          the country. Later I came to know about WISDOM and its In-charge Mam, a certified
+          Kindergarten trainer. Now I am very happy that my daughter can read and write her
+          class work.&rdquo;</p>
+        <div class="quote__who">
+          <img src="{% static 'img/home_slider/jaanvi_d.jpg' %}" alt="" loading="lazy">
+          <span>Parent to Jaanvi (II Std)</span>
+        </div>
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- ---------------------------------- Branches ---------------------------------- -->
+{% if wcc_branches %}
+<section class="section section--white" id="branches">
+  <div class="wrap">
+    <div class="section__head">
+      <span class="eyebrow">Find us</span>
+      <h2>Our Branches</h2>
+      <p>Visit us, call us, or message us on WhatsApp — whichever is easiest.</p>
+    </div>
+    <div class="wcard-grid wcard-grid--2">
+      {% for branch in wcc_branches %}
+      <article class="branch-card">
+        <h3>{{ branch.name }}</h3>
+        {% if branch.address %}
+        <p class="branch-card__row">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/></svg>
+          <span>{{ branch.address }}</span>
+        </p>
+        {% endif %}
+        {% for phone in branch.phone_list %}
+        <p class="branch-card__row">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58z"/></svg>
+          <a href="tel:{{ phone }}">{{ phone }}</a>
+        </p>
+        {% endfor %}
+        {% if branch.maps_url %}
+        <p class="branch-card__row">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true"><path d="M15.817.113A.5.5 0 0 1 16 .5v14a.5.5 0 0 1-.402.49l-5 1a.5.5 0 0 1-.196 0L5.5 15.01l-4.902.98A.5.5 0 0 1 0 15.5v-14a.5.5 0 0 1 .402-.49l5-1a.5.5 0 0 1 .196 0L10.5.99l4.902-.98a.5.5 0 0 1 .415.103M10 1.91l-4-.8v12.98l4 .8z"/></svg>
+          <a href="{{ branch.maps_url }}" target="_blank" rel="noopener">View on Google Maps</a>
+        </p>
+        {% endif %}
+        <div class="socials">
+          {% if branch.facebook_url %}<a href="{{ branch.facebook_url }}" target="_blank" rel="noopener" aria-label="Facebook">{% include 'institutions/_icon_facebook.svg' %}</a>{% endif %}
+          {% if branch.instagram_url %}<a href="{{ branch.instagram_url }}" target="_blank" rel="noopener" aria-label="Instagram">{% include 'institutions/_icon_instagram.svg' %}</a>{% endif %}
+          {% if branch.youtube_url %}<a href="{{ branch.youtube_url }}" target="_blank" rel="noopener" aria-label="YouTube">{% include 'institutions/_icon_youtube.svg' %}</a>{% endif %}
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ---------------------------------- CTA ---------------------------------- -->
+<section class="section section--navy">
+  <div class="wrap section__head" style="margin-bottom:0;">
+    <span class="eyebrow">Admissions open</span>
+    <h2>Ready to get started?</h2>
+    <p>Apply online in a minute, and we'll call you back to talk through the right programme.</p>
+    <div class="hero__actions" style="justify-content:center;">
+      <a class="wbtn wbtn--primary" href="#admission" onclick="admisionpop()">Apply Online</a>
+      {% with b=wcc_branches.0 %}{% if b.phone_list %}
+        <a class="wbtn wbtn--ghost" href="tel:{{ b.phone_list.0 }}">Call {{ b.phone_list.0 }}</a>
+      {% endif %}{% endwith %}
+    </div>
+  </div>
+</section>
 
 {% endblock %}
