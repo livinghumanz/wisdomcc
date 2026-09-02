@@ -1,26 +1,27 @@
-/* Toggle between adding and removing the "responsive" class to the navbar when the user clicks on the icon */
+/* Mobile nav toggle. The old version looked up a #footer element that did not
+   exist and threw before opening the menu; the footer now carries that id. */
 function myFunction() {
-  var x = document.getElementById("nav");
-  var foo = document.getElementById("footer");
-  if (x.className == "wnavbar") {
-    x.className += " responsive";
-    foo.style.display='none';
-  } else {
-    x.className = "wnavbar";
-    foo.style.display='block';
-  }
-} 
+  var nav = document.getElementById("nav");
+  var toggle = document.querySelector(".nav-toggle");
+  if (!nav) { return; }
+  var open = nav.classList.toggle("is-open");
+  if (toggle) { toggle.setAttribute("aria-expanded", open ? "true" : "false"); }
+}
 
-/*********** Login modal popup js ******************/
-function loginpop() { 
+/*********** Modal popups ******************/
+function loginpop() {
   $('#loginModal').modal('show');
-  $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-  })
 }
-function admisionpop() { 
+
+function admisionpop() {
   $('#admisionModal').modal('show');
-  $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-  })
 }
+
+/* Close the mobile menu after following a link inside it. */
+document.addEventListener("DOMContentLoaded", function () {
+  var nav = document.getElementById("nav");
+  if (!nav) { return; }
+  nav.addEventListener("click", function (event) {
+    if (event.target.tagName === "A") { nav.classList.remove("is-open"); }
+  });
+});
