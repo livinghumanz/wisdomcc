@@ -24,7 +24,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.dateparse import parse_date
 
-from ..auth_utils import staff_required
+from ..auth_utils import feature_required, portal_required
 from ..choices import EXAM_TYPE_CHOICES
 from ..models import MarkEntry, Staff, Student, Subject
 
@@ -142,7 +142,8 @@ def _save_rows(request, student):
 # screens
 # ---------------------------------------------------------------------------
 
-@staff_required
+@portal_required
+@feature_required('marks')
 def marks_screen(request):
     students = Student.objects.filter(active_status='active')
     subjects = list(Subject.objects.filter(is_active=True))
@@ -191,7 +192,8 @@ def marks_screen(request):
     return render(request, 'dashboard/admin/marks.html', context)
 
 
-@staff_required
+@portal_required
+@feature_required('growth')
 def growth_card(request, regnum):
     student = get_object_or_404(Student, pk=regnum)
 

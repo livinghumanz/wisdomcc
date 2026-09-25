@@ -214,3 +214,42 @@ class FeeRecord(models.Model):
 
     def __str__(self):
         return '{0} {1}: {2}'.format(self.student_id, self.academic_year, self.status)
+
+
+class Feature(models.Model):
+    """A portal capability the superuser can switch on or off.
+
+    Lets the owner demo a screen to the client and bill for it before leaving it
+    enabled. Only a superuser can see or change these -- portal users have
+    `is_staff=False`, so they cannot reach Django admin at all.
+    """
+
+    key = models.SlugField(
+        unique=True,
+        help_text='Internal id used in code. Do not change once set.',
+    )
+    name = models.CharField(max_length=80)
+    description = models.CharField(max_length=250, blank=True)
+    is_enabled = models.BooleanField(
+        default=True,
+        help_text='Off hides the screen and blocks its URL, even if someone types it directly.',
+    )
+    show_when_disabled = models.BooleanField(
+        'Show as locked when disabled',
+        default=False,
+        help_text='Leave the item visible in the menu with a padlock, so the client can see the '
+                  'feature exists. Off hides it completely.',
+    )
+    is_billable = models.BooleanField(
+        'Chargeable add-on',
+        default=False,
+        help_text='Marker for your own billing. Has no effect on access.',
+    )
+    notes = models.CharField(max_length=250, blank=True, help_text='Private note. Never shown to the client.')
+    order = models.PositiveSmallIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order', 'name']
+
+    def __str__(self):
+        return '{0} ({1})'.format(self.name, 'on' if self.is_enabled else 'off')

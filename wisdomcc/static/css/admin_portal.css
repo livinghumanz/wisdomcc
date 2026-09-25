@@ -117,3 +117,10 @@ table.data td.wrap { white-space:normal; min-width:180px; }
   .sidebar-toggle { display:block; }
   .content { padding:1rem; }
 }
+
+/* A feature left visible while switched off: the client can see it exists. */
+.sidebar__nav a.is-locked { opacity:.55; }
+.sidebar__nav a.is-locked:hover { opacity:.8; }
+.sidebar__nav .lock { margin-left:auto; font-size:.8rem; }
+.locked-note { max-width:560px; margin:0 auto; text-align:center; }
+.locked-note__ico { font-size:2.6rem; }

@@ -1,8 +1,34 @@
 from django.contrib import admin
 
 from .models import (
-    Attendance, Course, FeeRecord, Mark, MarkEntry, Staff, Student, Subject,
+    Attendance, Course, Feature, FeeRecord, Mark, MarkEntry, Staff, Student, Subject,
 )
+
+
+@admin.register(Feature)
+class FeatureAdmin(admin.ModelAdmin):
+    """Owner-only. Portal users have is_staff=False so they never reach /admin/,
+    but these guards make the restriction explicit rather than incidental."""
+
+    list_display = ['name', 'key', 'is_enabled', 'show_when_disabled', 'is_billable', 'notes']
+    list_editable = ['is_enabled', 'show_when_disabled', 'is_billable']
+    readonly_fields = ['key']
+    ordering = ['order']
+
+    def has_module_permission(self, request):
+        return request.user.is_superuser
+
+    def has_view_permission(self, request, obj=None):
+        return request.user.is_superuser
+
+    def has_change_permission(self, request, obj=None):
+        return request.user.is_superuser
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 
 @admin.register(Student)

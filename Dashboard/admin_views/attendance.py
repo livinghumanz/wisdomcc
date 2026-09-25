@@ -24,7 +24,7 @@ from django.utils import timezone
 from django.utils.dateparse import parse_date
 from django.utils.http import urlencode
 
-from ..auth_utils import staff_required
+from ..auth_utils import feature_required, portal_required
 from ..choices import ATTENDANCE_STATUS_CHOICES, BRANCH_CHOICES, STD_CHOICES
 from ..models import Attendance, Student
 
@@ -75,7 +75,8 @@ def _register_url(edate, branch, std):
     return '{0}?{1}'.format(reverse('admin-attendance'), urlencode(params))
 
 
-@staff_required
+@portal_required
+@feature_required('attendance')
 def attendance_register(request):
     if request.method == 'POST':
         return _save_register(request)

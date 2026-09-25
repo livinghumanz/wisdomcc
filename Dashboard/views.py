@@ -4,7 +4,7 @@ from django.http import HttpResponse, request, HttpResponseRedirect
 from home.models import Admision,Fupload
 from .models import *
 from django.contrib import messages,auth
-from .auth_utils import staff_required, student_required
+from .auth_utils import can_use_portal, portal_required, student_required
 # Create your views here.
 
 
@@ -23,7 +23,7 @@ def _login_admin(request):
     if user is None:
         messages.info(request, 'Incorrect admin login details.')
         return redirect('/')
-    if not user.is_staff:
+    if not can_use_portal(user):
         messages.info(request, 'That account does not have admin access.')
         return redirect('/')
     auth.login(request, user)
@@ -87,7 +87,7 @@ def dashboard(request):
         return _login_student(request)
 
     # GET: send whoever is already signed in to the right place.
-    if request.user.is_authenticated and request.user.is_staff:
+    if can_use_portal(request.user):
         return redirect('admin-students')
     regnum = request.session.get('student_regnum')
     if regnum:
@@ -95,7 +95,7 @@ def dashboard(request):
     messages.info(request, 'Please log in to continue.')
     return redirect('/')
 
-@staff_required
+@portal_required
 def export(request):
     response= HttpResponse(content_type = 'text/csv')
     writer = csv.writer(response)

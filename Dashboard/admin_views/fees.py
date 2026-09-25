@@ -13,7 +13,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils.http import urlencode
 
-from ..auth_utils import staff_required
+from ..auth_utils import feature_required, portal_required
 from ..choices import BRANCH_CHOICES, EXAM_TYPE_CHOICES, STD_CHOICES
 from ..models import FeeRecord, MarkEntry, Student, Subject
 
@@ -109,7 +109,8 @@ def _active_students(filters):
 # Screen 1 -- fee sheet
 # ---------------------------------------------------------------------------
 
-@staff_required
+@portal_required
+@feature_required('fees')
 def fee_sheet(request):
     if request.method == 'POST':
         return _save_fee_sheet(request)
@@ -273,7 +274,8 @@ def _avg(values):
     return round(sum(values) / len(values), 1) if values else 0.0
 
 
-@staff_required
+@portal_required
+@feature_required('faculty')
 def faculty_analysis(request):
     exam_type = (request.GET.get('exam_type') or 'all').strip()
     subject_id = (request.GET.get('subject') or '').strip()

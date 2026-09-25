@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 
-from ..auth_utils import staff_required
+from ..auth_utils import feature_required, portal_required
 from ..choices import (
     ACTIVE_STATUS_CHOICES, BRANCH_CHOICES, CURRICULUM_CHOICES, STD_CHOICES, TEAM_CHOICES,
 )
@@ -179,7 +179,8 @@ def _decorate(students):
     return students
 
 
-@staff_required
+@portal_required
+@feature_required('students')
 def student_list(request):
     """Searchable, filterable list of students (spec page 1)."""
     filters = {
@@ -228,7 +229,8 @@ def student_list(request):
     return render(request, 'dashboard/admin/students.html', context)
 
 
-@staff_required
+@portal_required
+@feature_required('students')
 def student_form(request, regnum=None):
     """Add a student (regnum is None) or edit an existing one."""
     student = get_object_or_404(Student, pk=regnum) if regnum else None
@@ -263,7 +265,8 @@ def student_form(request, regnum=None):
     return render(request, 'dashboard/admin/student_form.html', context)
 
 
-@staff_required
+@portal_required
+@feature_required('students')
 def student_delete(request, regnum):
     """Delete a student. POST only -- a GET just bounces back to the list."""
     if request.method != 'POST':

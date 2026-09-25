@@ -196,3 +196,59 @@ without a new instruction.
   hashing passwords.
 - The nine open questions in section 3 are all still open and still only affect field values,
   not structure.
+
+---
+
+## 5. Two-tier access and feature switches (2026-09-25)
+
+Requested by Ramesh: separate the client's portal account from the Django admin account, and
+be able to switch features on and off so a feature can be shown to the client and billed for.
+
+### The critical detail
+
+`is_staff` is exactly the flag Django uses to allow entry to `/admin/`. A portal user holding it
+would reach the feature switches, the user table and every raw record — defeating the point. So
+**portal accounts are created with `is_staff=False` and `is_superuser=False`**, and portal access
+comes from membership of the **`Portal Admin`** group instead.
+
+| | Owner (you) | Client staff |
+|---|---|---|
+| Admin portal | yes | yes |
+| Django admin `/admin/` | yes | **no** — rejected even with correct credentials |
+| Feature switches | yes | no |
+| Disabled feature | can still open it, to preview before enabling | 403, even by typing the URL |
+| "Django Admin" link in sidebar | shown | hidden |
+
+### Creating a client account
+
+    ./venv/bin/python manage.py create_portal_user <username> --password '<password>'
+    ./venv/bin/python manage.py create_portal_user <username> --revoke
+
+The command refuses to grant `is_staff`/`is_superuser`, so an account cannot be created with
+Django admin access by mistake.
+
+### Feature switches
+
+Six switches, at `/admin/Dashboard/feature/`, superuser-only:
+`students`, `marks`, `growth`, `attendance`, `fees`, `faculty`.
+
+Each has three settings:
+
+- **Enabled** — off hides the screen and returns 403 on its URL.
+- **Show as locked when disabled** — leaves it in the menu, dimmed with a padlock, so the client
+  can see the feature exists. This is the upsell view. Off hides it completely.
+- **Chargeable add-on** — a marker for your own billing; no effect on access.
+
+Defaults: everything enabled. Marks, Growth Card, Fees and Faculty Analysis are marked
+chargeable and set to show as locked teasers when switched off; Students and Attendance are
+treated as core.
+
+A missing `Feature` row means enabled, so a failed migration can never lock the client out of a
+screen that was working.
+
+### Verified
+
+Client staff account: portal screens 200, `/admin/` 302, `/admin/Dashboard/feature/` 302,
+`/admin/auth/user/` 302, and the Django admin login form rejects it with correct credentials.
+With Fees switched off: owner 200 (preview), client 403 by direct URL, menu item dimmed with a
+padlock, no Django Admin link in the client's sidebar.
