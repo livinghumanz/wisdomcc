@@ -29,5 +29,26 @@ jobs:
                     python manage.py collectstatic --noinput
                     python manage.py migrate --noinput
 
+                    # The nginx config lives in this repo but was never installed on the
+                    # server, so edits to it had no effect. Install it only if it differs,
+                    # and only reload after nginx itself says the config is valid -- a bad
+                    # config must not be allowed to take the site down.
+                    if ! sudo cmp -s sites-available_slash_wisdomcc /etc/nginx/sites-available/wisdomcc; then
+                      sudo cp /etc/nginx/sites-available/wisdomcc /etc/nginx/sites-available/wisdomcc.bak.$(date +%s) || true
+                      sudo cp sites-available_slash_wisdomcc /etc/nginx/sites-available/wisdomcc
+                      if sudo nginx -t; then
+                        echo "nginx config updated"
+                      else
+                        echo "nginx config invalid - rolling back" >&2
+                        sudo cp "$(ls -t /etc/nginx/sites-available/wisdomcc.bak.* | head -1)" /etc/nginx/sites-available/wisdomcc
+                        sudo nginx -t
+                        exit 1
+                      fi
+                    fi
+
+                    # Uploaded media must be readable by nginx.
+                    mkdir -p /home/ubuntu/app/media
+                    chmod -R a+rX /home/ubuntu/app/media
+
                     sudo systemctl restart gunicorn
-                    sudo systemctl restart nginx
+                    sudo systemctl reload nginx

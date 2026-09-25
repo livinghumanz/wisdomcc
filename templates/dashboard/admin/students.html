@@ -1,0 +1,160 @@
+{% extends 'dashboard/admin/base_admin.html' %}
+
+{% block title %}Students{% endblock %}
+{% block heading %}Students Details{% endblock %}
+{% block subheading %}<p>Showing {{ shown_count }} of {{ total_count }} student{{ total_count|pluralize }}.</p>{% endblock %}
+
+{% block content %}
+<div class="tiles">
+  <div class="tile">
+    <div class="tile__label">Total students</div>
+    <div class="tile__value">{{ shown_count }}</div>
+  </div>
+  <div class="tile tile--green">
+    <div class="tile__label">Active</div>
+    <div class="tile__value">{{ count_active }}</div>
+  </div>
+  <div class="tile tile--red">
+    <div class="tile__label">Discontinued</div>
+    <div class="tile__value">{{ count_discontinued }}</div>
+  </div>
+  <div class="tile tile--amber">
+    <div class="tile__label">Re-Joining</div>
+    <div class="tile__value">{{ count_rejoining }}</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card__head">
+    <h2>Student list</h2>
+    <a class="btn btn--primary btn--sm" href="{% url 'admin-student-new' %}">+ Add student</a>
+  </div>
+
+  <div class="card__body">
+    <form class="filters" method="get" action="{% url 'admin-students' %}">
+      <div class="field" style="flex:1 1 240px;">
+        <label for="f-q">Search</label>
+        <input type="search" id="f-q" name="q" value="{{ filters.q }}" placeholder="Name, Reg No or school">
+      </div>
+
+      <div class="field">
+        <label for="f-branch">Branch</label>
+        <select id="f-branch" name="branch">
+          <option value="">All branches</option>
+          {% for value, label in branch_choices %}
+            <option value="{{ value }}"{% if filters.branch == value %} selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="f-std">Class</label>
+        <select id="f-std" name="std">
+          <option value="">All classes</option>
+          {% for value, label in std_choices %}
+            <option value="{{ value }}"{% if filters.std == value %} selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="f-status">Active status</label>
+        <select id="f-status" name="active_status">
+          <option value="">All statuses</option>
+          {% for value, label in active_status_choices %}
+            <option value="{{ value }}"{% if filters.active_status == value %} selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="f-team">Team</label>
+        <select id="f-team" name="team">
+          <option value="">All teams</option>
+          {% for value, label in team_choices %}
+            <option value="{{ value }}"{% if filters.team == value %} selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="field" style="min-width:0;">
+        <button class="btn btn--navy btn--sm" type="submit">Apply</button>
+      </div>
+      {% if has_filters %}
+        <div class="field" style="min-width:0;">
+          <a class="btn btn--ghost btn--sm" href="{% url 'admin-students' %}">Clear</a>
+        </div>
+      {% endif %}
+    </form>
+  </div>
+
+  {% if students %}
+    <div class="table-scroll">
+      <table class="data">
+        <thead>
+          <tr>
+            <th scope="col">Photo</th>
+            <th scope="col">Reg No</th>
+            <th scope="col">Name</th>
+            <th scope="col">Class</th>
+            <th scope="col">Curriculum</th>
+            <th scope="col">School</th>
+            <th scope="col">Father mobile</th>
+            <th scope="col">Branch</th>
+            <th scope="col">Team</th>
+            <th scope="col">Status</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for student in students %}
+            <tr>
+              <td>
+                {% if student.image %}
+                  <img src="{{ student.image.url }}" alt=""
+                       style="width:32px;height:32px;border-radius:50%;object-fit:cover;display:block;background:#eef1f7;">
+                {% else %}
+                  <span aria-hidden="true"
+                        style="width:32px;height:32px;border-radius:50%;background:#eef1f7;color:#6a7390;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;">{{ student.initials }}</span>
+                {% endif %}
+              </td>
+              <td><strong>{{ student.regnum }}</strong></td>
+              <td class="wrap">{{ student.name }}</td>
+              <td>{{ student.display_class }}</td>
+              <td>{{ student.get_curriculum_display|default:"-" }}</td>
+              <td class="wrap">{{ student.school|default:"-" }}</td>
+              <td>{{ student.father_mobile|default:"-" }}</td>
+              <td>{{ student.get_branch_display|default:"-" }}</td>
+              <td>{{ student.get_team_display|default:"-" }}</td>
+              <td><span class="{{ student.pill_class }}">{{ student.get_active_status_display }}</span></td>
+              <td>
+                <span style="display:inline-flex;gap:.35rem;align-items:center;">
+                  <a class="btn btn--ghost btn--sm" href="{% url 'admin-student-edit' student.regnum %}">Edit</a>
+                  <a class="btn btn--ghost btn--sm" href="{% url 'admin-growth-card' student.regnum %}">Growth Card</a>
+                  <form method="post" action="{% url 'admin-student-delete' student.regnum %}"
+                        style="display:inline;"
+                        onsubmit="return confirm('Delete {{ student.name|escapejs }} ({{ student.regnum|escapejs }})? This cannot be undone.');">
+                    {% csrf_token %}
+                    <button class="btn btn--danger btn--sm" type="submit">Delete</button>
+                  </form>
+                </span>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="empty">
+      <div class="empty__big">🎓</div>
+      {% if has_filters %}
+        <p>No students match these filters.</p>
+        <a class="btn btn--ghost btn--sm" href="{% url 'admin-students' %}">Clear filters</a>
+      {% else %}
+        <p>No students yet.</p>
+        <a class="btn btn--primary btn--sm" href="{% url 'admin-student-new' %}">Add the first student</a>
+      {% endif %}
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

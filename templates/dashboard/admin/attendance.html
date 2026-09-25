@@ -1,0 +1,219 @@
+{% extends 'dashboard/admin/base_admin.html' %}
+
+{% block title %}Attendance{% endblock %}
+{% block heading %}Attendance Register{% endblock %}
+{% block subheading %}<p>{{ edate|date:"l, d M Y" }} &middot; active students only</p>{% endblock %}
+
+{% block content %}
+
+{# ---- date picker + filters (GET) ---- #}
+<div class="card" style="margin-bottom:1.2rem;">
+  <div class="card__body">
+    <form method="get" action="" id="filter-form" class="filters">
+      <div class="field">
+        <label for="f-date">Date</label>
+        <input type="date" id="f-date" name="date" value="{{ date_value }}" data-reload>
+      </div>
+      <div class="field">
+        <label for="f-branch">Branch</label>
+        <select id="f-branch" name="branch" data-reload>
+          <option value="">All branches</option>
+          {% for value, label in branch_choices %}
+            <option value="{{ value }}" {% if value == branch %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="field">
+        <label for="f-std">Class</label>
+        <select id="f-std" name="std" data-reload>
+          <option value="">All classes</option>
+          {% for value, label in std_choices %}
+            <option value="{{ value }}" {% if value == std %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="field" style="flex:0 0 auto;">
+        <button class="btn btn--navy" type="submit">Apply</button>
+      </div>
+      {% if date_value != today_value %}
+        <div class="field" style="flex:0 0 auto;">
+          <a class="btn btn--ghost" href="?date={{ today_value }}{% if branch %}&amp;branch={{ branch }}{% endif %}{% if std %}&amp;std={{ std }}{% endif %}">Today</a>
+        </div>
+      {% endif %}
+    </form>
+    <p class="hint" style="margin:.8rem 0 0;">
+      Only students whose status is <strong>Active</strong> are listed.
+      {% if excluded_count %}
+        <span class="pill pill--grey">{{ excluded_count }} excluded</span>
+        (discontinued or re-joining{% if branch or std %}, within the current filters{% endif %}).
+      {% else %}
+        No students are excluded{% if branch or std %} within the current filters{% endif %}.
+      {% endif %}
+    </p>
+  </div>
+</div>
+
+{# ---- totals, server-rendered then kept live by JS ---- #}
+<div class="tiles">
+  <div class="tile tile--green">
+    <div class="tile__label">Total Present</div>
+    <div class="tile__value" data-count="present">{{ totals.present }}</div>
+  </div>
+  <div class="tile tile--red">
+    <div class="tile__label">Total Absent</div>
+    <div class="tile__value" data-count="absent">{{ totals.absent }}</div>
+  </div>
+  <div class="tile tile--amber">
+    <div class="tile__label">No Class</div>
+    <div class="tile__value" data-count="no_class">{{ totals.no_class }}</div>
+  </div>
+  <div class="tile">
+    <div class="tile__label">Not marked</div>
+    <div class="tile__value" data-count="unmarked">{{ totals.unmarked }}</div>
+  </div>
+</div>
+
+<form method="post" action="" id="register-form" data-total="{{ active_count }}">
+  {% csrf_token %}
+  <input type="hidden" name="date" value="{{ date_value }}">
+  <input type="hidden" name="branch" value="{{ branch }}">
+  <input type="hidden" name="std" value="{{ std }}">
+
+  <div class="card">
+    <div class="card__head">
+      <h2>Register &mdash; {{ edate|date:"d M Y" }}</h2>
+      {% if rows %}
+        <span class="pill pill--grey">{{ active_count }} active</span>
+        {% for value, label in status_choices %}
+          <button type="button" class="btn btn--ghost btn--sm" data-mark-all="{{ value }}">Mark all {{ label|lower }}</button>
+        {% endfor %}
+      {% endif %}
+    </div>
+
+    {% if rows %}
+      <div class="table-scroll" style="max-height:66vh; overflow-y:auto;">
+        <table class="data">
+          <thead>
+            <tr>
+              <th style="width:3.5rem;">Sl</th>
+              <th>Name</th>
+              <th>SID</th>
+              <th>School</th>
+              {% for value, label in status_choices %}<th style="text-align:center;">{{ label }}</th>{% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in rows %}
+              <tr>
+                <td>{{ row.sl }}</td>
+                <td>{{ row.student.name }}</td>
+                <td>{{ row.student.regnum }}</td>
+                <td class="wrap">{{ row.student.school|default:"-" }}</td>
+                {% for option in row.options %}
+                  <td style="text-align:center;">
+                    <label style="display:inline-flex; align-items:center; justify-content:center; cursor:pointer; padding:.2rem .5rem;">
+                      <input type="radio"
+                             name="status_{{ row.student.regnum }}"
+                             value="{{ option.value }}"
+                             data-role="status"
+                             {% if option.checked %}checked{% endif %}
+                             aria-label="{{ option.label }} &mdash; {{ row.student.name }}">
+                    </label>
+                  </td>
+                {% endfor %}
+              </tr>
+            {% endfor %}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="4">Totals</td>
+              <td style="text-align:center;" data-count="present">{{ totals.present }}</td>
+              <td style="text-align:center;" data-count="absent">{{ totals.absent }}</td>
+              <td style="text-align:center;" data-count="no_class">{{ totals.no_class }}</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <div class="card__body">
+        <div class="form-actions" style="margin-top:0; padding-top:0; border-top:0;">
+          <button type="submit" class="btn btn--primary">Save attendance</button>
+          <a class="btn btn--ghost" href="?date={{ date_value }}{% if branch %}&amp;branch={{ branch }}{% endif %}{% if std %}&amp;std={{ std }}{% endif %}">Reset</a>
+          <span class="hint" style="align-self:center;">
+            A student left unmarked is not recorded for this date. Saving again on the same date updates the existing entries.
+          </span>
+        </div>
+      </div>
+    {% else %}
+      <div class="empty">
+        <div class="empty__big">📅</div>
+        <p><strong>No active students match these filters.</strong></p>
+        <p class="hint">
+          {% if branch or std %}Try clearing the branch or class filter.
+          {% else %}Add a student, or set an existing student's status to Active.{% endif %}
+        </p>
+      </div>
+    {% endif %}
+  </div>
+</form>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function () {
+  // Filters reload the page on change; the Apply button covers the no-JS case.
+  var filterForm = document.getElementById('filter-form');
+  if (filterForm) {
+    filterForm.querySelectorAll('[data-reload]').forEach(function (el) {
+      el.addEventListener('change', function () { filterForm.submit(); });
+    });
+  }
+
+  var form = document.getElementById('register-form');
+  if (!form) { return; }
+  var total = parseInt(form.getAttribute('data-total'), 10) || 0;
+
+  function statusRadios() {
+    return form.querySelectorAll('input[type="radio"][data-role="status"]');
+  }
+
+  function paint(key, value) {
+    document.querySelectorAll('[data-count="' + key + '"]').forEach(function (el) {
+      el.textContent = value;
+    });
+  }
+
+  function recount() {
+    var counts = { present: 0, absent: 0, no_class: 0 };
+    var marked = 0;
+    statusRadios().forEach(function (radio) {
+      if (radio.checked && counts.hasOwnProperty(radio.value)) {
+        counts[radio.value] += 1;
+        marked += 1;
+      }
+    });
+    paint('present', counts.present);
+    paint('absent', counts.absent);
+    paint('no_class', counts.no_class);
+    paint('unmarked', Math.max(total - marked, 0));
+  }
+
+  form.addEventListener('change', function (event) {
+    if (event.target && event.target.getAttribute('data-role') === 'status') { recount(); }
+  });
+
+  document.querySelectorAll('[data-mark-all]').forEach(function (button) {
+    button.addEventListener('click', function () {
+      var wanted = button.getAttribute('data-mark-all');
+      statusRadios().forEach(function (radio) {
+        if (radio.value === wanted) { radio.checked = true; }
+      });
+      recount();
+    });
+  });
+
+  recount();
+})();
+</script>
+{% endblock %}

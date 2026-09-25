@@ -1,0 +1,155 @@
+{% extends 'dashboard/admin/base_admin.html' %}
+
+{% block title %}Growth Card — {{ student.name }}{% endblock %}
+{% block heading %}Growth Card — {{ student.name }}{% endblock %}
+{% block subheading %}
+  <p>{{ student.regnum }} · Class {{ student.display_class }}
+     {% if exam_type %}· {% for value, label in exam_types %}{% if value == exam_type %}{{ label }} exams{% endif %}{% endfor %}
+     {% else %}· all exams{% endif %}</p>
+{% endblock %}
+
+{% block content %}
+
+<div class="tiles">
+  <div class="tile">
+    <div class="tile__label">Subjects counted</div>
+    <div class="tile__value">{{ stats.subjects }}</div>
+  </div>
+  <div class="tile {% if stats.average and stats.average >= pass_percent %}tile--green{% elif stats.average %}tile--red{% endif %}">
+    <div class="tile__label">Average out of 100</div>
+    <div class="tile__value">{% if stats.average is not None %}{{ stats.average }}{% else %}—{% endif %}</div>
+  </div>
+  <div class="tile tile--green">
+    <div class="tile__label">Passed</div>
+    <div class="tile__value">{{ stats.passed }}</div>
+  </div>
+  <div class="tile tile--red">
+    <div class="tile__label">Failed</div>
+    <div class="tile__value">{{ stats.failed }}</div>
+  </div>
+</div>
+
+<div class="card" style="margin-bottom:1.2rem;">
+  <div class="card__head">
+    <h2>Subject performance</h2>
+    <form method="get" action="" class="filters">
+      <div class="field">
+        <label for="exam-type">Exam type</label>
+        <select id="exam-type" name="exam_type" onchange="this.form.submit()">
+          <option value="">All exams</option>
+          {% for value, label in exam_types %}
+            <option value="{{ value }}" {% if value == exam_type %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <button class="btn btn--ghost btn--sm" type="submit">Apply</button>
+      <a class="btn btn--navy btn--sm" href="{% url 'admin-marks' %}?student={{ student.regnum }}">Enter marks</a>
+    </form>
+  </div>
+
+  {% if chart %}
+  <div class="card__body">
+    <div>
+      <svg viewBox="{{ chart.view_box }}" role="img" preserveAspectRatio="xMidYMid meet"
+           aria-label="Bar chart of {{ student.name }}'s percentage in each subject, out of 100."
+           style="width:100%; height:auto; display:block; font-family:inherit;">
+
+        <!-- gridlines (recessive) and Y axis labels -->
+        {% for line in chart.gridlines %}
+          <line x1="{{ chart.plot_left }}" y1="{{ line.y }}" x2="{{ chart.plot_right }}" y2="{{ line.y }}"
+                stroke="#e4e9f2" stroke-width="1"></line>
+          <text x="{{ chart.axis_label_x }}" y="{{ line.y }}" text-anchor="end" dominant-baseline="middle"
+                font-size="11" fill="#6a7390">{{ line.value }}</text>
+        {% endfor %}
+
+        <!-- pass line at {{ pass_percent }}% -->
+        <line x1="{{ chart.plot_left }}" y1="{{ chart.pass_y }}" x2="{{ chart.plot_right }}" y2="{{ chart.pass_y }}"
+              stroke="#e5484d" stroke-width="1.5" stroke-dasharray="5 4"></line>
+        <!-- paint-order puts the white stroke behind the glyphs, so the label stays
+             readable when a tall bar sits underneath it -->
+        <text x="{{ chart.plot_right }}" y="{{ chart.pass_label_y }}" text-anchor="end"
+              font-size="10.5" font-weight="700" fill="#e5484d"
+              stroke="#ffffff" stroke-width="3.5" paint-order="stroke"
+              stroke-linejoin="round">Pass {{ pass_percent }}%</text>
+
+        <!-- bars -->
+        {% for bar in chart.bars %}
+        <g>
+          <title>{{ bar.subject }}: {{ bar.mark }} out of {{ bar.out_of }} — {{ bar.percent }}%{% if bar.count > 1 %} (average of {{ bar.count }} entries){% endif %}</title>
+          <path d="{{ bar.path }}" fill="{{ bar.colour }}"></path>
+          <text x="{{ bar.centre }}" y="{{ bar.label_y }}" text-anchor="middle"
+                font-size="12" font-weight="800" fill="{{ bar.label_fill }}">{{ bar.percent }}</text>
+          <text x="{{ bar.centre }}" y="{{ chart.subject_label_y }}" text-anchor="middle"
+                font-size="11.5" font-weight="700" fill="#23293d">{{ bar.short }}{% if bar.count > 1 %}*{% endif %}</text>
+          <text x="{{ bar.centre }}" y="{{ chart.detail_label_y }}" text-anchor="middle"
+                font-size="10.5" fill="#6a7390">{% if bar.count > 1 %}avg of {{ bar.count }}{% else %}{{ bar.mark }}/{{ bar.out_of }}{% endif %}</text>
+        </g>
+        {% endfor %}
+
+        <!-- baseline -->
+        <line x1="{{ chart.plot_left }}" y1="{{ chart.baseline }}" x2="{{ chart.plot_right }}" y2="{{ chart.baseline }}"
+              stroke="#6a7390" stroke-width="1.5"></line>
+      </svg>
+    </div>
+
+    <p class="hint" style="margin-top:.8rem;">
+      Height is the subject's mark as a percentage of its maximum — the derived “Out of 100”, never a typed figure.
+      <span style="display:inline-block; width:.65rem; height:.65rem; border-radius:3px; background:#0ec7a7; vertical-align:baseline;"></span>
+      pass ({{ pass_percent }}% or above) ·
+      <span style="display:inline-block; width:.65rem; height:.65rem; border-radius:3px; background:#e5484d; vertical-align:baseline;"></span>
+      fail.
+      {% if averaged %}<br>* This subject has more than one exam entry; the bar shows the <strong>average</strong> of them.{% endif %}
+    </p>
+  </div>
+
+  {% else %}
+    <div class="empty">
+      <div class="empty__big">📈</div>
+      <p><strong>No marks recorded{% if exam_type %} for this exam type{% endif %}.</strong></p>
+      <p>Enter this student's subject marks and the Growth Card will draw itself.</p>
+      <p><a class="btn btn--primary btn--sm" href="{% url 'admin-marks' %}?student={{ student.regnum }}">Enter marks</a></p>
+    </div>
+  {% endif %}
+</div>
+
+{% if rows %}
+<div class="card">
+  <div class="card__head"><h2>Subject summary</h2></div>
+  <div class="table-scroll">
+    <table class="data">
+      <thead>
+        <tr>
+          <th>Subject</th><th>Mark</th><th>Out of</th><th>Out of 100</th><th>P / F</th><th>Faculty</th><th>Entries</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in rows %}
+        <tr>
+          <td>{{ row.subject }}</td>
+          <td>{{ row.mark }}</td>
+          <td>{{ row.out_of }}</td>
+          <td>{% if row.percent is not None %}{{ row.percent }}{% else %}—{% endif %}</td>
+          <td>
+            {% if row.result == 'P' %}<span class="pill pill--green">P</span>
+            {% elif row.result == 'F' %}<span class="pill pill--red">F</span>
+            {% else %}<span class="pill pill--grey">—</span>{% endif %}
+          </td>
+          <td>{{ row.faculty }}</td>
+          <td>{% if row.count > 1 %}{{ row.count }} (averaged){% else %}1{% endif %}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr>
+          <td>Average</td>
+          <td colspan="2"></td>
+          <td>{% if stats.average is not None %}{{ stats.average }}{% else %}—{% endif %}</td>
+          <td colspan="3"></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+{% endif %}
+
+{% endblock %}

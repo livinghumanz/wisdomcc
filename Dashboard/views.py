@@ -4,75 +4,98 @@ from django.http import HttpResponse, request, HttpResponseRedirect
 from home.models import Admision,Fupload
 from .models import *
 from django.contrib import messages,auth
+from .auth_utils import staff_required, student_required
 # Create your views here.
-auser:object
-class authencateuser:
-    def __init__(self,request):
-        self.user=False
-        self.request = request
-
-    def userdashboard(self):
-        if self.user is not None:
-            admision_list = Admision.objects.all()
-            context = {
-                'admision_list':admision_list
-            }
-            return render(self.request,'dashboard/dashboard.html',context)
-        else:
-            messages.info(self.request,"Please login with proper Details")
-            return redirect('/')
-
-    def authuser(self):
-        if self.request.method == 'POST':
-            if(self.request.POST['ltype'] == 'admin'):
-                self.lid = self.request.POST['loginid']
-                self.passwd = self.request.POST['lpassword']
-                self.user = auth.authenticate(username=self.lid.lower(),password=self.passwd)
-                #data = "loginid: {0} <br> Password: {1}".format(lid,passwd)
-                #return HttpResponse(data)
-                return self.userdashboard()
-            elif self.request.POST['ltype'] == 'student':
-                self.lid = self.request.POST['loginid']
-                self.passwd = self.request.POST['lpassword']
-                sob = Student.objects.all().filter(regnum=self.lid,password=self.passwd)
-                #if(self.lid == )
-                #print(type(Mark.objects.all().filter(studentid__regnum = self.lid)))
-
-                # Mark table student
-                
-                i=1
-                score=[]
-                for entry in Mark.objects.all().filter(studentid__regnum=self.lid).values_list():
-                    entry1=list(entry)
-                    entry1[0]=i
-                    i+=1
-                    entry1[2]=Course.objects.all().filter(id=entry1[2])[0].cname
-                    #print(type(entry1))
-                    score.append(entry1)
-                #print(marks)
-                
-
-                # End Mark list
 
 
-                if len(sob) == 1:
-                    notes = Fupload.objects.all().filter(mtype='notes')
-                    return render(self.request,"dashboard/dashboard_user.html",{'marks':score,'image':sob[0].image.url,'timetable':sob[0].timetable.url,'name':sob[0].name.split()[0],'sdata':sob,'notes':notes})
-                self.user = None
-                return self.userdashboard()
+def _login_admin(request):
+    """Authenticate a staff user and actually establish a session.
 
-        
-        else:
-            messages.info(self.request,"please login to access.")
-            return redirect('/')
-            #return HttpResponse("hello")
-            
+    The previous version called `auth.authenticate()` and discarded the result
+    without `auth.login()`, so nothing was ever logged in and no page could be
+    revisited or bookmarked. It also never checked `is_staff` (defect S7).
+    """
+    user = auth.authenticate(
+        request,
+        username=request.POST.get('loginid', '').strip().lower(),
+        password=request.POST.get('lpassword', ''),
+    )
+    if user is None:
+        messages.info(request, 'Incorrect admin login details.')
+        return redirect('/')
+    if not user.is_staff:
+        messages.info(request, 'That account does not have admin access.')
+        return redirect('/')
+    auth.login(request, user)
+    return redirect('admin-students')
+
+
+def _login_student(request):
+    """Look the student up and remember them in the session.
+
+    Passwords here are still compared in plain text (defect S3) -- unchanged by
+    this pass, but now at least the login produces a session, so the dashboard
+    survives a refresh instead of being reachable only as a POST response.
+    """
+    regnum = request.POST.get('loginid', '').strip()
+    password = request.POST.get('lpassword', '')
+    student = Student.objects.filter(regnum=regnum, password=password).first()
+    if student is None:
+        messages.info(request, 'Incorrect login details.')
+        return redirect('/')
+    request.session['student_regnum'] = student.regnum
+    return redirect('Dashboard')
+
+
+def _student_dashboard(request, regnum):
+    student = Student.objects.filter(regnum=regnum).first()
+    if student is None:
+        request.session.pop('student_regnum', None)
+        return redirect('/')
+
+    score = []
+    for i, entry in enumerate(Mark.objects.filter(studentid__regnum=regnum).values_list(), start=1):
+        row = list(entry)
+        row[0] = i
+        course = Course.objects.filter(id=row[2]).first()
+        row[2] = course.cname if course else '-'
+        score.append(row)
+
+    return render(request, 'dashboard/dashboard_user.html', {
+        'marks': score,
+        # These were `.url` accesses that raised ValueError when no file was set (defect F6).
+        'image': student.image.url if student.image else '',
+        'timetable': student.timetable.url if student.timetable else '',
+        'name': student.name.split()[0],
+        'sdata': [student],
+        'student': student,
+        'notes': Fupload.objects.filter(mtype='notes'),
+    })
+
+
+def logout_view(request):
+    request.session.pop('student_regnum', None)
+    auth.logout(request)
+    return redirect('/')
+
 
 def dashboard(request):
-    #return HttpResponse("Hello world!")
-    auser = authencateuser(request)
-    return auser.authuser()
+    """Login dispatcher, and the landing page for whoever is already logged in."""
+    if request.method == 'POST':
+        if request.POST.get('ltype') == 'admin':
+            return _login_admin(request)
+        return _login_student(request)
 
+    # GET: send whoever is already signed in to the right place.
+    if request.user.is_authenticated and request.user.is_staff:
+        return redirect('admin-students')
+    regnum = request.session.get('student_regnum')
+    if regnum:
+        return _student_dashboard(request, regnum)
+    messages.info(request, 'Please log in to continue.')
+    return redirect('/')
+
+@staff_required
 def export(request):
     response= HttpResponse(content_type = 'text/csv')
     writer = csv.writer(response)
@@ -88,9 +111,15 @@ def export(request):
     response['Content-Disposition'] = 'attachment; filename="applications.csv"'
     return response
 
+@student_required
 def reportdown(request, stid):
+    """Download the signed-in student's own report.
+
+    The regno now comes from the session, not the POST body: previously any
+    caller could pass another student's number and get their records (S5).
+    """
     if request.method == 'POST':
-        regno = request.POST['regno']
+        regno = request.session['student_regnum']
         if stid == "attendance":
             response= HttpResponse(content_type = 'text/csv')
             writer = csv.writer(response)
