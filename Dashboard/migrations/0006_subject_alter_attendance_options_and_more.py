@@ -4,6 +4,31 @@ import django.db.models.deletion
 from django.db import migrations, models
 
 
+def _dedupe_attendance(apps, schema_editor):
+    """Drop duplicate attendance rows before the unique constraint is applied.
+
+    The old schema allowed several rows for the same student on the same date.
+    AlterUniqueTogether would fail outright on such data, taking the whole
+    deploy down, and this migration has never run against the production
+    database. Keep the highest id per (student, date) -- the most recent entry
+    -- and delete the rest.
+    """
+    Attendance = apps.get_model('Dashboard', 'Attendance')
+    seen, doomed = set(), []
+    for pk, student, date in Attendance.objects.order_by('-id').values_list('id', 'studentid', 'edate'):
+        key = (student, date)
+        if key in seen:
+            doomed.append(pk)
+        else:
+            seen.add(key)
+    if doomed:
+        Attendance.objects.filter(pk__in=doomed).delete()
+
+
+def _noop(apps, schema_editor):
+    pass
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -86,6 +111,7 @@ class Migration(migrations.Migration):
             name='team',
             field=models.CharField(blank=True, choices=[('ripplers', 'Ripplers'), ('planners', 'Planners')], max_length=15),
         ),
+        migrations.RunPython(_dedupe_attendance, _noop),
         migrations.AlterUniqueTogether(
             name='attendance',
             unique_together={('studentid', 'edate')},
