@@ -162,7 +162,28 @@ edits to it had no effect. The deploy now installs it — but only after `nginx 
 with a timestamped backup and automatic rollback on failure. `pip install -r requirements.txt`
 was also added; the deploy had never installed dependencies.
 
-### Decisions to confirm with the client
+### Decisions — CONFIRMED by Ramesh, 2026-09-25
+
+All four decisions below were reviewed and accepted. They are settled; do not reopen them
+without a new instruction.
+
+1. **Unmarked students are not recorded** in the attendance register rather than defaulted to
+   Present. A "Not marked" tile keeps the gaps visible. **Accepted.**
+2. **The "Admission Paid" column stays** on the fee sheet even though it is not in the client's
+   column list — without it the second Balance column could only ever equal the admission
+   amount. **Accepted.**
+3. **`dob` remains mandatory** on the student form. **Accepted** — no migration needed.
+4. **The student login password renders as visible text** in the admin form. **Accepted and
+   explicitly requested:** staff need to read the password back to a student.
+
+   This means **S3 (passwords stored and compared in plain text) is a deliberately accepted
+   risk, not an oversight.** Hashing them would make the password unreadable and defeat the
+   workflow the client wants, so it must not be "fixed" in passing. The consequence to be aware
+   of: anyone with database or backup access can read every student password, and students who
+   reuse passwords elsewhere are exposed. If that trade-off ever needs revisiting, the middle
+   ground is reversible encryption at rest plus a staff-only reveal action — not hashing.
+
+### Original wording of the above (for reference)
 
 - **Unmarked students are not recorded** in the attendance register rather than defaulted to
   Present. A "Not marked" tile makes gaps visible.

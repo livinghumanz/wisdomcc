@@ -17,7 +17,17 @@ CURRICULUM_CHOICES = [
     ('state', 'State Board'), ('cbse', 'CBSE'), ('icse', 'ICSE'), ('igcse', 'IGCSE'),
 ]
 
-# Spec: "WCC R / WCC G / WCC A". What A stands for is unconfirmed (open question 2).
+# Spec: "WCC R / WCC G / WCC A".
+#
+# Nobody on our side knows what these letters stand for -- Ramesh confirmed on
+# 2026-09-25 that he does not either, so it is a question for the client (open
+# question 2). R and G are probably Redhills and Gandhi Nagar; A is a genuine
+# unknown, and it is NOT one of the two branches named in UI-001 (Gandhi Nagar
+# and Kamaraj Nagar).
+#
+# The labels are therefore left exactly as the client wrote them rather than
+# expanded into guesses. When they answer, change only the second element of
+# each tuple: the stored keys stay put, so no migration and no data change.
 BRANCH_CHOICES = [
     ('wcc_r', 'WCC R'), ('wcc_g', 'WCC G'), ('wcc_a', 'WCC A'),
 ]
