@@ -1,0 +1,80 @@
+name: Manage portal access
+
+# Run by hand from the Actions tab. Never runs on push.
+#
+# Passwords come from repository secrets, never from the inputs below: workflow
+# inputs are recorded in the run and visible to anyone who can see the repo.
+# Set these first under Settings > Secrets and variables > Actions:
+#   OWNER_PASSWORD   - your own full-access password
+#   PORTAL_PASSWORD  - the password given to the client's staff
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: What to do
+        required: true
+        default: list-accounts
+        type: choice
+        options:
+          - list-accounts
+          - create-owner
+          - create-portal-user
+          - demote-to-portal-only
+          - revoke-portal-access
+      username:
+        description: Account name (ignored for list-accounts)
+        required: false
+        default: ''
+
+jobs:
+  manage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run access command on the server
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: 22
+          envs: ACTION,USERNAME,OWNER_PASSWORD,PORTAL_PASSWORD
+          script: |
+            set -e
+            cd /home/ubuntu/app
+            source /home/ubuntu/app/venv/bin/activate
+
+            case "$ACTION" in
+              list-accounts)
+                python manage.py list_accounts
+                ;;
+              create-owner)
+                if [ -z "$USERNAME" ]; then echo "username is required" >&2; exit 1; fi
+                if [ -z "$OWNER_PASSWORD" ]; then echo "Set the OWNER_PASSWORD secret first" >&2; exit 1; fi
+                python manage.py create_owner "$USERNAME" --password "$OWNER_PASSWORD"
+                ;;
+              create-portal-user)
+                if [ -z "$USERNAME" ]; then echo "username is required" >&2; exit 1; fi
+                if [ -z "$PORTAL_PASSWORD" ]; then echo "Set the PORTAL_PASSWORD secret first" >&2; exit 1; fi
+                python manage.py create_portal_user "$USERNAME" --password "$PORTAL_PASSWORD"
+                ;;
+              demote-to-portal-only)
+                if [ -z "$USERNAME" ]; then echo "username is required" >&2; exit 1; fi
+                python manage.py create_portal_user "$USERNAME" --demote
+                ;;
+              revoke-portal-access)
+                if [ -z "$USERNAME" ]; then echo "username is required" >&2; exit 1; fi
+                python manage.py create_portal_user "$USERNAME" --revoke
+                ;;
+              *)
+                echo "Unknown action: $ACTION" >&2; exit 1
+                ;;
+            esac
+
+            echo
+            echo "--- access after this change ---"
+            python manage.py list_accounts
+        env:
+          ACTION: ${{ inputs.action }}
+          USERNAME: ${{ inputs.username }}
+          OWNER_PASSWORD: ${{ secrets.OWNER_PASSWORD }}
+          PORTAL_PASSWORD: ${{ secrets.PORTAL_PASSWORD }}

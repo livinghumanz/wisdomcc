@@ -252,3 +252,25 @@ Client staff account: portal screens 200, `/admin/` 302, `/admin/Dashboard/featu
 `/admin/auth/user/` 302, and the Django admin login form rejects it with correct credentials.
 With Fees switched off: owner 200 (preview), client 403 by direct URL, menu item dimmed with a
 padlock, no Django Admin link in the client's sidebar.
+
+### Running access changes on the server (2026-09-26)
+
+Access is managed by a manually-triggered workflow, **Manage portal access**, under the
+Actions tab. It never runs on push.
+
+Passwords come from repository secrets, never from workflow inputs — inputs are recorded in
+the run and readable by anyone who can see the repo. Set these under
+*Settings → Secrets and variables → Actions* before first use:
+
+- `OWNER_PASSWORD` — the owner's full-access password
+- `PORTAL_PASSWORD` — the password handed to the client's staff
+
+Actions available: `list-accounts`, `create-owner`, `create-portal-user`,
+`demote-to-portal-only`, `revoke-portal-access`. Every run prints the resulting access table,
+so the effect is visible without a second check.
+
+**Immediate issue on production:** `wisdomcc` is a superuser, and it is the account that has
+been used as the site admin. If the client knows that password, they already hold full access —
+Django admin, the feature switches and every table. The fix is two runs of the workflow:
+create a new owner account for yourself, then demote `wisdomcc` to portal-only so the client's
+existing login keeps working for the portal but loses everything else.

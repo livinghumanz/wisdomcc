@@ -18,14 +18,21 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('username')
-        parser.add_argument('--password', required=True)
+        parser.add_argument('--password', default='')
         parser.add_argument('--email', default='')
         parser.add_argument('--revoke', action='store_true',
                             help='Remove portal access from this account instead.')
+        parser.add_argument('--demote', action='store_true',
+                            help='Strip superuser/staff from an existing account and leave it '
+                                 'with portal access only. Use on an account the client already '
+                                 'has the password for.')
 
     def handle(self, *args, **options):
         username = options['username'].strip().lower()
         group, _ = Group.objects.get_or_create(name=PORTAL_GROUP)
+
+        if not options['revoke'] and not options['demote'] and not options['password']:
+            raise CommandError('--password is required when creating an account.')
 
         if options['revoke']:
             try:
@@ -36,9 +43,18 @@ class Command(BaseCommand):
             self.stdout.write(self.style.WARNING('Portal access revoked for %s' % username))
             return
 
-        user, created = User.objects.get_or_create(username=username,
-                                                   defaults={'email': options['email']})
-        user.set_password(options['password'])
+        if options['demote']:
+            try:
+                user = User.objects.get(username=username)
+            except User.DoesNotExist:
+                raise CommandError('No such user: %s' % username)
+            created = False
+            if options['password']:
+                user.set_password(options['password'])
+        else:
+            user, created = User.objects.get_or_create(username=username,
+                                                       defaults={'email': options['email']})
+            user.set_password(options['password'])
         # Never grant these: they are what open /admin/ and the feature switches.
         user.is_staff = False
         user.is_superuser = False
