@@ -22,9 +22,19 @@ jobs:
 
                     cd /home/ubuntu/app
 
-                    git pull
+                    # `git pull` aborts whenever upstream history has been rewritten: the
+                    # checkout is left on a commit that no longer exists and git refuses to
+                    # reconcile diverged branches without a strategy. That is exactly how the
+                    # deploy for cb6963f failed. The server should mirror origin/main
+                    # exactly, so fetch and hard-reset instead.
+                    git fetch origin main
+                    git reset --hard origin/main
 
                     source /home/ubuntu/app/venv/bin/activate
+
+                    # The deploy has never installed dependencies; the first time anything is
+                    # added to requirements.txt it would otherwise fail at import time.
+                    pip install -r requirements.txt
 
                     python manage.py collectstatic --noinput
                     python manage.py migrate --noinput
