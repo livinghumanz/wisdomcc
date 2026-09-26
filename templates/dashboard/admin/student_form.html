@@ -1,0 +1,69 @@
+{% extends 'dashboard/admin/base_admin.html' %}
+
+{% block title %}{% if is_edit %}Edit {{ student.regnum }}{% else %}Add student{% endif %}{% endblock %}
+{% block heading %}{% if is_edit %}Edit Student{% else %}Add Student{% endif %}{% endblock %}
+{% block subheading %}
+  <p>{% if is_edit %}{{ student.name }} &middot; Reg No {{ student.regnum }}{% else %}Photo, personal details, parent contacts and administration.{% endif %}</p>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card__head">
+    <h2>{% if is_edit %}Student details{% else %}New student{% endif %}</h2>
+    <a class="btn btn--ghost btn--sm" href="{% url 'admin-students' %}">Back to list</a>
+  </div>
+
+  <form method="post" enctype="multipart/form-data" novalidate
+        action="{% if is_edit %}{% url 'admin-student-edit' student.regnum %}{% else %}{% url 'admin-student-new' %}{% endif %}">
+    {% csrf_token %}
+    <div class="card__body">
+
+      {% if form.non_field_errors %}
+        <div class="flash" style="background:#fdecec;border-color:#f7c9ca;color:#e5484d;">
+          {% for error in form.non_field_errors %}<div>{{ error }}</div>{% endfor %}
+        </div>
+      {% endif %}
+
+      <div class="form-grid">
+        {% for title, fields in groups %}
+          <div class="fieldset-title">{{ title }}</div>
+          {% for field in fields %}
+            <div class="field{% if field.name in wide_fields %} field--wide{% endif %}">
+              <label for="{{ field.id_for_label }}">
+                {{ field.label }}{% if field.field.required %} <span style="color:#e5484d;">*</span>{% endif %}
+              </label>
+              {{ field }}
+              {% for error in field.errors %}
+                <span class="hint" style="color:#e5484d;">{{ error }}</span>
+              {% endfor %}
+              {% if field.help_text %}<span class="hint">{{ field.help_text }}</span>{% endif %}
+            </div>
+          {% endfor %}
+        {% endfor %}
+      </div>
+
+      <div class="form-actions">
+        <button class="btn btn--primary" type="submit">{% if is_edit %}Save changes{% else %}Add student{% endif %}</button>
+        <a class="btn btn--ghost" href="{% url 'admin-students' %}">Cancel</a>
+        {% if is_edit %}
+          <a class="btn btn--navy" href="{% url 'admin-growth-card' student.regnum %}">Growth Card</a>
+        {% endif %}
+      </div>
+    </div>
+  </form>
+</div>
+
+{% if is_edit %}
+  <div class="card" style="margin-top:1.2rem;">
+    <div class="card__head"><h2>Danger zone</h2></div>
+    <div class="card__body">
+      <p class="hint">Deleting {{ student.name }} removes the student record permanently.</p>
+      <form method="post" action="{% url 'admin-student-delete' student.regnum %}"
+            onsubmit="return confirm('Delete {{ student.name|escapejs }} ({{ student.regnum|escapejs }})? This cannot be undone.');">
+        {% csrf_token %}
+        <button class="btn btn--danger btn--sm" type="submit">Delete this student</button>
+      </form>
+    </div>
+  </div>
+{% endif %}
+{% endblock %}

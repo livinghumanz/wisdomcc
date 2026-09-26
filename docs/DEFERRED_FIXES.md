@@ -11,25 +11,25 @@ IDs match the overview. Tick with `[x]` and add the commit when one gets fixed.
 - [ ] **S1** `wisdomcc/local_settings.py` committed to git — SECRET_KEY + DB password in history
 - [ ] **S2** HTTPS 301-redirects *to* HTTP on a snakeoil cert; credentials in cleartext
 - [ ] **S3** Student passwords stored and compared in plaintext
-- [ ] **S4** `/Dashboard/export/` has no auth — dumps all enquirer PII as CSV
-- [ ] **S5** `/Dashboard/attendance` has no ownership check on `regno`
+- [x] **S4** `/Dashboard/export/` has no auth — dumps all enquirer PII as CSV — fixed in UI-002
+- [x] **S5** `/Dashboard/attendance` has no ownership check on `regno` — fixed in UI-002
 - [ ] **S6** Faculty portal authenticates on empid alone, then accepts any file
-- [ ] **S7** Admin login never calls `auth.login()`, never checks `is_staff`
+- [x] **S7** Admin login never calls `auth.login()`, never checks `is_staff` — fixed in UI-002
 - [ ] **S8** `ALLOWED_HOSTS` contains `'*'`
 - [ ] **S9** `wisdomccPemKey.pem` (EC2 private key) sits in the working directory
 - [ ] **S10** No `SECURE_*` / secure-cookie / HSTS settings
 
 ## Functional
 
-- [ ] **F1** Student dashboard CSS 404s — backslash in `{% static 'css\dashboard_user.css' %}`
-- [ ] **F2** All media (photos, timetables, notes) unreachable in production
+- [x] **F1** Student dashboard CSS 404s — backslash in `{% static 'css\dashboard_user.css' %}` — fixed in UI-002
+- [x] **F2** All media (photos, timetables, notes) unreachable in production — fixed in UI-002 (nginx location /media/ + deploy installs the config)
 - [ ] **F3** Mark-list CSV export commented out; `print(marks[0][1])` IndexErrors on empty marks
 - [x] **F4** Mobile nav toggle throws on missing `#footer` element — fixed in the UI-001 redesign
 - [x] **F5** Gallery dropdown anchors point at sections that no longer exist — removed in the UI-001 redesign
-- [ ] **F6** Student with no timetable/photo → `ValueError` on `.url`
+- [x] **F6** Student with no timetable/photo → `ValueError` on `.url` — fixed in UI-002
 - [ ] **F7** Admission POST with a missing field → unhandled 500
 - [ ] **F8** Admission success banner is inside a commented-out block — no confirmation shown
-- [ ] **F9** Dashboards are POST-response-only: no bookmark, no refresh, no logout
+- [x] **F9** Dashboards are POST-response-only: no bookmark, no refresh, no logout — fixed in UI-002
 - [x] **F10** Course page `<title>` says "About Us" — fixed by the new base template
 - [ ] **F11** Root `static/` build output stale vs `wisdomcc/static/`
 

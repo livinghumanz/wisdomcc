@@ -1,0 +1,19 @@
+{% extends 'dashboard/admin/base_admin.html' %}
+
+{% block title %}Not enabled{% endblock %}
+{% block heading %}Feature not enabled{% endblock %}
+{% block subheading %}<p>This part of the portal is switched off.</p>{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card__body">
+    <div class="empty locked-note">
+      <div class="locked-note__ico">🔒</div>
+      <h2>{{ feature_name|default:'This feature' }} is not enabled</h2>
+      <p>It is not part of your current setup. Please contact your website administrator
+         if you would like it switched on.</p>
+      <a class="btn btn--ghost" href="{% url 'admin-students' %}">Back to Students</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

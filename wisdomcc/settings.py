@@ -61,6 +61,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'institutions.context_processors.wisdom_group',
+                'Dashboard.context_processors.portal',
             ],
         },
     },

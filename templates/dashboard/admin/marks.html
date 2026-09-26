@@ -1,0 +1,270 @@
+{% extends 'dashboard/admin/base_admin.html' %}
+
+{% block title %}Marks{% endblock %}
+{% block heading %}Marks — Internal / External{% endblock %}
+{% block subheading %}
+  <p>Pick a student, choose how many subjects, then enter a row per subject.
+     “Out of 100” and P/F are worked out for you — they are never typed.</p>
+{% endblock %}
+
+{% block content %}
+
+<div class="card" style="margin-bottom:1.2rem;">
+  <div class="card__head">
+    <h2>Mark entry</h2>
+    <form method="get" action="" class="filters">
+      <div class="field">
+        <label for="pick-student">Student</label>
+        <select id="pick-student" name="student" onchange="this.form.submit()">
+          <option value="">— Select a student —</option>
+          {% for s in students %}
+            <option value="{{ s.regnum }}" {% if selected and selected.regnum == s.regnum %}selected{% endif %}>
+              {{ s.name }} ({{ s.regnum }})
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+      <button class="btn btn--ghost btn--sm" type="submit">Open</button>
+    </form>
+  </div>
+
+  {% if not subjects %}
+    <div class="empty">
+      <div class="empty__big">📚</div>
+      <p><strong>No subjects have been set up yet.</strong></p>
+      <p>Marks are recorded against a subject, so add them first in Django admin at
+         <code>/admin/Dashboard/subject/</code> — then come back here.</p>
+      <p><a class="btn btn--navy btn--sm" href="/admin/Dashboard/subject/add/">Add a subject</a></p>
+    </div>
+
+  {% elif not selected %}
+    <div class="empty">
+      <div class="empty__big">🎓</div>
+      <p><strong>Choose a student above to enter or review marks.</strong></p>
+      {% if not students %}<p>No active students found.</p>{% endif %}
+    </div>
+
+  {% else %}
+    <form method="post" action="" id="marks-form">
+      {% csrf_token %}
+      <input type="hidden" name="student" value="{{ selected.regnum }}">
+      <div class="card__body">
+
+        <div class="form-grid">
+          <div class="field">
+            <label>Student</label>
+            <input type="text" value="{{ selected.name }} — {{ selected.regnum }}" readonly>
+            <span class="hint">Change the student from the dropdown above.</span>
+          </div>
+          <div class="field">
+            <label for="exam_type">Exam type</label>
+            <select id="exam_type" name="exam_type">
+              {% for value, label in exam_types %}<option value="{{ value }}">{{ label }}</option>{% endfor %}
+            </select>
+          </div>
+          <div class="field">
+            <label for="exam_name">Exam name</label>
+            <input type="text" id="exam_name" name="exam_name" maxlength="60" placeholder="e.g. Term 1 Revision">
+          </div>
+          <div class="field">
+            <label for="examdate">Exam date</label>
+            <input type="date" id="examdate" name="examdate" required>
+          </div>
+          <div class="field">
+            <label for="row-count">Number of subjects</label>
+            <div style="display:flex; gap:.5rem;">
+              <select id="row-count" style="flex:1 1 auto;">
+                {% for n in row_choices %}
+                  <option value="{{ n }}" {% if n == 1 %}selected{% endif %}>{{ n }}</option>
+                {% endfor %}
+              </select>
+              <button class="btn btn--primary" type="button" id="add-rows">Add</button>
+            </div>
+            <span class="hint">Press Add to reveal that many subject rows.</span>
+          </div>
+        </div>
+
+        <p class="fieldset-title" style="margin-top:1.3rem;">Subject rows</p>
+        <div class="table-scroll">
+          <table class="data" id="rows-table">
+            <thead>
+              <tr>
+                <th style="width:2.5rem;">#</th>
+                <th>Subject</th>
+                <th>Faculty</th>
+                <th style="width:7rem;">Mark</th>
+                <th style="width:7rem;">Out of</th>
+                <th style="width:7rem;">Out of 100</th>
+                <th style="width:4rem;">P / F</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for i in rows %}
+              <tr class="mrow" data-row="{{ i }}" {% if i > 1 %}hidden{% endif %}>
+                <td>{{ i }}</td>
+                <td>
+                  <select name="subject_{{ i }}" aria-label="Subject {{ i }}">
+                    <option value="">— Subject —</option>
+                    {% for sub in subjects %}<option value="{{ sub.pk }}">{{ sub.name }}</option>{% endfor %}
+                  </select>
+                </td>
+                <td>
+                  <select name="faculty_{{ i }}" aria-label="Faculty {{ i }}">
+                    <option value="">— Faculty —</option>
+                    {% for f in staff %}<option value="{{ f.pk }}">{{ f.name }} ({{ f.empid }})</option>{% endfor %}
+                  </select>
+                </td>
+                <td><input type="number" step="0.01" min="0" name="mark_{{ i }}" class="js-mark" aria-label="Mark {{ i }}"></td>
+                <td><input type="number" step="0.01" min="1" name="out_of_{{ i }}" class="js-outof" value="100" aria-label="Out of {{ i }}"></td>
+                <td class="js-pct" style="font-weight:700;">—</td>
+                <td class="js-res"><span class="pill pill--grey">—</span></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="3">Total marks</td>
+                <td id="total-mark">0</td>
+                <td id="total-outof">0</td>
+                <td id="total-pct">—</td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <p class="hint" style="margin-top:.7rem;">
+          “Out of 100” is Mark ÷ Out of × 100 and P/F is a pass at {{ pass_percent }}% or above.
+          Both are recalculated on the server when you save, so what is stored can never disagree
+          with the marks. Blank rows are ignored; re-entering the same subject, exam type and date
+          corrects the existing entry.
+        </p>
+
+        <div class="form-actions">
+          <button class="btn btn--primary" type="submit">Save marks</button>
+          <a class="btn btn--ghost" href="{% url 'admin-growth-card' selected.regnum %}">View Growth Card</a>
+        </div>
+      </div>
+    </form>
+  {% endif %}
+</div>
+
+{% if selected %}
+<div class="card">
+  <div class="card__head">
+    <h2>Marks already recorded — {{ selected.name }}</h2>
+    <a class="btn btn--navy btn--sm" href="{% url 'admin-growth-card' selected.regnum %}">Growth Card ›</a>
+  </div>
+
+  {% if exam_groups %}
+    <div class="table-scroll">
+      <table class="data">
+        <thead>
+          <tr>
+            <th>Subject</th><th>Faculty</th><th>Mark</th><th>Out of</th><th>Out of 100</th><th>P / F</th>
+          </tr>
+        </thead>
+        {% for group in exam_groups %}
+        <tbody>
+          <tr>
+            <th colspan="6" style="background:#f5f7fb; color:#12224f; font-size:.82rem;">
+              {{ group.examdate|date:"d M Y" }} · {{ group.exam_type }}{% if group.exam_name %} · {{ group.exam_name }}{% endif %}
+            </th>
+          </tr>
+          {% for entry in group.rows %}
+          <tr>
+            <td>{{ entry.subject.name }}</td>
+            <td>{% if entry.faculty %}{{ entry.faculty.name }}{% else %}—{% endif %}</td>
+            <td>{{ entry.mark|floatformat:"-2" }}</td>
+            <td>{{ entry.out_of|floatformat:"-2" }}</td>
+            <td>{{ entry.percent|floatformat:"-2" }}</td>
+            <td>
+              {% if entry.result == 'P' %}<span class="pill pill--green">P</span>
+              {% elif entry.result == 'F' %}<span class="pill pill--red">F</span>
+              {% else %}<span class="pill pill--grey">—</span>{% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+          <tr>
+            <td colspan="2" style="font-weight:800;">Total</td>
+            <td style="font-weight:800;">{{ group.total_mark }}</td>
+            <td style="font-weight:800;">{{ group.total_out_of }}</td>
+            <td colspan="2"></td>
+          </tr>
+        </tbody>
+        {% endfor %}
+      </table>
+    </div>
+  {% else %}
+    <div class="empty">
+      <div class="empty__big">📝</div>
+      <p><strong>No marks recorded for {{ selected.name }} yet.</strong></p>
+      <p>Fill in the form above and save to get started.</p>
+    </div>
+  {% endif %}
+</div>
+{% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+{% if selected and subjects %}
+<script>
+(function () {
+  var PASS = {{ pass_percent }};
+  var table = document.getElementById('rows-table');
+  if (!table) { return; }
+  var rows = Array.prototype.slice.call(table.querySelectorAll('tr.mrow'));
+
+  function pill(text, kind) { return '<span class="pill pill--' + kind + '">' + text + '</span>'; }
+
+  function refresh() {
+    var totalMark = 0, totalOut = 0, anyOut = false;
+    rows.forEach(function (row) {
+      var pctCell = row.querySelector('.js-pct');
+      var resCell = row.querySelector('.js-res');
+      var mark = parseFloat(row.querySelector('.js-mark').value);
+      var outOf = parseFloat(row.querySelector('.js-outof').value);
+      var live = !row.hasAttribute('hidden');
+
+      if (live && !isNaN(mark)) { totalMark += mark; }
+      if (live && !isNaN(outOf) && outOf > 0) { totalOut += outOf; anyOut = true; }
+
+      if (isNaN(mark) || isNaN(outOf) || outOf <= 0) {
+        pctCell.textContent = '—';
+        resCell.innerHTML = pill('—', 'grey');
+        return;
+      }
+      var pct = Math.round((mark / outOf) * 10000) / 100;
+      pctCell.textContent = pct.toFixed(2);
+      resCell.innerHTML = pct >= PASS ? pill('P', 'green') : pill('F', 'red');
+    });
+
+    document.getElementById('total-mark').textContent = Math.round(totalMark * 100) / 100;
+    document.getElementById('total-outof').textContent = Math.round(totalOut * 100) / 100;
+    document.getElementById('total-pct').textContent =
+      (anyOut && totalOut > 0) ? (Math.round((totalMark / totalOut) * 10000) / 100).toFixed(2) : '—';
+  }
+
+  document.getElementById('add-rows').addEventListener('click', function () {
+    var wanted = parseInt(document.getElementById('row-count').value, 10) || 1;
+    rows.forEach(function (row, index) {
+      if (index < wanted) {
+        row.removeAttribute('hidden');
+      } else {
+        row.setAttribute('hidden', 'hidden');
+        // Clear what is hidden so a stale value cannot be posted by accident.
+        row.querySelectorAll('select').forEach(function (el) { el.selectedIndex = 0; });
+        row.querySelector('.js-mark').value = '';
+        row.querySelector('.js-outof').value = '100';
+      }
+    });
+    refresh();
+  });
+
+  table.addEventListener('input', refresh);
+  refresh();
+})();
+</script>
+{% endif %}
+{% endblock %}

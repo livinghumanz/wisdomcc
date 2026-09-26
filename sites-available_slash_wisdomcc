@@ -1,10 +1,22 @@
 server {
     listen 80;
-    server_name wisdomcc.in 18.223.210.148;
+    server_name wisdomcc.in www.wisdomcc.in 18.223.210.148;
+
+    # Student photos and timetables are uploaded through the admin portal; without
+    # this block they 404 in production, because Django's own media serving is a
+    # no-op whenever DEBUG is False.
+    client_max_body_size 12M;
 
     location = /favicon.ico { access_log off; log_not_found off; }
+
     location /static/ {
-        alias /home/ubuntu/app/static;
+        alias /home/ubuntu/app/static/;
+    }
+
+    location /media/ {
+        alias /home/ubuntu/app/media/;
+        # Uploads are user-supplied: serve them as files, never execute them.
+        add_header X-Content-Type-Options nosniff;
     }
 
     location / {
@@ -14,8 +26,10 @@ server {
 }
 
 # =========================
-# 2️⃣ HTTPS redirect to HTTP
+# 2  HTTPS redirect to HTTP
 # =========================
+# This site has no real certificate. The block exists only so that anyone who
+# reaches https:// is sent back to http:// rather than meeting a cert warning.
 server {
     listen 443 ssl;
     server_name wisdomcc.in www.wisdomcc.in;

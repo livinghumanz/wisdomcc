@@ -31,7 +31,22 @@ note under the item) · `DONE` · `DROPPED`
 
 -->
 
-### [WIP] UI-001 — Wisdom Group rebrand + London Kids / Wisdom Kids brand separation
+### [BUILT] UI-002 — Admin portal: students, marks, attendance, fees
+- **Date:** 2026-09-25
+- **Page / screen:** admin dashboard (`/Dashboard/admin/...`), student dashboard
+- **What's wrong / what you want:** Handwritten 3-page spec — student records with photo and
+  full detail, marks entry (internal/external) with faculty attribution and a growth-card bar
+  chart, an attendance register with Present/Absent/No Class, and a fee sheet with balances
+  and status. Admin portal also restyled.
+- **Reference:** "Website Admin Login (1).pdf" ·
+  [requests/UI-002-admin-dashboard.md](requests/UI-002-admin-dashboard.md)
+- **Notes:** Built and verified locally; **not yet deployed**. The admin area had **no working
+  authentication** (S7) — fixed first, along with S4, S5, F1, F2, F6 and F9, since these screens
+  hold student PII. **9 open questions** for the client in §3 of the brief (Category values,
+  what "WCC A" is, how "Out of 100" and P/F should work, the two Balance columns), plus 4
+  decisions to confirm in §4.
+
+### [DONE] UI-001 — Wisdom Group rebrand + London Kids / Wisdom Kids brand separation
 - **Date:** 2026-09-02
 - **Page / screen:** whole site — new brand structure, new home page(s)
 - **What's wrong / what you want:** WCC is being rebranded under an umbrella "Wisdom Group of

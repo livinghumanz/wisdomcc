@@ -1,0 +1,207 @@
+{% extends 'dashboard/admin/base_admin.html' %}
+{% load l10n %}
+
+{% block title %}Faculty Result Analysis{% endblock %}
+{% block heading %}Faculty Result Analysis{% endblock %}
+{% block subheading %}<p>Marks rolled up by the faculty member chosen on each entry</p>{% endblock %}
+
+{% block content %}
+
+{% if not has_any_data %}
+
+  <div class="card">
+    <div class="empty">
+      <div class="empty__big">&#128202;</div>
+      <p>No marks have been entered yet, so there is nothing to analyse.</p>
+      <p class="hint">Enter marks against a subject <em>and a faculty member</em> on the Marks screen &mdash; this page rolls those entries up per faculty.</p>
+      <p style="margin-top:1rem;"><a class="btn btn--primary" href="{% url 'admin-marks' %}">Go to Marks</a></p>
+    </div>
+  </div>
+
+{% else %}
+
+<div class="tiles">
+  <div class="tile">
+    <div class="tile__label">Faculty with data</div>
+    <div class="tile__value">{{ tiles.faculty_count }}</div>
+  </div>
+  <div class="tile">
+    <div class="tile__label">Total entries</div>
+    <div class="tile__value">{{ tiles.entries }}</div>
+  </div>
+  <div class="tile tile--amber">
+    <div class="tile__label">Overall average</div>
+    <div class="tile__value">{{ tiles.average }}%</div>
+  </div>
+  <div class="tile tile--green">
+    <div class="tile__label">Overall pass rate</div>
+    <div class="tile__value">{{ tiles.pass_rate }}%</div>
+  </div>
+</div>
+
+<div class="card" style="margin-bottom:1.2rem;">
+  <div class="card__body">
+    <form method="get" action="" class="filters">
+      <div class="field">
+        <label for="f-exam">Exam type</label>
+        <select id="f-exam" name="exam_type">
+          <option value="all" {% if exam_type == 'all' %}selected{% endif %}>All</option>
+          {% for value, label in exam_type_choices %}
+            <option value="{{ value }}" {% if value == exam_type %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="field">
+        <label for="f-subject">Subject</label>
+        <select id="f-subject" name="subject">
+          <option value="">All subjects</option>
+          {% for subject in subjects %}
+            <option value="{{ subject.pk }}" {% if subject.pk|stringformat:"s" == subject_id %}selected{% endif %}>{{ subject.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="field">
+        <label for="f-from">Exams from</label>
+        <input id="f-from" type="date" name="date_from" value="{{ date_from }}">
+      </div>
+      <div class="field">
+        <label for="f-to">Exams to</label>
+        <input id="f-to" type="date" name="date_to" value="{{ date_to }}">
+      </div>
+      <div class="field" style="min-width:auto;">
+        <label>&nbsp;</label>
+        <button class="btn btn--navy" type="submit">Apply</button>
+      </div>
+      <div class="field" style="min-width:auto;">
+        <label>&nbsp;</label>
+        <a class="btn btn--ghost" href="?">Reset</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% if not faculties %}
+
+  <div class="card">
+    <div class="empty">
+      <div class="empty__big">&#128269;</div>
+      <p>No mark entries match these filters.</p>
+      <p><a class="btn btn--ghost btn--sm" href="?">Clear filters</a></p>
+    </div>
+  </div>
+
+{% else %}
+
+<div class="card" style="margin-bottom:1.2rem;">
+  <div class="card__head">
+    <h2>Pass rate by faculty</h2>
+    <span class="pill pill--grey">{{ tiles.entries }} entr{{ tiles.entries|pluralize:"y,ies" }}</span>
+  </div>
+  <div class="card__body">
+    {% localize off %}
+    <svg viewBox="0 0 {{ chart_width }} {{ chart_height }}" role="img"
+         aria-label="Horizontal bar chart of pass rate per faculty member"
+         style="width:100%; height:auto; display:block; overflow:visible;">
+      {% for bar in chart_rows %}
+      <g>
+        <title>{{ bar.name }}: {{ bar.pass_rate }}% pass rate across {{ bar.entries }} entries</title>
+        <text x="0" y="{{ bar.y_label }}" font-size="12.5" font-weight="700" fill="#23293d">{{ bar.name }}</text>
+        <rect x="0" y="{{ bar.y_bar }}" width="{{ chart_track }}" height="12" rx="6" fill="#eef1f7"></rect>
+        {% if bar.bar_width %}
+        <rect x="0" y="{{ bar.y_bar }}" width="{{ bar.bar_width }}" height="12" rx="6" fill="#0ec7a7"></rect>
+        {% endif %}
+        <text x="{{ chart_track }}" y="{{ bar.y_value }}" dx="10" font-size="12" font-weight="800" fill="#23293d">{{ bar.pass_rate }}%</text>
+      </g>
+      {% endfor %}
+    </svg>
+    {% endlocalize %}
+    <p class="hint" style="margin:.8rem 0 0;">
+      Pass rate = entries at or above each entry&rsquo;s own pass mark, as a share of that faculty&rsquo;s scored entries.
+    </p>
+  </div>
+</div>
+
+{% for faculty in faculties %}
+<div class="card" style="margin-bottom:1.2rem;">
+  <div class="card__head">
+    <h2>{{ faculty.name }}{% if faculty.empid %} <span class="hint" style="font-weight:700;">({{ faculty.empid }})</span>{% endif %}</h2>
+    {% if faculty.unassigned %}
+      <span class="pill pill--amber">No faculty on these entries</span>
+    {% endif %}
+    <span class="pill {% if faculty.pass_rate >= 75 %}pill--green{% elif faculty.pass_rate >= 50 %}pill--amber{% else %}pill--red{% endif %}">{{ faculty.pass_rate }}% pass</span>
+  </div>
+
+  <div class="card__body">
+    <div class="tiles" style="margin-bottom:0;">
+      <div class="tile">
+        <div class="tile__label">Students assessed</div>
+        <div class="tile__value">{{ faculty.students }}</div>
+      </div>
+      <div class="tile">
+        <div class="tile__label">Entries counted</div>
+        <div class="tile__value">{{ faculty.entries }}</div>
+      </div>
+      <div class="tile tile--amber">
+        <div class="tile__label">Average percent</div>
+        <div class="tile__value">{{ faculty.average }}%</div>
+      </div>
+      <div class="tile tile--green">
+        <div class="tile__label">Passed</div>
+        <div class="tile__value">{{ faculty.passed }}</div>
+      </div>
+      <div class="tile tile--red">
+        <div class="tile__label">Failed</div>
+        <div class="tile__value">{{ faculty.failed }}</div>
+      </div>
+      <div class="tile">
+        <div class="tile__label">Pass rate</div>
+        <div class="tile__value">{{ faculty.pass_rate }}%</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-scroll">
+    <table class="data">
+      <thead>
+        <tr>
+          <th>Subject</th>
+          <th style="text-align:right;">Entries</th>
+          <th style="text-align:right;">Average %</th>
+          <th style="text-align:right;">Pass</th>
+          <th style="text-align:right;">Fail</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for subject in faculty.subjects %}
+        <tr>
+          <td class="wrap">{{ subject.name }}</td>
+          <td style="text-align:right;">{{ subject.entries }}</td>
+          <td style="text-align:right;">{{ subject.average }}%</td>
+          <td style="text-align:right;"><span class="pill pill--green">{{ subject.passed }}</span></td>
+          <td style="text-align:right;">{% if subject.failed %}<span class="pill pill--red">{{ subject.failed }}</span>{% else %}<span class="pill pill--grey">0</span>{% endif %}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr>
+          <td>All subjects</td>
+          <td style="text-align:right;">{{ faculty.entries }}</td>
+          <td style="text-align:right;">{{ faculty.average }}%</td>
+          <td style="text-align:right;">{{ faculty.passed }}</td>
+          <td style="text-align:right;">{{ faculty.failed }}</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+{% endfor %}
+
+<p class="hint">
+  Entries whose &ldquo;out of&rdquo; is zero cannot be scored and are left out of every figure on this page.
+  Pass or fail is taken from each entry&rsquo;s own pass mark, not a single site-wide threshold.
+</p>
+
+{% endif %}
+{% endif %}
+
+{% endblock %}

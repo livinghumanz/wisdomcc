@@ -1,0 +1,290 @@
+{% extends 'dashboard/admin/base_admin.html' %}
+
+{% block title %}Fee Update{% endblock %}
+{% block heading %}Fee Update{% endblock %}
+{% block subheading %}<p>Active students, {{ filters.academic_year }} &middot; amounts in rupees</p>{% endblock %}
+
+{% block content %}
+
+<div class="tiles"{% if filters.status == 'all' %} data-live-tiles="1"{% endif %}>
+  <div class="tile">
+    <div class="tile__label">Total billed</div>
+    <div class="tile__value">&#8377; {{ tiles.billed }}</div>
+  </div>
+  <div class="tile tile--green">
+    <div class="tile__label">Total collected</div>
+    <div class="tile__value">&#8377; {{ tiles.collected }}</div>
+  </div>
+  <div class="tile tile--red">
+    <div class="tile__label">Total outstanding</div>
+    <div class="tile__value">&#8377; {{ tiles.outstanding }}</div>
+  </div>
+  <div class="tile tile--amber">
+    <div class="tile__label">Students yet to pay</div>
+    <div class="tile__value">{{ tiles.unpaid_count }}</div>
+  </div>
+</div>
+
+<div class="card" style="margin-bottom:1.2rem;">
+  <div class="card__body">
+    <form method="get" action="" class="filters">
+      <div class="field">
+        <label for="f-year">Academic year</label>
+        <select id="f-year" name="academic_year">
+          {% for year in year_options %}
+            <option value="{{ year }}" {% if year == filters.academic_year %}selected{% endif %}>{{ year }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="field">
+        <label for="f-branch">Branch</label>
+        <select id="f-branch" name="branch">
+          <option value="">All branches</option>
+          {% for value, label in branch_choices %}
+            <option value="{{ value }}" {% if value == filters.branch %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="field">
+        <label for="f-std">Class</label>
+        <select id="f-std" name="std">
+          <option value="">All classes</option>
+          {% for value, label in std_choices %}
+            <option value="{{ value }}" {% if value == filters.std %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="field">
+        <label for="f-status">Status</label>
+        <select id="f-status" name="status">
+          {% for value, label in status_choices %}
+            <option value="{{ value }}" {% if value == filters.status %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="field" style="min-width:auto;">
+        <label>&nbsp;</label>
+        <button class="btn btn--navy" type="submit">Apply</button>
+      </div>
+      <div class="field" style="min-width:auto;">
+        <label>&nbsp;</label>
+        <a class="btn btn--ghost" href="?">Reset</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<form method="post" action="{% url 'admin-fees' %}?{{ querystring }}" id="fee-form">
+  {% csrf_token %}
+  <input type="hidden" name="academic_year" value="{{ filters.academic_year }}">
+  <input type="hidden" name="branch" value="{{ filters.branch }}">
+  <input type="hidden" name="std" value="{{ filters.std }}">
+  <input type="hidden" name="status" value="{{ filters.status }}">
+
+  <div class="card">
+    <div class="card__head">
+      <h2>Fee sheet &mdash; {{ filters.academic_year }}</h2>
+      <span class="pill pill--grey">{{ rows|length }} of {{ active_total }} active student{{ active_total|pluralize }}</span>
+      {% if rows %}<button class="btn btn--primary" type="submit">Save all</button>{% endif %}
+    </div>
+
+    {% if rows %}
+    <div class="table-scroll">
+      <table class="data">
+        <thead>
+          <tr>
+            <th>Sl</th>
+            <th>Name</th>
+            <th>SID</th>
+            <th>School</th>
+            <th>Fee Amount</th>
+            <th>Paid Amount</th>
+            <th>Balance (fee)</th>
+            <th>Admission Amount</th>
+            <th>Admission Paid</th>
+            <th>Balance (admission)</th>
+            <th>Jersey Amount</th>
+            <th>Material Amount</th>
+            <th>Total due</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in rows %}
+          <tr data-fee-row>
+            <td>{{ row.sl }}</td>
+            <td class="wrap">
+              <a href="{% url 'admin-student-edit' row.student.regnum %}">{{ row.student.name }}</a>
+              {% if not row.has_record %}
+                <div class="hint" style="font-weight:700;">Not set up for {{ filters.academic_year }}</div>
+              {% endif %}
+            </td>
+            <td>{{ row.student.regnum }}</td>
+            <td class="wrap">{{ row.student.school|default:"—" }}</td>
+
+            <td><input class="fee-in" type="number" step="0.01" min="0" inputmode="decimal"
+                       data-k="fee_amount" name="fee_amount_{{ row.student.regnum }}"
+                       value="{{ row.values.fee_amount }}" aria-label="Fee amount for {{ row.student.name }}"></td>
+            <td><input class="fee-in" type="number" step="0.01" min="0" inputmode="decimal"
+                       data-k="paid_amount" name="paid_amount_{{ row.student.regnum }}"
+                       value="{{ row.values.paid_amount }}" aria-label="Paid amount for {{ row.student.name }}"></td>
+            <td data-out="fee_balance" style="font-weight:800;">{{ row.fee_balance }}</td>
+
+            <td><input class="fee-in" type="number" step="0.01" min="0" inputmode="decimal"
+                       data-k="admission_amount" name="admission_amount_{{ row.student.regnum }}"
+                       value="{{ row.values.admission_amount }}" aria-label="Admission amount for {{ row.student.name }}"></td>
+            <td><input class="fee-in" type="number" step="0.01" min="0" inputmode="decimal"
+                       data-k="admission_paid" name="admission_paid_{{ row.student.regnum }}"
+                       value="{{ row.values.admission_paid }}" aria-label="Admission paid for {{ row.student.name }}"></td>
+            <td data-out="admission_balance" style="font-weight:800;">{{ row.admission_balance }}</td>
+
+            <td><input class="fee-in" type="number" step="0.01" min="0" inputmode="decimal"
+                       data-k="jersey_amount" name="jersey_amount_{{ row.student.regnum }}"
+                       value="{{ row.values.jersey_amount }}" aria-label="Jersey amount for {{ row.student.name }}"></td>
+            <td><input class="fee-in" type="number" step="0.01" min="0" inputmode="decimal"
+                       data-k="material_amount" name="material_amount_{{ row.student.regnum }}"
+                       value="{{ row.values.material_amount }}" aria-label="Material amount for {{ row.student.name }}"></td>
+
+            <td data-out="total_due" style="font-weight:800;">{{ row.total_due }}</td>
+            <td>
+              <span data-out="status" class="pill {% if row.settled %}pill--green{% else %}pill--red{% endif %}">{{ row.status }}</span>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card__body" style="border-top:1px solid var(--line);">
+      <div class="form-actions" style="margin-top:0; padding-top:0; border-top:0;">
+        <button class="btn btn--primary" type="submit">Save all</button>
+        <a class="btn btn--ghost" href="?{{ querystring }}">Discard changes</a>
+      </div>
+      <p class="hint" style="margin:.9rem 0 0;">
+        <strong>Assumption pending client confirmation (open question 7).</strong>
+        The handwritten spec lists two columns both labelled &ldquo;Balance&rdquo;. They are read here as
+        <em>Balance (fee)</em> = Fee Amount &minus; Paid Amount, and <em>Balance (admission)</em> =
+        Admission Amount &minus; Admission Paid &mdash; not as a running total. The
+        <em>Admission Paid</em> column is not in the spec; it is shown because without it the second
+        balance could only ever equal the admission amount.
+      </p>
+      <p class="hint" style="margin:.4rem 0 0;">
+        <strong>Total due</strong> = Balance (fee) + Balance (admission) + Jersey + Material.
+        <strong>Status</strong> is &ldquo;Paid&rdquo; when Total due is zero or less. Balances, Total due and
+        Status are derived, never typed; the figures previewed as you type are recomputed on the
+        server when you save. Students with no fee record for {{ filters.academic_year }} are listed at zero.
+      </p>
+    </div>
+
+    {% else %}
+    <div class="empty">
+      <div class="empty__big">&#128179;</div>
+      {% if active_total %}
+        <p>No active student matches these filters for {{ filters.academic_year }}.</p>
+        <p><a class="btn btn--ghost btn--sm" href="?academic_year={{ filters.academic_year }}">Clear filters</a></p>
+      {% else %}
+        <p>There are no active students yet.</p>
+        <p><a class="btn btn--primary btn--sm" href="{% url 'admin-students' %}">Go to Students</a></p>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+</form>
+
+{% endblock %}
+
+{% block scripts %}
+<style>
+  #fee-form input.fee-in { width:8.5rem; text-align:right; padding:.35rem .5rem; font-variant-numeric:tabular-nums; }
+  #fee-form td[data-out] { text-align:right; font-variant-numeric:tabular-nums; }
+  #fee-form td[data-out].is-due { color:var(--red); }
+</style>
+<script>
+(function () {
+  var form = document.getElementById('fee-form');
+  if (!form) { return; }
+
+  // Money is kept in integer paise in the browser too, so the live preview
+  // agrees to the last paisa with what Decimal computes on the server.
+  function paise(el) {
+    var n = parseFloat((el.value || '').replace(/,/g, ''));
+    if (!isFinite(n)) { n = 0; }
+    return Math.round(n * 100);
+  }
+  function fmt(p) {
+    var sign = p < 0 ? '-' : '';
+    var abs = Math.abs(p);
+    var frac = String(abs % 100);
+    while (frac.length < 2) { frac = '0' + frac; }
+    return sign + Math.floor(abs / 100) + '.' + frac;
+  }
+  function put(row, key, value, due) {
+    var cell = row.querySelector('[data-out="' + key + '"]');
+    if (!cell) { return; }
+    cell.textContent = value;
+    cell.classList.toggle('is-due', !!due);
+  }
+
+  function recalcRow(row) {
+    function v(key) {
+      var el = row.querySelector('[data-k="' + key + '"]');
+      return el ? paise(el) : 0;
+    }
+    var fee = v('fee_amount'), paid = v('paid_amount');
+    var adm = v('admission_amount'), admPaid = v('admission_paid');
+    var jersey = v('jersey_amount'), material = v('material_amount');
+
+    var feeBal = fee - paid;
+    var admBal = adm - admPaid;
+    var totalDue = feeBal + admBal + jersey + material;
+
+    put(row, 'fee_balance', fmt(feeBal), feeBal > 0);
+    put(row, 'admission_balance', fmt(admBal), admBal > 0);
+    put(row, 'total_due', fmt(totalDue), totalDue > 0);
+
+    var pill = row.querySelector('[data-out="status"]');
+    if (pill) {
+      var settled = totalDue <= 0;
+      pill.textContent = settled ? 'Paid' : 'Yet to pay';
+      pill.className = 'pill ' + (settled ? 'pill--green' : 'pill--red');
+    }
+    return {
+      billed: fee + adm + jersey + material,
+      collected: paid + admPaid,
+      outstanding: totalDue > 0 ? totalDue : 0,
+      unpaid: totalDue > 0 ? 1 : 0
+    };
+  }
+
+  var rows = Array.prototype.slice.call(form.querySelectorAll('[data-fee-row]'));
+  // The tiles summarise every active student in scope. When a status filter is
+  // on, the visible rows are a subset, so the live total would contradict the
+  // server's figure -- leave it alone in that case.
+  var tileBox = document.querySelector('.tiles[data-live-tiles]');
+  var tiles = tileBox ? tileBox.querySelectorAll('.tile__value') : [];
+
+  function recalcAll() {
+    var billed = 0, collected = 0, outstanding = 0, unpaid = 0;
+    rows.forEach(function (row) {
+      var t = recalcRow(row);
+      billed += t.billed; collected += t.collected;
+      outstanding += t.outstanding; unpaid += t.unpaid;
+    });
+    if (tiles.length === 4) {
+      tiles[0].textContent = '₹ ' + fmt(billed);
+      tiles[1].textContent = '₹ ' + fmt(collected);
+      tiles[2].textContent = '₹ ' + fmt(outstanding);
+      tiles[3].textContent = String(unpaid);
+    }
+  }
+
+  form.addEventListener('input', function (event) {
+    var input = event.target.closest ? event.target.closest('.fee-in') : null;
+    if (!input) { return; }
+    recalcAll();
+  });
+
+  recalcAll();
+})();
+</script>
+{% endblock %}

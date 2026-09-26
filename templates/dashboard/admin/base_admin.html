@@ -1,0 +1,84 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Admin Portal{% endblock %} — Wisdom Group</title>
+<link rel="icon" href="{% static 'img/home_slider/Wisdom-logo.ico' %}" type="image/x-icon">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/admin_portal.css' %}?v=1">
+{% block head %}{% endblock %}
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="shell">
+  <aside class="sidebar" id="sidebar">
+    <a class="sidebar__brand" href="{% url 'admin-students' %}">
+      <img src="{% static 'img/home_slider/wisdomlogo.png' %}" alt="Wisdom">
+      <span>Admin Portal</span>
+    </a>
+    <nav class="sidebar__nav">
+      {% if feature_visible.students %}
+      <a href="{% url 'admin-students' %}" class="{% if active == 'students' %}is-active{% endif %}{% if feature_locked.students %} is-locked{% endif %}">
+        <span class="ico">🎓</span> Students{% if feature_locked.students %} <span class="lock">🔒</span>{% endif %}
+      </a>
+      {% endif %}
+      {% if feature_visible.marks %}
+      <a href="{% url 'admin-marks' %}" class="{% if active == 'marks' %}is-active{% endif %}{% if feature_locked.marks %} is-locked{% endif %}">
+        <span class="ico">📝</span> Marks{% if feature_locked.marks %} <span class="lock">🔒</span>{% endif %}
+      </a>
+      {% endif %}
+      {% if feature_visible.attendance %}
+      <a href="{% url 'admin-attendance' %}" class="{% if active == 'attendance' %}is-active{% endif %}{% if feature_locked.attendance %} is-locked{% endif %}">
+        <span class="ico">📅</span> Attendance{% if feature_locked.attendance %} <span class="lock">🔒</span>{% endif %}
+      </a>
+      {% endif %}
+      {% if feature_visible.fees %}
+      <a href="{% url 'admin-fees' %}" class="{% if active == 'fees' %}is-active{% endif %}{% if feature_locked.fees %} is-locked{% endif %}">
+        <span class="ico">💳</span> Fees{% if feature_locked.fees %} <span class="lock">🔒</span>{% endif %}
+      </a>
+      {% endif %}
+      {% if feature_visible.faculty %}
+      <a href="{% url 'admin-faculty-analysis' %}" class="{% if active == 'faculty' %}is-active{% endif %}{% if feature_locked.faculty %} is-locked{% endif %}">
+        <span class="ico">📊</span> Faculty Analysis{% if feature_locked.faculty %} <span class="lock">🔒</span>{% endif %}
+      </a>
+      {% endif %}
+      <div class="sidebar__sep"></div>
+      <a href="{% url 'Home' %}"><span class="ico">🌐</span> View Website</a>
+      {% if portal_is_owner %}
+      <a href="/admin/"><span class="ico">⚙️</span> Django Admin</a>
+      <a href="/admin/Dashboard/feature/"><span class="ico">🎛️</span> Feature switches</a>
+      {% endif %}
+    </nav>
+  </aside>
+
+  <div class="main-col">
+    <header class="topbar">
+      <button class="sidebar-toggle" type="button" aria-label="Menu" onclick="document.getElementById('sidebar').classList.toggle('is-open')">&#9776;</button>
+      <div class="topbar__title">
+        <h1>{% block heading %}Admin Portal{% endblock %}</h1>
+        {% block subheading %}{% endblock %}
+      </div>
+      <div class="topbar__user">
+        <span class="who">{{ request.user.get_username }}{% if portal_is_owner %} <span class="pill pill--amber">owner</span>{% endif %}</span>
+        <a class="btn btn--ghost btn--sm" href="{% url 'dashboard-logout' %}">Log out</a>
+      </div>
+    </header>
+
+    {% if messages %}
+      <div class="wrap-pad">
+        {% for message in messages %}<div class="flash">{{ message }}</div>{% endfor %}
+      </div>
+    {% endif %}
+
+    <main id="main" class="content">
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+</div>
+{% block scripts %}{% endblock %}
+</body>
+</html>
